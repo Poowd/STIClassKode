@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import '../../App.css';
 
 export function Login() {
 
@@ -28,22 +29,24 @@ export function Login() {
 
     return (
       <>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="email"><strong>Email</strong></label>
-                <input type="email" placeholder="Enter Email" name="email" autoComplete="off"
-                onChange={e => setValues({...values, email: e.target.value})} />
-            </div>
-            <div>
-                <label htmlFor="password"><strong>Password</strong></label>
-                <input type="password" placeholder="Enter Password" name="password" autoComplete="off" 
-                onChange={e => setValues({...values, password: e.target.value})} />
-            </div>
-            <button type="submit">Login</button>
-            <p>Terms and Policy</p>
-            <button>Create Account</button>
-        </form>
+        <main className='Login'>
+            <h1>Login</h1>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email"><strong>Email</strong></label>
+                    <input type="email" placeholder="Enter Email" name="email" autoComplete="off"
+                    onChange={e => setValues({...values, email: e.target.value})} />
+                </div>
+                <div>
+                    <label htmlFor="password"><strong>Password</strong></label>
+                    <input type="password" placeholder="Enter Password" name="password" autoComplete="off" 
+                    onChange={e => setValues({...values, password: e.target.value})} />
+                </div>
+                <button type="submit">Login</button>
+                <p>Terms and Policy</p>
+                <button>Create Account</button>
+            </form>
+        </main>
       </>
     );
   }

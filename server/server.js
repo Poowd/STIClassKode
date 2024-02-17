@@ -20,6 +20,7 @@ const db = mysql.createConnection({
     database: "classkode"
 })
 
+// All About Accounts
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
@@ -29,7 +30,7 @@ const verifyUser = (req, res, next) => {
             if (err) {
                 return res.json({Message: "Authentication Error."});
             } else {
-                req.name = decoded.name;
+                req.Name = decoded.Name;
                 next();
             }
         })
@@ -37,16 +38,16 @@ const verifyUser = (req, res, next) => {
 }
 
 app.get('/', verifyUser, (req, res) => {
-    return res.json({Status: "Success", name: req.name});
+    return res.json({Status: "Success", Name: req.Name});
 })
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
+    const sql = "SELECT * FROM user WHERE Email = ? AND Password = ?";
     db.query(sql, [req.body.email, req.body.password], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         if (data.length > 0) {
-            const name = data[0].name;
-            const token = jwt.sign({name}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
+            const Name = data[0].Name;
+            const token = jwt.sign({Name}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
             res.cookie('token', token);
             return res.json({Status: "Success"})
         } else {
@@ -62,4 +63,24 @@ app.post('/logout', (req, res) => {
 
 app.listen(8081, () => {
     console.log("Running")
+})
+
+// Application Capabilities
+
+// Academic Year
+app.get('/academicyear', (req, res) => {
+    const sql = "SELECT * FROM academic_year";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+// Section
+app.get('/section', (req, res) => {
+    const sql = "SELECT * FROM section";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
 })

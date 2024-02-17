@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
-import { Login } from './Login'
+import { Link, useNavigate } from 'react-router-dom';
+import { Login } from '../public/Login'
+import { Sidebar } from "../components/Sidebar";
+import '../../App.css';
 
 
 export function Home() {
@@ -18,7 +20,7 @@ export function Home() {
     .then(res => {
       if (res.data.Status === "Success") {
         setAuth(true);
-        setName(res.data.name);
+        setName(res.data.Name);
       } else {
         setAuth(false);
         setMessage(res.data.Message);
@@ -40,20 +42,21 @@ export function Home() {
 
   return (
     <>
-      <div>
+      <main className="container">
+        <Sidebar />
         {
           auth ? 
-          <div>
-            <h3>You are Authorized {name}</h3>
+          <main className="content">
+            <h1>Dashboard</h1>
+            <h3>You are Authorized {name}, </h3>
             <button onClick={handleLogout}>Logout</button>
-          </div>
+          </main>
           :
-          <div>
+          <main>
             <Login />
-          </div>
+          </main>
         }
-      </div>
+      </main>
     </>
   );
 }
-
