@@ -1,8 +1,9 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
-import { Sidebar } from "../components/Sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../public/Login";
+import { PrimaryButton } from "../components/PrimaryButton";
+import { Sidebar } from "../components/Sidebar";
 
 export function AcademicYear() {
   const [auth, setAuth] = useState(false);
@@ -47,7 +48,11 @@ export function AcademicYear() {
             <main className="content">
               <header>
                 <h1>Academic Year</h1>
-                <button>Add</button>
+                <PrimaryButton 
+                  text={ "View" } 
+                  disabled={ false }
+                  onClick={ () => console.log("Hello World") }
+                />
               </header>
               <hr />
               <main>
@@ -60,13 +65,24 @@ export function AcademicYear() {
                       </tr>
                     </thead>
                     <tbody>
-                      {datas.map(data => (
+                      {datas.map((data, i) => (
                         
-                            <tr>
+                            <tr key={ i }>
                               <td>{data.Academic_Year}</td>
-                              <td>
-                                <button>View</button>
-                                <button>Edit</button>
+                              <td className="Actions">
+                              <div className="ActionsButton">
+                                <PrimaryButton  
+                                  text={ "View" } 
+                                  disabled={ false }
+                                  onClick={ () => console.log("Hello World") }
+                                />
+                                <PrimaryButton  
+                                  text={ "Edit" } 
+                                  disabled={ false }
+                                  onClick={ () => console.log("Hello World") }
+                                />
+                              </div>
+
                               </td>
                             </tr>
                       ))}
@@ -78,6 +94,7 @@ export function AcademicYear() {
             :
             <main>
               <Login />
+              
             </main>
           }
         </main>

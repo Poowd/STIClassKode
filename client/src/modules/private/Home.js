@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Login } from '../public/Login'
 import { Sidebar } from "../components/Sidebar";
 import '../../App.css';
+import { PrimaryButton } from "../components/PrimaryButton";
 
 
 export function Home() {
@@ -49,7 +50,11 @@ export function Home() {
           <main className="content">
             <h1>Dashboard</h1>
             <h3>You are Authorized {name}, </h3>
-            <button onClick={handleLogout}>Logout</button>
+            <PrimaryButton 
+              text={ "Logout" } 
+              disabled={ false }
+              onClick={ handleLogout }
+            />
           </main>
           :
           <main>

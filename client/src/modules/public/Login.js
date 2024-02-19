@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import '../../App.css';
+import { PrimaryButton } from '../components/PrimaryButton';
 
 export function Login() {
 
@@ -42,9 +43,13 @@ export function Login() {
                     <input type="password" placeholder="Enter Password" name="password" autoComplete="off" 
                     onChange={e => setValues({...values, password: e.target.value})} />
                 </div>
-                <button type="submit">Login</button>
+                <PrimaryButton 
+                    text={ "Login" } 
+                    disabled={ false }
+                    onClick={ () => console.log("Logged In") }
+                    type= { "submit" }
+                />
                 <p>Terms and Policy</p>
-                <button>Create Account</button>
             </form>
         </main>
       </>

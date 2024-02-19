@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '../../App.css';
+import './Sidebar.css';
 
 export function Sidebar() {
     return (
@@ -11,7 +11,7 @@ export function Sidebar() {
                 <summary>Scheduling</summary>
                 <ul>
                   <li><Link to='/academicyear'  >Academic Year</Link></li>
-                  <li><Link to='/curriculum'  >Curriculum</Link></li>
+                  {/* <li><Link to='/curriculum'  >Curriculum</Link></li> */}
                   <li><Link to='/section'  >Section</Link></li>
                 </ul>
               </details>

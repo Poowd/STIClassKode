@@ -65,7 +65,17 @@ app.listen(8081, () => {
     console.log("Running")
 })
 
-// Application Capabilities
+/* 
+
+    This section pertains to CRUD Operations:
+        1. CREATE
+        2. READ
+        3. UPDATE
+        4. DELETE
+
+*/
+
+// READ
 
 // Academic Year
 app.get('/academicyear', (req, res) => {

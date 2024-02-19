@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Sidebar } from "../components/Sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../public/Login";
+import { PrimaryButton } from "../components/PrimaryButton";
 
 export function Section() {
   const [auth, setAuth] = useState(false);
@@ -47,7 +48,11 @@ export function Section() {
             <main className="content">
               <header>
                 <h1>Section</h1>
-                <button>Add</button>
+                <PrimaryButton 
+                  text={ "View" } 
+                  disabled={ false }
+                  onClick={ () => console.log("Hello World") }
+                />
               </header>
               <hr />
               <main>
@@ -64,9 +69,20 @@ export function Section() {
                         
                             <tr>
                               <td>{data.Section_ID}</td>
-                              <td>
-                                <button>View</button>
-                                <button>Edit</button>
+                              <td className="Actions">
+                              <div className="ActionsButton">
+                                <PrimaryButton 
+                                  text={ "View" } 
+                                  disabled={ false }
+                                  onClick={ () => console.log("Hello World") }
+                                />
+                                <PrimaryButton  
+                                  text={ "Edit" } 
+                                  disabled={ false }
+                                  onClick={ () => console.log("Hello World") }
+                                />
+                              </div>
+
                               </td>
                             </tr>
                       ))}
