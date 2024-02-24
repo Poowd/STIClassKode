@@ -1,23 +1,70 @@
+//dependencies
+import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from 'react-router-dom';
+//css
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+//routes
 import { Home } from './modules/private/Home'
-import { AcademicYear } from './modules/private/AcademicYear'
-import { Curriculum } from './modules/private/Curriculum'
 import { Login } from './modules/public/Login';
 import { Section } from './modules/private/Section';
+//components
+import { Sidebar } from "./modules/components/Sidebar";
+import { Student } from './modules/private/Student';
+
 
 function App() {
+  const [auth, setAuth] = useState(false);
+  const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
+
+  
+  const navigate = useNavigate();
+
+  useEffect(() =>  {
+    axios.get('http://localhost:8081')
+    .then(res => {
+      if (res.data.Status === "Success") {
+        setAuth(true);
+        setName(res.data.Name);
+      } else {
+        setAuth(false);
+        setMessage(res.data.Message);
+      }
+    })
+  }, [])
+
   return (
     <>
-      <Routes>
-        <Route path='/' element={ <Home /> }></Route>
-        <Route path='/academicyear' element={ <AcademicYear /> }></Route>
-        <Route path='/curriculum' element={ <Curriculum /> }></Route>
-        <Route path='/section' element={ <Section /> }></Route>
-        <Route path='/login' element={ <Login /> }></Route>
-      </Routes>
+      <main>
+        {
+          auth ?
+          <main>
+          <div className="container-fluid">
+              <div className="row flex-nowrap">
+                  <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">  {/* Sidebar Here */}
+                    <Sidebar 
+                      name={ name }
+                    />
+                  </div>
+                  <div className="col py-3 overflow-auto"> {/* Content Here */}
+                    <Routes>
+                      <Route path='/' element={ <Home /> }></Route>
+                      <Route path='/section' element={ <Section /> }></Route>
+                      <Route path='/student' element={ <Student /> }></Route>
+                      <Route path='/login' element={ <Login /> }></Route>
+                    </Routes>
+                  </div>
+              </div>
+          </div>
+        </main>
+          :
+          <main>
+            <Login />
+          </main>
+        }
+      </main>
     </>
-      
   );
 }
 

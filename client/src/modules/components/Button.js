@@ -1,5 +1,4 @@
 import React from 'react';
-import "./PrimaryButton.css";
 
 /* 
 
@@ -12,19 +11,20 @@ import "./PrimaryButton.css";
 
 */
 
-export class PrimaryButton extends React.Component {
+export class Button extends React.Component {
   render() {
     return (
-      <div className="PrimaryButton">
-        
+      <div className="Button">
         <button
-          className='btn primary'
+          className={ this.props.class }
           disabled={ this.props.disabled }
           onClick={ () => this.props.onClick() }
+          data-bs-toggle={ this.props.databstoggle } 
+          data-bs-target={ this.props.databstarget } 
+          data-bs-dismiss={ this.props.databsdismiss }
         >
           { this.props.text }
         </button>
-
       </div>
     );
   }

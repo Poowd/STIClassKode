@@ -1,30 +1,9 @@
-.container {
-  display: flex;
-}
-
-.content {
-  width: 100%;
-  padding: 1.5em;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1em 0;
-}
-
-th,
-td {
-  text-align: left;
-  border: #000 1px solid;
-  padding: 0.5em 1em;
-}
-
 .ActionsButton {
   display: inline-flex;
   gap: 1em;
 }
 
-.Actions {
-  width: 1%;
+.Actions,
+.ID {
+  width: 10%;
 }

@@ -1,21 +1,17 @@
-//dependencies
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-//css
-//routes
-//components
-import { Table } from "../components/Table";
 import { Button } from "../components/Button";
+import { Table } from "../components/Table";
 
-export function Section() {
-  const page = 'Section';
+export function Student() {
+  const page = 'Student';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
-  //get data from server: for section table
+  //get data from server: for student table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/section')
+    axios.get('http://localhost:8081/student')
     .then( res => {
       try {
         setData(res.data)
@@ -46,8 +42,8 @@ export function Section() {
               //map out the data pull from the database
               data.map((data, index) => (        
                 <tr key={ index }>
-                  <td className="ID">{ data.SectionID }</td>
-                  <td>{ data.Name }</td>
+                  <td className="ID">{ data.StudentID }</td>
+                  <td>{ data.FirstName.concat(" ", data.LastName) }</td>
                   <td className="Actions">
                     <div className="ActionsButton">
                       <Button
