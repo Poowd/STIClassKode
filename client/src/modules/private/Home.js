@@ -84,7 +84,7 @@ export function Home() {
     <>
       <main className="p-3">
         <h1>{ page }</h1>
-          <h3>You are Authorized {name}, </h3>
+        <h3>You are Authorized {name}, </h3>
           <Button
             class={ "btn btn-primary" } 
             text={ "Logout" } 

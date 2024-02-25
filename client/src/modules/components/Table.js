@@ -45,7 +45,7 @@ export class Table extends React.Component {
             */}
           </tbody>
         </table>
-        <p className="w-100 d-flex justify-content-end">Table contains { this.props.rows } rows.</p>
+        <p className="w-100 d-flex justify-content-end fs-6 text">Table contains { this.props.rows } rows.</p>
       </div>
     )
   }

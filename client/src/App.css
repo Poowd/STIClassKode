@@ -7,3 +7,8 @@
 .ID {
   width: 10%;
 }
+
+.Icon-S {
+  width: 1em;
+  aspect-ratio: 1 / 1;
+}

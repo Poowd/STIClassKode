@@ -7,11 +7,17 @@ import React, { useEffect, useState } from "react";
 //components
 import { Table } from "../components/Table";
 import { Button } from "../components/Button";
+import { ViewModal } from '../components/ViewModal';
 
 export function Section() {
   const page = 'Section';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState('');
+  const [userdata, setUserData] = useState([{
+    SectionID: "",
+    Name: "",
+  }]);
 
   //get data from server: for section table
   useEffect(() =>  {
@@ -44,17 +50,25 @@ export function Section() {
             tablename={ page }
             data={
               //map out the data pull from the database
-              data.map((data, index) => (        
+                data.map((data, index) => (        
                 <tr key={ index }>
                   <td className="ID">{ data.SectionID }</td>
                   <td>{ data.Name }</td>
                   <td className="Actions">
                     <div className="ActionsButton">
-                      <Button
-                        class={ "btn btn-primary" }  
+                    <Button
+                        class={ "btn btn-primary" } 
                         text={ "View" } 
                         disabled={ false }
-                        onClick={ () => console.log("Hello World") }
+                        onClick={ () => {
+                          setSelectedIndex(index)
+                          setUserData({
+                            SectionID: data.SectionID,
+                            Name: data.Name
+                          })
+                        } }
+                        databstoggle={ "modal" }
+                        databstarget={ "#staticBackdrop" }
                       />
                       <Button
                         class={ "btn btn-primary" }  
@@ -67,10 +81,25 @@ export function Section() {
                 </tr>
               ))
             }
-            rows={ "x" }
+            rows={ data.length }
           />
-          
-          
+          <ViewModal 
+            title={ "Section Details" }
+            data={
+              <table>
+                <tbody>
+                  <tr>
+                    <td className='pe-3'>ID:</td>
+                    <td>{userdata.SectionID}</td>
+                  </tr>
+                  <tr>
+                    <td className='pe-3'>Name:</td>
+                    <td>{userdata.Name}</td>
+                  </tr>
+                </tbody>
+              </table>
+             }
+          />
         </main>
       </main>
     </>

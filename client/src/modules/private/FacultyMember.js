@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import { Table } from "../components/Table";
 
-export function Student() {
-  const page = 'Student';
+export function FacultyMember() {
+  const page = 'FacultyMember';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
-  //get data from server: for student table
+  //get data from server: for faculty member table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/student')
+    axios.get('http://localhost:8081/facultymember')
     .then( res => {
       try {
         setData(res.data)
@@ -42,7 +42,7 @@ export function Student() {
               //map out the data pull from the database
                 data.map((data, index) => (        
                 <tr key={ index }>
-                  <td className="ID">{ data.StudentID }</td>
+                  <td className="ID">{ data.FacultyMemberID }</td>
                   <td>{ data.FirstName.concat(" ", data.LastName) }</td>
                   <td className="Actions">
                     <div className="ActionsButton">

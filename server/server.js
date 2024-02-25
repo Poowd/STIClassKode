@@ -114,6 +114,22 @@ app.get('/student', (req, res) => {
         return res.json(data)
     })
 })
+// Course
+app.get('/course', (req, res) => {
+    const sql = "SELECT * FROM tbl_course WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// Faculty Member
+app.get('/facultymember', (req, res) => {
+    const sql = "SELECT * FROM tbl_facultymember WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
 // User: Counter
 app.get('/home', (req, res) => {
     const sql = "SELECT COUNT(*) + 1 as count FROM tbl_user";

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import logo from '../../assets/icons/calendar.png'
 
 export class Sidebar extends React.Component {
     render() {
@@ -19,68 +20,87 @@ export class Sidebar extends React.Component {
 
       return (
         <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-            <Link to='/' className="d-flex align-items-center mb-md-0 me-md-auto text-white text-decoration-none mt-3 py-3">
+            <Link to='/' className="d-flex align-items-center mb-md-0 me-md-auto text-white text-decoration-none mt-3 py-3"> {/* Title */}
               <span className="fs-5 d-none d-sm-inline">
-                STI College Muñoz-EDSA
+                STI College Muñoz-EDSA {/* Editable Text */}
               </span>
             </Link>
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                <li className="nav-item">
+                <li className="nav-item"> {/* Home */}
                     <Link to='/' className="nav-link align-middle px-0">
-                      <i>🐑</i>
+                      <img src={logo} width="35" height="35" />
                       <span className="ms-1 d-none d-sm-inline">
-                        Home
+                        Home {/* Editable Text */}
                       </span>
                     </Link>
                 </li>
-                <li>
-                    <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <i>🐑</i>
+                <li>{/* Dropdown */}
+                    <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle"> {/* Entities */}
+                      <img src={logo} width="35" height="35" />
                       <span className="ms-1 d-none d-sm-inline">
-                        Entities
+                        Entities {/* Editable Text */}
                       </span>
                     </a>
                     <ul className="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                        <li className="w-100 px-5">
-                            <Link to='/section' className="nav-link px-0">
-                              <span className="d-none d-sm-inline">
-                                Section
+                        <li className="w-100"> {/* Section */}
+                            <Link to='/section' className="nav-link">
+                              <img src={logo} width="35" height="35" />
+                              <span className="d-none d-sm-inline px-2">
+                                Section {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
-                        <li className="w-100 px-5">
-                            <Link to='/student' className="nav-link px-0">
-                              <span className="d-none d-sm-inline">
-                                Student
+                        <li className="w-100"> {/* Student */}
+                            <Link to='/student' className="nav-link">
+                              <img src={logo} width="35" height="35" />
+                              <span className="d-none d-sm-inline px-2">
+                                Student {/* Editable Text */}
+                              </span>
+                            </Link>
+                        </li>
+                        <li className="w-100"> {/* Course */}
+                            <Link to='/course' className="nav-link">
+                              <img src={logo} width="35" height="35" />
+                              <span className="d-none d-sm-inline px-2">
+                                Course {/* Editable Text */}
+                              </span>
+                            </Link>
+                        </li>
+                        <li className="w-100"> {/* FacultyMember */}
+                            <Link to='/facultymember' className="nav-link">
+                              <img src={logo} width="35" height="35" />
+                              <span className="d-none d-sm-inline px-2">
+                                Faculty Member {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <i>🐑</i>
+                <li> {/* Dropdown */}
+                    <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle"> {/* Free Space */}
+                      <img src={logo} width="35" height="35" />
                       <span className="ms-1 d-none d-sm-inline">
-                        Not Available
+                        Not Available {/* Editable Text */}
                       </span>
                     </a>
                     <ul className="collapse show nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
-                        <li className="w-100 px-5">
-                            <Link to='/section' className="nav-link px-0">
-                              <span className="d-none d-sm-inline">
-                                Not Available
+                        <li className="w-100"> {/* Free Space */}
+                            <Link to='/section' className="nav-link">
+                              <img src={logo} width="35" height="35" />
+                              <span className="d-none d-sm-inline px-2">
+                                Not Available {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
                     </ul>
                 </li>
-                <li className="nav-item">
-                  <Link to='/section' className="nav-link px-0 align-middle">
-                    <i>🐑</i>
-                    <span className="ms-1 d-none d-sm-inline">
-                      Not Available
-                    </span>
-                  </Link>
+                <li className="nav-item"> {/* Free Space */}
+                    <Link to='/' className="nav-link align-middle px-0">
+                      <img src={logo} width="35" height="35"/>
+                      <span className="ms-1 d-none d-sm-inline">
+                        Home {/* Editable Text */}
+                      </span>
+                    </Link>
                 </li>
             </ul>
             <hr/>

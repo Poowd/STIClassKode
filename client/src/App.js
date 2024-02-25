@@ -11,6 +11,8 @@ import { Section } from './modules/private/Section';
 //components
 import { Sidebar } from "./modules/components/Sidebar";
 import { Student } from './modules/private/Student';
+import { FacultyMember } from './modules/private/FacultyMember';
+import { Course } from './modules/private/Course';
 
 
 function App() {
@@ -52,6 +54,8 @@ function App() {
                       <Route path='/' element={ <Home /> }></Route>
                       <Route path='/section' element={ <Section /> }></Route>
                       <Route path='/student' element={ <Student /> }></Route>
+                      <Route path='/course' element={ <Course /> }></Route>
+                      <Route path='/facultymember' element={ <FacultyMember /> }></Route>
                       <Route path='/login' element={ <Login /> }></Route>
                     </Routes>
                   </div>
