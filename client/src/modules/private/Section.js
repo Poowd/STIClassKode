@@ -13,9 +13,15 @@ export function Section() {
   const page = 'Section';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [studentList, setStudentList] = useState([{
+    Student: "",
+    Section: "",
+    FirstName: "",
+    LastName: "",
+  }]);
   const [selectedIndex, setSelectedIndex] = useState('');
   const [userdata, setUserData] = useState([{
-    SectionID: "",
+    ID: "",
     Name: "",
   }]);
 
@@ -25,6 +31,17 @@ export function Section() {
     .then( res => {
       try {
         setData(res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    })
+  }, []);
+
+  useEffect(() =>  {
+    axios.get('http://localhost:8081/studentsection')
+    .then( res => {
+      try {
+        setStudentList(res.data)
       } catch(err) {
         console.log(err)
       }
@@ -63,10 +80,10 @@ export function Section() {
                         onClick={ () => {
                           setSelectedIndex(index)
                           setUserData({
-                            SectionID: data.SectionID,
+                            ID: data.SectionID,
                             Name: data.Name
                           })
-                        } }
+                        }}
                         databstoggle={ "modal" }
                         databstarget={ "#staticBackdrop" }
                       />
@@ -84,21 +101,37 @@ export function Section() {
             rows={ data.length }
           />
           <ViewModal 
-            title={ "Section Details" }
-            data={
-              <table>
-                <tbody>
-                  <tr>
-                    <td className='pe-3'>ID:</td>
-                    <td>{userdata.SectionID}</td>
-                  </tr>
-                  <tr>
-                    <td className='pe-3'>Name:</td>
-                    <td>{userdata.Name}</td>
-                  </tr>
-                </tbody>
-              </table>
-             }
+            title={ page.concat(" Details") }
+            body={
+              <>
+                <tr>
+                  <td className='pe-3'>ID: { userdata.ID }</td>
+                </tr>
+                <tr>
+                  <td className='pe-3'>Name: { userdata.Name }</td>
+                </tr>
+                <tr>
+                  <td>
+                    <hr className='w-100' />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>Students:</p>
+                    <ul className='StudentList'>
+                      {
+                          studentList.map(function(data, index) {
+                            if (data.SectionID == userdata.ID) {
+                              return <li className='d-block mt-1 w-100 text-start' key={ index }> {data.StudentID} : {data.FirstName.concat(" ", data.LastName)} </li>
+                            }
+                          })
+                        }
+                    </ul>
+                    
+                  </td>
+                </tr>
+              </>
+            }
           />
         </main>
       </main>

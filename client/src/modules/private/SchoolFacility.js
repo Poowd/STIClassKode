@@ -9,8 +9,8 @@ import { Button } from "../components/Button";
 import { Table } from "../components/Table";
 import { ViewModal } from '../components/ViewModal';
 
-export function Student() {
-  const page = 'Student';
+export function SchoolFacility() {
+  const page = 'School Facility';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState('');
@@ -19,9 +19,9 @@ export function Student() {
     Name: "",
   }]);
 
-  //get data from server: for student table
+  //get data from server: for faculty member table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/student')
+    axios.get('http://localhost:8081/schoolfacility')
     .then( res => {
       try {
         setData(res.data)
@@ -52,19 +52,19 @@ export function Student() {
               //map out the data pull from the database
                 data.map((data, index) => (        
                 <tr key={ index }>
-                  <td className="ID">{ data.StudentID }</td>
-                  <td>{ data.FirstName.concat(" ", data.LastName) }</td>
+                  <td className="ID">{ data.SchoolFacilityID }</td>
+                  <td>{ data.Name }</td>
                   <td className="Actions">
                     <div className="ActionsButton">
                       <Button
-                        class={ "btn btn-primary" }  
+                        class={ "btn btn-primary" } 
                         text={ "View" } 
                         disabled={ false }
                         onClick={ () => {
                           setSelectedIndex(index)
                           setUserData({
-                            ID: data.StudentID,
-                            Name: data.FirstName
+                            ID: data.SchoolFacilityID,
+                            Name: data.Name
                           })
                         } }
                         databstoggle={ "modal" }
@@ -102,7 +102,5 @@ export function Student() {
         </main>
       </main>
     </>
-  );
+  )
 }
-  
-  

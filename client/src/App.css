@@ -12,3 +12,23 @@
   width: 1em;
   aspect-ratio: 1 / 1;
 }
+
+.Login {
+  width: 100%;
+  height: 100vh;
+}
+
+.Login form {
+  width: 25%;
+  padding: 2em 0.5em;
+}
+
+.custom-tag {
+  font-size: 0.75em;
+}
+
+.StudentList {
+  width: 100%;
+  height: 10em;
+  overflow: auto;
+}

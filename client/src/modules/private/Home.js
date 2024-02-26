@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+//dependencies
 import axios from 'axios';
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+//css
 import '../../App.css';
+//routes
+//components
 import { Button } from "../components/Button";
 import { Modal } from "../components/Modal";
 
@@ -103,37 +107,38 @@ export function Home() {
           <Modal 
             modalbody={
               <>
-                <input 
-                  className="d-block w-100 my-3 px-3 py-2"
-                  type="text" 
-                  placeholder="FirstName" 
-                  onChange={ handleChange } 
-                  name="FirstName"
+              <input 
+                className="d-block w-100 mb-3 px-4 py-2 form-control"
+                type="text" 
+                placeholder="FirstName" 
+                onChange={ handleChange } 
+                name="FirstName"
+                />
+              <input 
+                className="d-block w-100 mb-3 px-4 py-2 form-control"
+                type="text" 
+                placeholder="LastName" 
+                onChange={ handleChange } 
+                name="LastName"
+                />
+              <input 
+                className="d-block w-100 mb-3 px-4 py-2 form-control"
+                type="text" 
+                placeholder="Email" 
+                onChange={ handleChange } 
+                name="Email"
                 />
                 <input 
-                  className="d-block w-100 my-3 px-3 py-2"
-                  type="text" 
-                  placeholder="LastName" 
-                  onChange={ handleChange } 
-                  name="LastName"
-                />
-                <input 
-                  className="d-block w-100 my-3 px-3 py-2"
-                  type="text" 
-                  placeholder="Email" 
-                  onChange={ handleChange } 
-                  name="Email"
-                />
-                <input 
-                  className="d-block w-100 my-3 px-3 py-2"
+                  className="d-block w-100 mb-3 px-4 py-2 form-control"
                   type="text" 
                   placeholder="Password" 
                   onChange={ handleChange } 
                   name="Password"
-                />
+                  />
+          
               </>
             }
-            action={ handleSubmit }
+            action={ handleSubmit } 
           />
         
       </main>

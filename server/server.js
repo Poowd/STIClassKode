@@ -114,6 +114,14 @@ app.get('/student', (req, res) => {
         return res.json(data)
     })
 })
+// StudentSection
+app.get('/studentsection', (req, res) => {
+    const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
 // Course
 app.get('/course', (req, res) => {
     const sql = "SELECT * FROM tbl_course WHERE Status='Active'";
@@ -125,6 +133,14 @@ app.get('/course', (req, res) => {
 // Faculty Member
 app.get('/facultymember', (req, res) => {
     const sql = "SELECT * FROM tbl_facultymember WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// School Facility
+app.get('/schoolfacility', (req, res) => {
+    const sql = "SELECT * FROM tbl_schoolfacility WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         return res.json(data)

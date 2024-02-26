@@ -12,8 +12,12 @@ export class ViewModal extends React.Component {
                 <h1 className="modal-title fs-5" id="staticBackdropLabel">{ this.props.title }</h1>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div className="modal-body">
-                { this.props.data }
+              <div className="modal-body d-flex px-5">
+                <table className='w-100'>
+                  <tbody>
+                    { this.props.body }
+                  </tbody>
+              </table>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>

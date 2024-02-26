@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import logo from '../../assets/icons/calendar.png'
+import clock from '../../assets/icons/clock.png'
+import document from '../../assets/icons/document.png'
+import exclamation from '../../assets/icons/exclamation.png'
+import home from '../../assets/icons/home.png'
+import listcheck from '../../assets/icons/list-check.png'
+import user from '../../assets/icons/user.png'
+import users from '../../assets/icons/users.png'
 
 export class Sidebar extends React.Component {
     render() {
@@ -19,56 +25,64 @@ export class Sidebar extends React.Component {
       }
 
       return (
-        <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-            <Link to='/' className="d-flex align-items-center mb-md-0 me-md-auto text-white text-decoration-none mt-3 py-3"> {/* Title */}
+        <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+            <Link to='/' className="d-flex align-items-center mb-md-0 me-md-auto text-decoration-none mt-3 py-3"> {/* Title */}
               <span className="fs-5 d-none d-sm-inline">
-                STI College Muñoz-EDSA {/* Editable Text */}
+                <strong>STI College Muñoz-EDSA</strong> {/* Editable Text */}
               </span>
             </Link>
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li className="nav-item"> {/* Home */}
-                    <Link to='/' className="nav-link align-middle px-0">
-                      <img src={logo} width="35" height="35" />
-                      <span className="ms-1 d-none d-sm-inline">
-                        Home {/* Editable Text */}
+                    <Link to='/home' className="nav-link align-middle px-0">
+                      <img src={ home } width="25" height="25" />
+                      <span className="ms-2 d-none d-sm-inline">
+                        Dashboard {/* Editable Text */}
                       </span>
                     </Link>
                 </li>
                 <li>{/* Dropdown */}
                     <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle"> {/* Entities */}
-                      <img src={logo} width="35" height="35" />
-                      <span className="ms-1 d-none d-sm-inline">
-                        Entities {/* Editable Text */}
+                      <img src={ clock } width="25" height="25" />
+                      <span className="ms-2 d-none d-sm-inline">
+                        Schedules {/* Editable Text */}
                       </span>
                     </a>
                     <ul className="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
-                        <li className="w-100"> {/* Section */}
-                            <Link to='/section' className="nav-link">
-                              <img src={logo} width="35" height="35" />
-                              <span className="d-none d-sm-inline px-2">
-                                Section {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
                         <li className="w-100"> {/* Student */}
                             <Link to='/student' className="nav-link">
-                              <img src={logo} width="35" height="35" />
+                              <img src={ user } width="25" height="25" />
                               <span className="d-none d-sm-inline px-2">
                                 Student {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
+                        <li className="w-100"> {/* Section */}
+                            <Link to='/section' className="nav-link">
+                              <img src={ users } width="25" height="25" />
+                              <span className="d-none d-sm-inline px-2">
+                                Section {/* Editable Text */}
+                              </span>
+                            </Link>
+                        </li>
                         <li className="w-100"> {/* Course */}
                             <Link to='/course' className="nav-link">
-                              <img src={logo} width="35" height="35" />
+                              <img src={ document } width="25" height="25" />
                               <span className="d-none d-sm-inline px-2">
                                 Course {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
                         <li className="w-100"> {/* FacultyMember */}
+                            <Link to='/schoolfacility' className="nav-link">
+                              <img src={ user } width="25" height="25" />
+                              <span className="d-none d-sm-inline px-2">
+                                School Facility {/* Editable Text */}
+                              </span>
+                            </Link>
+                        </li>
+                        <li className="w-100"> {/* FacultyMember */}
                             <Link to='/facultymember' className="nav-link">
-                              <img src={logo} width="35" height="35" />
+                              <img src={ user } width="25" height="25" />
                               <span className="d-none d-sm-inline px-2">
                                 Faculty Member {/* Editable Text */}
                               </span>
@@ -78,34 +92,26 @@ export class Sidebar extends React.Component {
                 </li>
                 <li> {/* Dropdown */}
                     <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle"> {/* Free Space */}
-                      <img src={logo} width="35" height="35" />
-                      <span className="ms-1 d-none d-sm-inline">
-                        Not Available {/* Editable Text */}
+                      <img src={ exclamation } width="25" height="25" />
+                      <span className="ms-2 d-none d-sm-inline">
+                        Faculty Locator {/* Editable Text */}
                       </span>
                     </a>
                     <ul className="collapse show nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                         <li className="w-100"> {/* Free Space */}
                             <Link to='/section' className="nav-link">
-                              <img src={logo} width="35" height="35" />
+                              <img src={ exclamation } width="25" height="25" />
                               <span className="d-none d-sm-inline px-2">
-                                Not Available {/* Editable Text */}
+                                Locator {/* Editable Text */}
                               </span>
                             </Link>
                         </li>
                     </ul>
                 </li>
-                <li className="nav-item"> {/* Free Space */}
-                    <Link to='/' className="nav-link align-middle px-0">
-                      <img src={logo} width="35" height="35"/>
-                      <span className="ms-1 d-none d-sm-inline">
-                        Home {/* Editable Text */}
-                      </span>
-                    </Link>
-                </li>
             </ul>
             <hr/>
             <div className="dropdown pb-4">
-                <a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" className="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://scontent.fcrk1-1.fna.fbcdn.net/v/t39.30808-6/341612198_9114909431915406_7864035034026480621_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeG6qaAQNLtUTAYRjz43N2FKh9Sybz6zRUOH1LJvPrNFQy_QR4mfX3_ddYP8BoKYLjULdgOperYTuahgS8hXBnsn&_nc_ohc=_gKXfmJ-aa4AX_Qleaa&_nc_ht=scontent.fcrk1-1.fna&cb_e2o_trans=q&oh=00_AfDxLPRwLcdTHVVcyrSXDgBhcMU_fzjqGaJU3mYBYpWsVg&oe=65DEB585" alt="hugenerd" width="30" height="30" className="rounded-circle"/>
                     <span className="d-none d-sm-inline mx-1">{ this.props.name }</span>
                 </a>
