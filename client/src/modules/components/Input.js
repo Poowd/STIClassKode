@@ -15,7 +15,7 @@ export class Input extends React.Component {
         <input 
                   className="d-block w-100 my-3 px-3 py-2"
                   type="text" 
-                  placeholder="FirstName" 
+                  placeholder={ this.props.placeholder }
                   onChange={ this.props.change } 
                   name="FirstName"
                   />

@@ -43,12 +43,14 @@ export function Login() {
                             <Input //input box for email
                                 label={ "Email" }
                                 type={ "email" }
+                                placeholder={ "Email" }
                                 autoComplete="off"
                                 change={ (e) => setValues({...values, email: e.target.value}) }
                             />
                             <Input //input box for password
                                 label={ "Password" }
                                 type={ "password" }
+                                placeholder={ "Password" }
                                 autoComplete="off"
                                 change={ (e) => setValues({...values, password: e.target.value}) }
                             />
