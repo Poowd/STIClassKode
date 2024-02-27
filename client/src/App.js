@@ -52,14 +52,12 @@ function App() {
                     </div>
                     <div className="col py-3 overflow-auto"> {/* Content Here */}
                       <Routes>
-                        <Route path='/'>
-                          <Route path='home' element={ <Home /> }><></></Route>
-                          <Route path='section' element={ <Section /> }></Route>
-                          <Route path='student' element={ <Student /> }></Route>
-                          <Route path='course' element={ <Course /> }></Route>
-                          <Route path='schoolfacility' element={ <SchoolFacility /> }></Route>
-                          <Route path='facultymember' element={ <FacultyMember /> }></Route>
-                        </Route>
+                      <Route path='/' element={ <Home /> }><></></Route>
+                          <Route path='/section' element={ <Section /> }></Route>
+                          <Route path='/student' element={ <Student /> }></Route>
+                          <Route path='/course' element={ <Course /> }></Route>
+                          <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                          <Route path='/facultymember' element={ <FacultyMember /> }></Route>
                       </Routes>
                     </div>
                 </div>

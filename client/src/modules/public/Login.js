@@ -23,7 +23,7 @@ export function Login() {
         axios.post('http://localhost:8081/login', values) //stores in usestate values
         .then(res => {
             if (res.data.Status === "Success") {
-                navigate('/home'); //to dashboard
+                navigate('/'); //to dashboard
                 window.location.reload(true);
             } else {
                 alert(res.data.Message);
@@ -44,19 +44,13 @@ export function Login() {
                                 label={ "Email" }
                                 type={ "email" }
                                 autoComplete="off"
-                                onChange={ (e) => setValues({
-                                    ...values, 
-                                    email: e.target.value
-                                }) }
+                                change={ (e) => setValues({...values, email: e.target.value}) }
                             />
                             <Input //input box for password
                                 label={ "Password" }
                                 type={ "password" }
                                 autoComplete="off"
-                                onChange={ (e) => setValues({
-                                    ...values, 
-                                    password: e.target.value
-                                }) }
+                                change={ (e) => setValues({...values, password: e.target.value}) }
                             />
                         </div>
                         <Button //submit button
@@ -64,7 +58,7 @@ export function Login() {
                             type= { "submit" }
                             text={ "Login" } 
                             disabled={ false }
-                            onClick={ () => console.log("Logged In") }
+                            onClick={ () => console.log("Log-Login-Clicked") }
                         />
                     </div>
                     <p className='custom-tag card-text text-center my-3'>Terms and Policy</p>
