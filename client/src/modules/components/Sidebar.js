@@ -33,7 +33,7 @@ export class Sidebar extends React.Component {
             </Link>
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li className="nav-item"> {/* Home */}
-                    <Link to='/' className="nav-link align-middle px-0">
+                    <Link to='/dashboard' className="nav-link align-middle px-0">
                       <img src={ home } width="25" height="25" />
                       <span className="ms-2 d-none d-sm-inline">
                         Dashboard {/* Editable Text */}
@@ -111,7 +111,7 @@ export class Sidebar extends React.Component {
             </ul>
             <hr/>
             <div className="dropdown pb-4">
-                <a href="#" className="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="#" className="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                     <img src="https://scontent.fcrk1-1.fna.fbcdn.net/v/t39.30808-6/341612198_9114909431915406_7864035034026480621_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeG6qaAQNLtUTAYRjz43N2FKh9Sybz6zRUOH1LJvPrNFQy_QR4mfX3_ddYP8BoKYLjULdgOperYTuahgS8hXBnsn&_nc_ohc=_gKXfmJ-aa4AX_Qleaa&_nc_ht=scontent.fcrk1-1.fna&cb_e2o_trans=q&oh=00_AfDxLPRwLcdTHVVcyrSXDgBhcMU_fzjqGaJU3mYBYpWsVg&oe=65DEB585" alt="hugenerd" width="30" height="30" className="rounded-circle"/>
                     <span className="d-none d-sm-inline mx-1">{ this.props.name }</span>
                 </a>
@@ -121,7 +121,7 @@ export class Sidebar extends React.Component {
                     <li>
                         <hr className="dropdown-divider"/>
                     </li>
-                    <li><a className="dropdown-item" href="#" onClick={handleLogout}>Sign out</a></li>
+                    <li><a className="dropdown-item" href="#" onClick={ handleLogout }>Sign out</a></li>
                 </ul>
             </div>
         </div>

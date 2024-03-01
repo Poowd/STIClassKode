@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from "../components/Button";
+import { Button } from "./Button";
 
-export class Modal extends React.Component {
+export class FormModal extends React.Component {
   render() {
     return (
       <div className="Modal">
@@ -18,16 +18,16 @@ export class Modal extends React.Component {
               <div className="modal-footer">
                 <Button
                   class={ "btn btn-secondary" } 
-                  text={ "Close" } 
-                  disabled={ false }
-                  onClick={ () => console.log("dismiss-modal") }
-                  databsdismiss={ "modal" }
+                    text={ "Close" } 
+                      disabled={ false }
+                        onClick={ () => console.log("dismiss-modal") }
+                          databsdismiss={ "modal" }
                 />
                 <Button
                   class={ "btn btn-primary" } 
-                  text={ "Add" } 
-                  disabled={ false }
-                  onClick={ this.props.action }
+                    text={ "Add" } 
+                      disabled={ false }
+                      onClick={ this.props.action }
                 />
               </div>
             </div>

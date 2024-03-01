@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 //css
 import './App.css';
 //routes
-import { Home } from './modules/private/Home'
+import { Dashboard } from './modules/private/_Dashboard'
 import { Login } from './modules/public/Login';
 import { Section } from './modules/private/Section';
 //components
@@ -16,6 +16,7 @@ import { Course } from './modules/private/Course';
 import { TermsPolicy } from './modules/public/TermsPolicy';
 import { Missing } from './modules/public/Missing';
 import { SchoolFacility } from './modules/private/SchoolFacility';
+import { LandingPage } from './modules/public/LandingPage';
 
 
 function App() {
@@ -52,12 +53,12 @@ function App() {
                     </div>
                     <div className="col py-3 overflow-auto"> {/* Content Here */}
                       <Routes>
-                      <Route path='/' element={ <Home /> }><></></Route>
-                          <Route path='/section' element={ <Section /> }></Route>
-                          <Route path='/student' element={ <Student /> }></Route>
-                          <Route path='/course' element={ <Course /> }></Route>
-                          <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
-                          <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                        <Route path='/dashboard' element={ <Dashboard /> }></Route>
+                        <Route path='/section' element={ <Section /> }></Route>
+                        <Route path='/student' element={ <Student /> }></Route>
+                        <Route path='/course' element={ <Course /> }></Route>
+                        <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                        <Route path='/facultymember' element={ <FacultyMember /> }></Route>
                       </Routes>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ import { ViewModal } from '../components/ViewModal';
 import { TablePageWrapper } from '../components/TablePageWrapper';
 
 export function FacultyMember() {
-  const page = 'FacultyMember';
+  const page = 'Faculty Member';
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState('');
@@ -34,62 +34,70 @@ export function FacultyMember() {
 
   return (
     <>
-    <TablePageWrapper
-        page={ page }
-        class={ "btn btn-primary" }
-        text={ "Add " + page }
-        tablename={ page }
-        data={
-            //map out the data pull from the database
-            data.map((data, index) => (        
-              <tr key={ index }>
-                <td className="ID">{ data.FacultyMemberID }</td>
-                <td>{ data.FirstName.concat(" ", data.LastName) }</td>
-                <td className="Actions">
-                  <div className="ActionsButton">
-                    <Button
-                      class={ "btn btn-primary" } 
-                      text={ "View" } 
-                      disabled={ false }
-                      onClick={ () => {
-                        setSelectedIndex(index)
-                        setUserData({
-                          ID: data.FacultyMemberID,
-                          Name: data.FirstName.concat(" ", data.LastName)
-                        })
-                      } }
-                      databstoggle={ "modal" }
-                      databstarget={ "#staticBackdrop" }
-                    />
-                    <Button
-                      class={ "btn btn-primary" }  
-                      text={ "Edit" } 
+      <TablePageWrapper
+          page={ page }
+          class={ "btn btn-primary" }
+          text={ "Add " + page }
+          databstoggle={ "modal" }
+          databstarget={ "#staticBackdropi" }
+          tablename={ page }
+          data={
+              //map out the data pull from the database
+              data.map((data, index) => (        
+                <tr key={ index }>
+                  <td className="ID">{ data.FacultyMemberID }</td>
+                  <td>{ data.LastName.concat(", ", data.FirstName) }</td>
+                  <td className="Actions">
+                    <div className="ActionsButton">
+                      <Button
+                        class={ "btn btn-primary" } 
+                        text={ "View" } 
                         disabled={ false }
-                        onClick={ () => console.log("Hello World") }
-                        />
-                  </div>
-                </td>
+                        onClick={ () => {
+                          setSelectedIndex(index)
+                          setUserData({
+                            ID: data.FacultyMemberID,
+                            Name: data.FirstName.concat(" ", data.LastName)
+                          })
+                        } }
+                        databstoggle={ "modal" }
+                        databstarget={ "#viewModal" }
+                      />
+                      <Button
+                        class={ "btn btn-primary" }  
+                        text={ "Edit" } 
+                          disabled={ false }
+                          onClick={ () => console.log("Hello World") }
+                          />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            }
+          datalength={ data.length }
+          viewmodaltitle={ page.concat(" Details") }
+          viewmodalbody={
+            <>
+              <tr>
+                <td className='pe-3'>ID:</td>
+                <td>{ userdata.ID }</td>
               </tr>
-            ))
+              <tr>
+                <td className='pe-3'>Name:</td>
+                <td>{ userdata.Name }</td>
+              </tr>
+            </>
           }
-        datalength={ data.length }
-        modaltitle={ page.concat(" Details") }
-        body={
-          <>
-            <tr>
-              <td className='pe-3'>ID:</td>
-              <td>{ userdata.ID }</td>
-            </tr>
-            <tr>
-              <td className='pe-3'>Name:</td>
-              <td>{ userdata.Name }</td>
-            </tr>
-          </>
-        }
-      
-      />
-    </>
-  );
+          formmodaltitle={
+            <h1>Hello</h1>
+          }
+          formmodalbody={
+            <h1>Hello</h1>
+          }
+        
+        />
+      </>
+    )
 }
   
   

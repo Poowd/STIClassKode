@@ -9,7 +9,6 @@ import React from 'react';
 export class Table extends React.Component {
   render() {
     return (
-      
       <div className="PrimaryTable">
         <table className="table">
           <thead>
@@ -20,29 +19,7 @@ export class Table extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {/* use to map out the data extracted from server */}
             { this.props.data }
-            {/* 
-              THIS IS SAMPLE STRUCTURE:
-              data.map((data, index) => (        
-                <tr key={ index }>
-                  <td>{ data.Academic_Year }</td>
-                    <td className="Actions">
-                      <div className="ActionsButton">
-                        <PrimaryButton  
-                          text={ "View" } 
-                          disabled={ false }
-                          onClick={ () => console.log("Hello World") }
-                        />
-                        <PrimaryButton  
-                          text={ "View" } 
-                          disabled={ false }
-                          onClick={ () => console.log("Hello World") }
-                        />
-                  </td>
-                </tr>
-              ))
-            */}
           </tbody>
         </table>
         <p className="w-100 d-flex justify-content-end fs-6 text">Table contains { this.props.rows } rows.</p>

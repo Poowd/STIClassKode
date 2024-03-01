@@ -6,10 +6,7 @@ import { useNavigate } from "react-router-dom";
 //routes
 //components
 import { Button } from "../components/Button";
-import { Table } from "../components/Table";
-import { ViewModal } from '../components/ViewModal';
 import { TablePageWrapper } from '../components/TablePageWrapper';
-import { Modal } from 'bootstrap';
 
 export function Course() {
   const page = 'Course';
@@ -39,6 +36,8 @@ export function Course() {
         page={ page }
         class={ "btn btn-primary" }
         text={ "Add " + page }
+        databstoggle={ "modal" }
+        databstarget={ "#staticBackdropi" }
         tablename={ page }
         data={
             //map out the data pull from the database
@@ -60,7 +59,7 @@ export function Course() {
                         })
                       } }
                       databstoggle={ "modal" }
-                      databstarget={ "#staticBackdrop" }
+                      databstarget={ "#viewModal" }
                     />
                     <Button
                       class={ "btn btn-primary" }  
@@ -74,8 +73,8 @@ export function Course() {
             ))
           }
         datalength={ data.length }
-        modaltitle={ page.concat(" Details") }
-        body={
+        viewmodaltitle={ page.concat(" Details") }
+        viewmodalbody={
           <>
             <tr>
               <td className='pe-3'>ID:</td>
@@ -87,11 +86,14 @@ export function Course() {
             </tr>
           </>
         }
-      
+        formmodaltitle={
+          <h1>Hello</h1>
+        }
+        formmodalbody={
+          <h1>Hello</h1>
+        }
       />
     </>
-
-    
   );
 }
   

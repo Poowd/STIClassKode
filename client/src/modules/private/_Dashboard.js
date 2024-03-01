@@ -7,10 +7,10 @@ import '../../App.css';
 //routes
 //components
 import { Button } from "../components/Button";
-import { Modal } from "../components/Modal";
+import { FormModal } from "../components/FormModal";
 
 
-export function Home() {
+export function Dashboard() {
   const page = 'Dashboard';
   const navigate = useNavigate();
   const [name, setName] = useState('');
@@ -22,7 +22,6 @@ export function Home() {
     Email:"",
     Password:""
   });
-
 
   //getting name from server
   useEffect(() =>  {
@@ -79,9 +78,7 @@ export function Home() {
       })
       .catch(err => console.log(err))
     } else {
-      document.getElementById("err").textContent = "Please fill out the Form. "
-      //console.log("No Input")
-      //window.location.reload(true)
+      document.getElementById("err").textContent = "Missing Input/s"
     }
   }
 
@@ -89,56 +86,59 @@ export function Home() {
     <>
       <main className="p-3">
         <h1>{ page }</h1>
-        <h3>You are Authorized {name}, </h3>
+        <h3>You are Authorized { name }, </h3>
           <Button
             class={ "btn btn-primary" } 
-            text={ "Logout" } 
-            disabled={ false }
-            onClick={ handleLogout }
+              text={ "Logout" } 
+                disabled={ false }
+                  onClick={ handleLogout }
           />
 
         <Button
             class={ "btn btn-primary my-3" }
-            text={ "Add User" } 
-            disabled={ false }
-            onClick={ () => console.log("open-modal") }
-            databstoggle={ "modal" }
-            databstarget={ "#staticBackdropi" }
+              text={ "Add User" } 
+                disabled={ false }
+                  onClick={ () => console.log("open-modal") }
+                    databstoggle={ "modal" }
+                      databstarget={ "#staticBackdropi" }
           />
-          <Modal 
-            modaltitle={ "Hello World" }
+          <FormModal 
+            modaltitle={ "Add User Details" }
             modalbody={
               <>
-              <input 
-                className="d-block w-100 mb-3 px-4 py-2 form-control"
-                type="text" 
-                placeholder="FirstName" 
-                onChange={ handleChange } 
-                name="FirstName"
-                />
-              <input 
-                className="d-block w-100 mb-3 px-4 py-2 form-control"
-                type="text" 
-                placeholder="LastName" 
-                onChange={ handleChange } 
-                name="LastName"
-                />
-              <input 
-                className="d-block w-100 mb-3 px-4 py-2 form-control"
-                type="text" 
-                placeholder="Email" 
-                onChange={ handleChange } 
-                name="Email"
-                />
                 <input 
-                  className="d-block w-100 mb-3 px-4 py-2 form-control"
-                  type="text" 
-                  placeholder="Password" 
-                  onChange={ handleChange } 
-                  name="Password"
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "text" }
+                      placeholder={ "First Name" }
+                        onChange={ handleChange } 
+                          name={ "FirstName" }
                   />
-          
-                <p id='err'></p>
+                
+                <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "text" }
+                      placeholder={ "Last Name" }
+                        onChange={ handleChange } 
+                          name={ "LastName" }
+                  />
+
+                <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "email" }
+                      placeholder={ "Email" }
+                        onChange={ handleChange } 
+                          name={ "Email" }
+                  />
+
+                <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "text" }
+                      placeholder={ "Password" }
+                        onChange={ handleChange } 
+                          name={ "Password" }
+                  />
+
+                <p id='err' className='input-error'></p>
               </>
             }
             action={ handleSubmit } 

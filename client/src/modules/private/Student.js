@@ -33,12 +33,13 @@ export function Student() {
   }, []);
 
   return (
-
     <>
     <TablePageWrapper
         page={ page }
         class={ "btn btn-primary" }
         text={ "Add " + page }
+        databstoggle={ "modal" }
+        databstarget={ "#staticBackdropi" }
         tablename={ page }
         data={
             //map out the data pull from the database
@@ -56,11 +57,11 @@ export function Student() {
                         setSelectedIndex(index)
                         setUserData({
                           ID: data.StudentID,
-                          Name: data.FirstName
+                          Name: data.LastName.concat(", ", data.FirstName)
                         })
                       } }
                       databstoggle={ "modal" }
-                      databstarget={ "#staticBackdrop" }
+                      databstarget={ "#viewModal" }
                     />
                     <Button
                       class={ "btn btn-primary" }  
@@ -74,8 +75,8 @@ export function Student() {
             ))
           }
         datalength={ data.length }
-        modaltitle={ page.concat(" Details") }
-        body={
+        viewmodaltitle={ page.concat(" Details") }
+        viewmodalbody={
           <>
             <tr>
               <td className='pe-3'>ID:</td>
@@ -86,6 +87,12 @@ export function Student() {
               <td>{ userdata.Name }</td>
             </tr>
           </>
+        }
+        formmodaltitle={
+          <h1>Hello</h1>
+        }
+        formmodalbody={
+          <h1>Hello</h1>
         }
       />
     </>

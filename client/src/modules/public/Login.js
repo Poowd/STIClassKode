@@ -8,6 +8,8 @@ import '../../App.css'
 //components
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
+//assets
+import view from '../../assets/icons/view.png'
 
 export function Login() {
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ export function Login() {
         axios.post('http://localhost:8081/login', values) //stores in usestate values
         .then(res => {
             if (res.data.Status === "Success") {
-                navigate('/'); //to dashboard
+                navigate('/dashboard'); //to dashboard
                 window.location.reload(true);
             } else {
                 alert(res.data.Message);
@@ -40,20 +42,29 @@ export function Login() {
                     <h1 className='card-title text-center'>Login</h1>
                     <div className='d-flex flex-column align-items-center'>
                         <div className='my-2'>
-                            <Input //input box for email
-                                label={ "Email" }
-                                type={ "email" }
-                                placeholder={ "Email" }
-                                autoComplete="off"
-                                change={ (e) => setValues({...values, email: e.target.value}) }
-                            />
-                            <Input //input box for password
-                                label={ "Password" }
-                                type={ "password" }
-                                placeholder={ "Password" }
-                                autoComplete="off"
-                                change={ (e) => setValues({...values, password: e.target.value}) }
-                            />
+                            <Input 
+                                className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                                    type={ "email" }
+                                        placeholder={ "Email" }
+                                            onChange={ (e) => setValues({...values, email: e.target.value}) } 
+                                                name={ "Email" }
+                                                    autoComplete={ "off" }
+                                />
+                            <div className="input-group mb-3">
+                                <Input 
+                                    className={ "d-block w-100 px-4 py-2 form-control" }
+                                        type={ "password" }
+                                            placeholder={ "Password" }
+                                                onChange={ (e) => setValues({...values, password: e.target.value}) } 
+                                                    name={ "Password" }
+                                                        autoComplete={ "off" }
+                                                            id={ "test" }
+                                    />
+                                <div className="input-group-text">
+                                    <input id="password-toggler" className="form-check-input mt-0" type="checkbox" value="" />
+                                </div>
+                            </div>
+
                         </div>
                         <Button //submit button
                             class={ "btn btn-primary" }
@@ -63,7 +74,9 @@ export function Login() {
                             onClick={ () => console.log("Log-Login-Clicked") }
                         />
                     </div>
-                    <p className='custom-tag card-text text-center my-3'>Terms and Policy</p>
+                    <p className='custom-tag card-text text-center my-3'>
+                        <Link to={ "/termspolicy" }>Terms & Policy</Link>
+                    </p>
                 </div>
             </form>
         </main>

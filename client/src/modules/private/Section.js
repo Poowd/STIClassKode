@@ -55,6 +55,8 @@ export function Section() {
         page={ page }
         class={ "btn btn-primary" }
         text={ "Add " + page }
+        databstoggle={ "modal" }
+        databstarget={ "#staticBackdropi" }
         tablename={ page }
         data={
             //map out the data pull from the database
@@ -76,7 +78,7 @@ export function Section() {
                         })
                       }}
                       databstoggle={ "modal" }
-                      databstarget={ "#staticBackdrop" }
+                      databstarget={ "#viewModal" }
                     />
                     <Button
                       class={ "btn btn-primary" }  
@@ -90,8 +92,8 @@ export function Section() {
             ))
           }
         datalength={ data.length }
-        modaltitle={ page.concat(" Details") }
-        body={
+        viewmodaltitle={ page.concat(" Details") }
+        viewmodalbody={
           <>
             <tr>
               <td className='pe-3'>ID: { userdata.ID }</td>
@@ -119,6 +121,12 @@ export function Section() {
               </td>
             </tr>
           </>
+        }
+        formmodaltitle={
+          <h1>Hello</h1>
+        }
+        formmodalbody={
+          <h1>Hello</h1>
         }
       />
     </>
