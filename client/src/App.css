@@ -32,3 +32,11 @@
   height: 10em;
   overflow: auto;
 }
+
+#err {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 0.75em;
+  color: red;
+}

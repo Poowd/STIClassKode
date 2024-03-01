@@ -67,7 +67,7 @@ export function Home() {
 
   //submit the form to create an account
   const handleSubmit = () => {
-    if (userdata.FirstName && userdata.LastName && userdata.Email && userdata.Password != null) {
+    if (userdata.FirstName != "" && userdata.LastName != "" && userdata.Email != "" && userdata.Password != "" ) {
       userdata.UserID = "USR".concat(counter[0].count)
       axios.post('http://localhost:8081/home', userdata)
       .then(res => {
@@ -79,8 +79,9 @@ export function Home() {
       })
       .catch(err => console.log(err))
     } else {
-      console.log("No Input")
-      window.location.reload(true);
+      document.getElementById("err").textContent = "Please fill out the Form. "
+      //console.log("No Input")
+      //window.location.reload(true)
     }
   }
 
@@ -97,14 +98,15 @@ export function Home() {
           />
 
         <Button
-            class={ "btn btn-primary my-3" } 
+            class={ "btn btn-primary my-3" }
             text={ "Add User" } 
             disabled={ false }
             onClick={ () => console.log("open-modal") }
             databstoggle={ "modal" }
-            databstarget={ "#staticBackdrop" }
+            databstarget={ "#staticBackdropi" }
           />
           <Modal 
+            modaltitle={ "Hello World" }
             modalbody={
               <>
               <input 
@@ -136,6 +138,7 @@ export function Home() {
                   name="Password"
                   />
           
+                <p id='err'></p>
               </>
             }
             action={ handleSubmit } 

@@ -33,7 +33,7 @@ export class Sidebar extends React.Component {
             </Link>
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li className="nav-item"> {/* Home */}
-                    <Link to='/home' className="nav-link align-middle px-0">
+                    <Link to='/' className="nav-link align-middle px-0">
                       <img src={ home } width="25" height="25" />
                       <span className="ms-2 d-none d-sm-inline">
                         Dashboard {/* Editable Text */}
