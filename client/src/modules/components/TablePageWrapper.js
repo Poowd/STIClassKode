@@ -9,7 +9,7 @@ export class TablePageWrapper extends React.Component {
   render() {
     return (
         <>
-          <main className="p-3">
+          <main className="p-3 overflow" style={{height:"100vh"}}>
             <header className="d-flex justify-content-between align-items-center">
                 <h1>{ this.props.page }</h1>
                 <Button 
@@ -39,6 +39,7 @@ export class TablePageWrapper extends React.Component {
         <FormModal  
           modaltitle={ this.props.formmodaltitle }
           modalbody={ this.props.formmodalbody }
+          action={ this.props.formmodalaction } 
         />
       </>
     )

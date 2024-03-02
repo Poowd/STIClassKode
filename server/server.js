@@ -31,6 +31,7 @@ const verifyUser = (req, res, next) => {
                 return res.json({Message: "Authentication Error."});
             } else {
                 req.Name = decoded.Name;
+                req.UserLevel = decoded.UserLevel
                 next();
             }
         })
@@ -38,7 +39,7 @@ const verifyUser = (req, res, next) => {
 }
 
 app.get('/', verifyUser, (req, res) => {
-    return res.json({Status: "Success", Name: req.Name});
+    return res.json({Status: "Success", Name: req.Name, UserLevel: req.UserLevel});
 })
 
 app.post('/login', (req, res) => {
@@ -48,8 +49,9 @@ app.post('/login', (req, res) => {
         if (data.length > 0) {
             const FirstName = data[0].FirstName;
             const LastName = data[0].LastName;
+            const UserLevel = data[0].UserLevel;
             const Name = FirstName.concat(" ", LastName);
-            const token = jwt.sign({Name}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
+            const token = jwt.sign({Name, UserLevel}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
             res.cookie('token', token);
             return res.json({Status: "Success"})
         } else {
@@ -83,13 +85,25 @@ app.use("/js",express.static("./node_modules/bootstrap/dist/js"));
 // CREATE: creating data to the database
 // User
 app.post('/home', (req, res) => {
-    const sql = "INSERT INTO tbl_user (`UserID`, `FirstName`, `LastName`, `Email`, `Password`) VALUES (?)"
+    const sql = "INSERT INTO tbl_user ( `FirstName`, `LastName`, `Birthday`, `UserLevel`) VALUES (?)"
     const values = [
-        req.body.UserID,
         req.body.FirstName,
         req.body.LastName,
-        req.body.Email,
-        req.body.Password,
+        req.body.Birthday,
+        req.body.UserLevel,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+app.post('/add-section', (req, res) => {
+    const sql = "INSERT INTO tbl_section (`Name`, `Level`, `Semester`) VALUES (?)"
+    const values = [
+        req.body.Name,
+        req.body.Level,
+        req.body.Semester
     ]
     db.query(sql, [values], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -98,6 +112,21 @@ app.post('/home', (req, res) => {
 })
 
 // READ: extracting data from the database
+// Program
+app.get('/view-user', (req, res) => {
+    const sql = "SELECT * FROM tbl_user WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+app.get('/view-program', (req, res) => {
+    const sql = "SELECT * FROM tbl_program WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
 // Section
 app.get('/section', (req, res) => {
     const sql = "SELECT * FROM tbl_section WHERE Status='Active'";
@@ -109,14 +138,6 @@ app.get('/section', (req, res) => {
 // Student
 app.get('/student', (req, res) => {
     const sql = "SELECT * FROM tbl_student WHERE Status='Active'";
-    db.query(sql, (err, data) => {
-        if (err) return res.json({Message: "Server Sided Error"});
-        return res.json(data)
-    })
-})
-// StudentSection
-app.get('/studentsection', (req, res) => {
-    const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         return res.json(data)
@@ -146,9 +167,9 @@ app.get('/schoolfacility', (req, res) => {
         return res.json(data)
     })
 })
-// User: Counter
-app.get('/home', (req, res) => {
-    const sql = "SELECT COUNT(*) + 1 as count FROM tbl_user";
+// StudentSection
+app.get('/studentsection', (req, res) => {
+    const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         return res.json(data)

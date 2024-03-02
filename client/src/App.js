@@ -1,7 +1,7 @@
 //dependencies
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 //css
 import './App.css';
 //routes
@@ -17,12 +17,16 @@ import { TermsPolicy } from './modules/public/TermsPolicy';
 import { Missing } from './modules/public/Missing';
 import { SchoolFacility } from './modules/private/SchoolFacility';
 import { LandingPage } from './modules/public/LandingPage';
+import { Homepage } from './modules/user/Homepage';
+import { MainPageWrapper } from './modules/components/MainPageWrapper';
+import { Program } from './modules/private/Program';
 
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
+  const [userlevel, setUserLevel] = useState('');
 
   
   const navigate = useNavigate();
@@ -33,6 +37,7 @@ function App() {
       if (res.data.Status === "Success") {
         setAuth(true);
         setName(res.data.Name);
+        setUserLevel(res.data.UserLevel);
       } else {
         setAuth(false);
         setMessage(res.data.Message);
@@ -45,25 +50,34 @@ function App() {
       <main>
         {
           auth ?
-          <main>
-            <div className="container-fluid">
-                <div className="row flex-nowrap">
-                    <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 border-end">  {/* Sidebar Here */}
-                      <Sidebar name={ name } />
-                    </div>
-                    <div className="col py-3 overflow-auto"> {/* Content Here */}
-                      <Routes>
-                        <Route path='/dashboard' element={ <Dashboard /> }></Route>
-                        <Route path='/section' element={ <Section /> }></Route>
+            userlevel === "Admin" ?
+            <MainPageWrapper
+              name={ name }
+              userlevel={ userlevel }
+              routes={
+                <Routes>
+                    <Route path='/' element={ <Dashboard /> }></Route>
+                      <Route path='/section' element={ <Section /> }></Route>
                         <Route path='/student' element={ <Student /> }></Route>
-                        <Route path='/course' element={ <Course /> }></Route>
-                        <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
-                        <Route path='/facultymember' element={ <FacultyMember /> }></Route>
-                      </Routes>
-                    </div>
-                </div>
-            </div>
-          </main>
+                          <Route path='/course' element={ <Course /> }></Route>
+                            <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                              <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                                <Route path='/program' element={ <Program /> }></Route>
+                                  <Route path='/*' element={ <Navigate to={"/"} /> }></Route>
+                  </Routes>
+              }
+            />
+            :
+            <MainPageWrapper 
+              name={ name }
+              userlevel={ userlevel }
+              routes={
+                <Routes>
+                    <Route path='/' element={ <Homepage /> }></Route>
+                      <Route path='/*' element={ <Navigate to={"/"} /> }></Route>
+                  </Routes>
+              }
+            />
           :
           <main>
             <Login />

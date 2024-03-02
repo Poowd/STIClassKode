@@ -15,6 +15,12 @@ export function FacultyMember() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState('');
+  const [adduserdata, setAddUserData] = useState({
+    FirstName: "",
+    LastName: "",
+    Birthday: "",
+    UserLevel: "Coach"
+  });
   const [userdata, setUserData] = useState([{
     ID: "",
     Name: "",
@@ -31,6 +37,31 @@ export function FacultyMember() {
       }
     })
   }, []);
+
+  //updates the userdata per keyboard button press in accordance with input tag
+  const handleChange = (e) => {
+    setAddUserData(prev=>({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+
+  //submit the form to create an account
+  const handleSubmit = () => {
+    if (!adduserdata.FirstName == "" && !adduserdata.LastName == "" && !adduserdata.Birthday == "") {
+      axios.post('http://localhost:8081/home', adduserdata)
+      .then(res => {
+        try {
+          window.location.reload(true);
+        } catch(err) {
+          console.log(err)
+        }
+      })
+      .catch(err => console.log(err))
+    } else {
+      document.getElementById("err").textContent = "Missing Input/s"
+    }
+  }
 
   return (
     <>
@@ -57,7 +88,7 @@ export function FacultyMember() {
                           setSelectedIndex(index)
                           setUserData({
                             ID: data.FacultyMemberID,
-                            Name: data.FirstName.concat(" ", data.LastName)
+                            Name: data.LastName.concat(", ", data.FirstName)
                           })
                         } }
                         databstoggle={ "modal" }
@@ -88,12 +119,37 @@ export function FacultyMember() {
               </tr>
             </>
           }
-          formmodaltitle={
-            <h1>Hello</h1>
-          }
-          formmodalbody={
-            <h1>Hello</h1>
-          }
+          formmodaltitle={ page }
+        formmodalbody={
+          <>
+            <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "text" }
+                      placeholder={ "First Name" }
+                        onChange={ handleChange } 
+                          name={ "FirstName" }
+                  />
+                
+                <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "text" }
+                      placeholder={ "Last Name" }
+                        onChange={ handleChange } 
+                          name={ "LastName" }
+                  />
+
+                <input 
+                  className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                    type={ "email" }
+                      placeholder={ "Birthday (yyyy-mm-dd)" }
+                        onChange={ handleChange } 
+                          name={ "Birthday" }
+                  />
+
+            <p id='err' className='input-error'></p>
+          </>
+        }
+        formmodalaction={ handleSubmit }
         
         />
       </>

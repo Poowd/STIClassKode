@@ -25,7 +25,7 @@ export function Login() {
         axios.post('http://localhost:8081/login', values) //stores in usestate values
         .then(res => {
             if (res.data.Status === "Success") {
-                navigate('/dashboard'); //to dashboard
+                navigate('/'); //to dashboard
                 window.location.reload(true);
             } else {
                 alert(res.data.Message);

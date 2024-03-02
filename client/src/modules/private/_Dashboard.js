@@ -8,20 +8,38 @@ import '../../App.css';
 //components
 import { Button } from "../components/Button";
 import { FormModal } from "../components/FormModal";
+import { Table } from '../components/Table';
+import { ViewModal } from '../components/ViewModal';
 
 
 export function Dashboard() {
   const page = 'Dashboard';
   const navigate = useNavigate();
   const [name, setName] = useState('');
-  const [counter, setCounter] = useState([]);
-  const [userdata, setUserData] = useState({
-    UserID:"",
-    FirstName:"",
-    LastName:"",
-    Email:"",
-    Password:""
-  });
+  const [selectedIndex, setSelectedIndex] = useState('');
+  const [adduserdata, setAddUserData] = useState([{
+    UserID: "",
+    FirstName: "",
+    LastName: "",
+    Birthday: "",
+    UserLevel: ""
+  }]);
+  const [userdata, setUserData] = useState([{
+    ID: "",
+    Name: "",
+  }]);
+
+  //get data from server: for student table
+  useEffect(() =>  {
+    axios.get('http://localhost:8081/view-user')
+    .then( res => {
+      try {
+        setAddUserData(res.data)
+      } catch(err) {
+        console.log(err)
+      }
+    })
+  }, []);
 
   //getting name from server
   useEffect(() =>  {
@@ -46,29 +64,16 @@ export function Dashboard() {
 
   //updates the userdata per keyboard button press in accordance with input tag
   const handleChange = (e) => {
-    setUserData(prev=>({
+    setAddUserData(prev=>({
       ...prev,
       [e.target.name]: e.target.value
     }))
   }
 
-  //get data from server: counter for total rows of user -> for UserID
-  useEffect(() =>  {
-    axios.get('http://localhost:8081/home')
-    .then( res => {
-      try {
-        setCounter(res.data)
-      } catch(err) {
-        console.log(err)
-      }
-    })
-  }, []);
-
   //submit the form to create an account
   const handleSubmit = () => {
-    if (userdata.FirstName != "" && userdata.LastName != "" && userdata.Email != "" && userdata.Password != "" ) {
-      userdata.UserID = "USR".concat(counter[0].count)
-      axios.post('http://localhost:8081/home', userdata)
+    if (adduserdata.FirstName != "" && adduserdata.LastName != "" && adduserdata.Birthday != "" && adduserdata.UserLevel != "" ) {
+      axios.post('http://localhost:8081/home', adduserdata)
       .then(res => {
         try {
           window.location.reload(true);
@@ -84,7 +89,7 @@ export function Dashboard() {
 
   return (
     <>
-      <main className="p-3">
+      <main className="p-3 overflow" style={{height:"100vh"}}>
         <h1>{ page }</h1>
         <h3>You are Authorized { name }, </h3>
           <Button
@@ -102,6 +107,61 @@ export function Dashboard() {
                     databstoggle={ "modal" }
                       databstarget={ "#staticBackdropi" }
           />
+
+        <Table 
+          tablename={ "wawa" }
+            data={ 
+              //map out the data pull from the database
+              adduserdata.map((data, index) => (        
+                <tr key={ index }>
+                  <td className="ID">{ data.UserID }</td>
+                  <td>{ data.LastName.concat(", ", data.FirstName) }</td>
+                  <td className="Actions">
+                    <div className="ActionsButton">
+                      <Button
+                        class={ "btn btn-primary" }  
+                        text={ "View" } 
+                        disabled={ false }
+                        onClick={ () => {
+                          setSelectedIndex(index)
+                          setUserData({
+                            ID: data.UserID,
+                            Name: data.LastName.concat(", ", data.FirstName)
+                          })
+                        } }
+                        databstoggle={ "modal" }
+                        databstarget={ "#viewModal" }
+                      />
+                      <Button
+                        class={ "btn btn-primary" }  
+                        text={ "Edit" } 
+                          disabled={ false }
+                          onClick={ () => console.log("Hello World") }
+                          />
+                    </div>
+                  </td>
+                </tr>
+              ))
+             }
+              rows={ adduserdata.length }
+          />
+
+          <ViewModal 
+            title={ "Users" }
+              body={ 
+                <>
+                  <tr>
+                    <td className='pe-3'>ID:</td>
+                    <td>{ userdata.ID }</td>
+                  </tr>
+                  <tr>
+                    <td className='pe-3'>Name:</td>
+                    <td>{ userdata.Name }</td>
+                  </tr>
+                </>
+               }
+            />
+
           <FormModal 
             modaltitle={ "Add User Details" }
             modalbody={
@@ -125,17 +185,17 @@ export function Dashboard() {
                 <input 
                   className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
                     type={ "email" }
-                      placeholder={ "Email" }
+                      placeholder={ "Birthday (yyyy-mm-dd)" }
                         onChange={ handleChange } 
-                          name={ "Email" }
+                          name={ "Birthday" }
                   />
 
                 <input 
                   className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
                     type={ "text" }
-                      placeholder={ "Password" }
+                      placeholder={ "User Level (Student | Coach | Admin)" }
                         onChange={ handleChange } 
-                          name={ "Password" }
+                          name={ "UserLevel" }
                   />
 
                 <p id='err' className='input-error'></p>
