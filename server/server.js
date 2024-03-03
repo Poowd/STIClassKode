@@ -50,7 +50,7 @@ app.post('/login', (req, res) => {
             const FirstName = data[0].FirstName;
             const LastName = data[0].LastName;
             const UserLevel = data[0].UserLevel;
-            const Name = FirstName.concat(" ", LastName);
+            const Name = LastName.concat(" ", FirstName);
             const token = jwt.sign({Name, UserLevel}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
             res.cookie('token', token);
             return res.json({Status: "Success"})
@@ -84,7 +84,7 @@ app.use("/js",express.static("./node_modules/bootstrap/dist/js"));
 
 // CREATE: creating data to the database
 // User
-app.post('/home', (req, res) => {
+app.post('/add-user', (req, res) => {
     const sql = "INSERT INTO tbl_user ( `FirstName`, `LastName`, `Birthday`, `UserLevel`) VALUES (?)"
     const values = [
         req.body.FirstName,
@@ -104,6 +104,34 @@ app.post('/add-section', (req, res) => {
         req.body.Name,
         req.body.Level,
         req.body.Semester
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+app.post('/add-course', (req, res) => {
+    const sql = "INSERT INTO tbl_course (`Name`, `CourseCode`, `Description`, `Category`) VALUES (?)"
+    const values = [
+        req.body.Name,
+        req.body.CourseCode,
+        req.body.Description,
+        req.body.Category
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+app.post('/add-schoolfacility', (req, res) => {
+    const sql = "INSERT INTO tbl_schoolfacility (`Name`, `Capacity`, `Type`, `Building`) VALUES (?)"
+    const values = [
+        req.body.Name,
+        req.body.Capacity,
+        req.body.Type,
+        req.body.Building
     ]
     db.query(sql, [values], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
