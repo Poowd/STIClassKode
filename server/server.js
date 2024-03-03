@@ -195,7 +195,7 @@ app.get('/schoolfacility', (req, res) => {
         return res.json(data)
     })
 })
-// StudentSection
+// Student Section
 app.get('/studentsection', (req, res) => {
     const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
     db.query(sql, (err, data) => {
