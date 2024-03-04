@@ -5,7 +5,7 @@ export class Button extends React.Component {
     return (
       <div className="Button">
         <button
-          className={ this.props.class }
+          className={ "text-center " + this.props.class }
             disabled={ this.props.disabled }
               onClick={ () => this.props.onClick() }
                 data-bs-toggle={ this.props.databstoggle } 

@@ -7,6 +7,8 @@ import '../../App.css'
 //components
 import { Button } from "../components/Button"
 import { TablePageWrapper } from '../components/TablePageWrapper'
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
 
 export function Section() {
   const pageTitle = 'Section'
@@ -118,7 +120,7 @@ export function Section() {
                       <div className="ActionsButton">
                         <Button
                           class={ "btn btn-primary" } 
-                            text={ "View" } 
+                            text={ <img src={ view } width="20" height="20" className='custom-icon' /> } 
                               onClick={ () => {
                                 setSelectedIndex(index)
                                   setUserData({
@@ -130,7 +132,7 @@ export function Section() {
                           />
                           <Button
                             class={ "btn btn-primary" }  
-                              text={ "Edit" }
+                              text={ <img src={ edit } width="20" height="20" className='custom-icon' /> }
                                 onClick={ () => {
                                   setSelectedIndex( index )
                                     setEditSection({

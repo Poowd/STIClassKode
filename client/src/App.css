@@ -62,3 +62,13 @@ td {
 .overflow {
   overflow: auto;
 }
+
+.custom-icon {
+  filter: invert();
+}
+
+.custom-profile-img {
+  object-fit: cover;
+  height: 20em;
+  width: 100%;
+}
