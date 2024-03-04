@@ -203,3 +203,31 @@ app.get('/studentsection', (req, res) => {
         return res.json(data)
     })
 })
+
+// UPDATE: updating data to the database
+// Student
+app.post('/update-student', (req, res) => {
+    const sql = "UPDATE tbl_student SET FirstName = ?, MiddleName = ?, LastName = ?, StudentType = ?, ContactNumber = ?, Address = ? WHERE StudentID = ?"
+    db.query(sql, [req.body.FirstName,
+                   req.body.MiddleName,
+                   req.body.LastName,
+                   req.body.StudentType,
+                   req.body.ContactNumber,
+                   req.body.Address, 
+                   req.body.StudentID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+// Student
+app.post('/update-section', (req, res) => {
+    const sql = "UPDATE tbl_section SET Name = ?, Level = ?, Semester = ? WHERE SectionID = ?"
+    db.query(sql, [req.body.Name,
+                   req.body.Level,
+                   req.body.Semester, 
+                   req.body.SectionID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})

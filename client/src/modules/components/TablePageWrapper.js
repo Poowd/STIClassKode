@@ -4,6 +4,7 @@ import { Button } from "./Button";
 import { Table } from "./Table";
 import { ViewModal } from './ViewModal';
 import { InsertModal } from './InsertModal';
+import { EditModal } from './EditModal';
 
 export class TablePageWrapper extends React.Component {
   render() {
@@ -37,6 +38,11 @@ export class TablePageWrapper extends React.Component {
                       insert_modal_content={ this.props.insert_modal_content }
                         insert_modal_insert={ this.props.insert_modal_insert } 
                     />
+                    <EditModal
+                      edit_modal_title={ this.props.edit_modal_title }
+                        edit_modal_content={ this.props.edit_modal_content }
+                          edit_modal_edit={ this.props.edit_modal_edit } 
+                      />
             </main>
         </main>
     )}}

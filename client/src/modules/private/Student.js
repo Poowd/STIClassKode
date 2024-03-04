@@ -15,12 +15,21 @@ export function Student() {
     FirstName: "",
       LastName: "",
         Birthday: "",
-        UserLevel: "Student"
+          UserLevel: "Student"
     })
     const [userdata, setUserData] = useState([{
       ID: "",
         Name: "",
       }])
+      const [editstudent, setEditStudent] = useState({
+        StudentID: "",
+          FirstName: "",
+            MiddleName: "",
+              LastName: "",
+                StudentType: "",
+                  ContactNumber: "",
+                    Address: "",
+        })
 
   //get data from server: for student table
   useEffect(() =>  {
@@ -52,6 +61,31 @@ export function Student() {
           .catch(err => console.log(err))
         } else {
           document.getElementById("err").textContent = "Missing Input/s" }}
+        //submit the form to create an account
+        const updateEditStudent = () => {
+          if (!editstudent.FirstName == "" && !editstudent.MiddleName == "" && !editstudent.LastName == "" && !editstudent.StudentType == "" && !editstudent.ContactNumber == "" && !editstudent.Address == "" ) {
+            axios.post('http://localhost:8081/update-student', editstudent)
+            .then(res => {
+              try {
+                window.location.reload(true)
+              } catch(err) {
+                console.log(err)
+              }
+            })
+            .catch(err => console.log(err))
+          } else {
+            document.getElementById("err").textContent = "Missing Input/s" }}
+          //---
+          const handleUpdate = (e) => {
+            setEditStudent(prev => ({
+              ...prev,
+              [ e.target.name ]: e.target.value
+            }))}
+            const selectedValue = (e) => {
+              setEditStudent(prev => ({
+                ...prev,
+                [ e.target.name ]: document.getElementById( e.target.id ).value
+              }))}
 
   return (
     <>
@@ -84,7 +118,19 @@ export function Student() {
                             <Button
                               class={ "btn btn-primary" }  
                                 text={ "Edit" } 
-                                  onClick={ () => console.log("Hello World") }
+                                  onClick={ () => {
+                                    setSelectedIndex( index )
+                                      setEditStudent({
+                                        StudentID: data.StudentID,
+                                          FirstName: data.FirstName,
+                                            MiddleName: data.MiddleName,
+                                              LastName: data.LastName,
+                                                StudentType: data.StudentType,
+                                                  ContactNumber: data.ContactNumber,
+                                                    Address: data.Address,
+                                        })}}
+                                    databstoggle={ "modal" }
+                                      databstarget={ "#editModal" }
                               />
                           </div>
                         </td>
@@ -103,7 +149,7 @@ export function Student() {
                     <p className='p-0 m-0'><span className='fs-6'>Name:</span> { userdata.Name }</p>
                     </li>
                   </ul>
-              </div>
+                </div>
               }
         insert_modal_title={ "Add".concat(" ",  pageTitle.concat(" Details")) }
           insert_modal_content={
@@ -133,8 +179,69 @@ export function Student() {
               </form>
             }
             insert_modal_insert={ sendStudentData }
+        edit_modal_title={ "Edit".concat(" ",  pageTitle.concat(" Details")) }
+          edit_modal_content={
+            <form>
+              <input 
+                className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                  type={ "text" }
+                    placeholder={ "FirstName" }
+                      onChange={ handleUpdate } 
+                        name={ "FirstName" }
+                          value={ editstudent.FirstName }
+                />
+                <input 
+                className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                  type={ "text" }
+                    placeholder={ "MiddleName" }
+                      onChange={ handleUpdate } 
+                        name={ "MiddleName" }
+                          value={ editstudent.MiddleName }
+                  />
+                  <input 
+                    className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                      type={ "text" }
+                        placeholder={ "LastName" }
+                          onChange={ handleUpdate } 
+                            name={ "LastName" }
+                              value={ editstudent.LastName }
+                    />
+                    <select className="d-block w-100 mb-3 px-4 py-2 form-select" aria-label="Default select example" id='StudentType' name='StudentType' onChange={ selectedValue }>
+                      <option defaultValue={ editstudent.StudentType }>{ editstudent.StudentType }</option>
+                        <option value="Regular">Regular</option>
+                          <option value="Irregular">Irregular</option>
+                            <option value="Working">Working</option>
+                      </select>
+                      <input 
+                        className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                          type={ "text" }
+                            placeholder={ "ContactNumber" }
+                              onChange={ handleUpdate } 
+                                name={ "ContactNumber" }
+                                  value={ editstudent.ContactNumber }
+                        />
+                        <input 
+                          className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                            type={ "text" }
+                              placeholder={ "Address" }
+                                onChange={ handleUpdate } 
+                                  name={ "Address" }
+                                    value={ editstudent.Address }
+                          />
+                    <p id='err' className='input-error'></p>
+              </form>
+            }
+            edit_modal_edit={ updateEditStudent }
         />
       </>
     )}
+
+    //{ editstudent.FirstName }
   
-  
+  //   <button type='button' onClick={ () => {
+  //     const x = document.getElementById("ee").value
+  //     setEditStudent({
+  //       FirstName: x
+  //     })
+  //     console.log("true")
+  // } }>dasd</button>

@@ -27,6 +27,12 @@ export function Section() {
         ID: "",
           Name: "",
         }])
+        const [editsection, setEditSection] = useState({
+          SectionID: "",
+            Name: "",
+              Level: "",
+                Semester: "",
+          })
 
   //get data from server: for section table
   useEffect(() =>  {
@@ -68,6 +74,31 @@ export function Section() {
             .catch(err => console.log(err))
           } else {
             document.getElementById("err").textContent = "Missing Input/s" }}
+          //submit the form to create an account
+          const updateEditSection = () => {
+            if (!editsection.Name == "" && !editsection.Level == "" && !editsection.Semester == "" ) {
+              axios.post('http://localhost:8081/update-section', editsection)
+              .then(res => {
+                try {
+                  window.location.reload(true)
+                } catch(err) {
+                  console.log(err)
+                }
+              })
+              .catch(err => console.log(err))
+            } else {
+              document.getElementById("err").textContent = "Missing Input/s" }}
+            //---
+            const handleUpdate = (e) => {
+              setEditSection(prev => ({
+                ...prev,
+                [ e.target.name ]: e.target.value
+              }))}
+              const selectedValue = (e) => {
+                setEditSection(prev => ({
+                  ...prev,
+                  [ e.target.name ]: document.getElementById( e.target.id ).value
+                }))}
 
   return (
     <>
@@ -100,7 +131,16 @@ export function Section() {
                           <Button
                             class={ "btn btn-primary" }  
                               text={ "Edit" }
-                                onClick={ () => console.log("Hello World") }
+                                onClick={ () => {
+                                  setSelectedIndex( index )
+                                    setEditSection({
+                                      SectionID: data.SectionID,
+                                        Name: data.Name,
+                                          Level: data.Level,
+                                            Semester: data.Semester
+                                      })}}
+                                    databstoggle={ "modal" }
+                                      databstarget={ "#editModal" }
                             />
                         </div>
                     </td>
@@ -165,6 +205,33 @@ export function Section() {
             </form>
           }
           insert_modal_insert={ sendSectionData }
+        edit_modal_title={ "Edit".concat(" ",  pageTitle.concat(" Details")) }
+          edit_modal_content={
+            <form>
+              <input 
+                className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+                  type={ "text" }
+                    placeholder={ "Name" }
+                      onChange={ handleUpdate } 
+                        name={ "Name" }
+                          value={ editsection.Name }
+                />
+                <select className="d-block w-100 mb-3 px-4 py-2 form-select" aria-label="Default select example" id='Level' name='Level' onChange={ selectedValue }>
+                  <option defaultValue={ editsection.Level }>{ editsection.Level }</option>
+                    <option value="First Year">First Year</option>
+                      <option value="Second Year">Second Year</option>
+                        <option value="Third Year">Third Year</option>
+                          <option value="Fourth Year">Fourth Year</option>
+                  </select>
+                  <select className="d-block w-100 mb-3 px-4 py-2 form-select" aria-label="Default select example" id='Semester' name='Semester' onChange={ selectedValue }>
+                    <option defaultValue={ editsection.Semester }>{ editsection.Semester }</option>
+                      <option value="First Semester">First Semester</option>
+                        <option value="Second Semester">Second Semester</option>
+                    </select>
+                    <p id='err' className='input-error'></p>
+              </form>
+            }
+            edit_modal_edit={ updateEditSection }
         />
       </>
     )}

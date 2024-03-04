@@ -14,6 +14,14 @@ export function Homepage() {
   const page = 'Dashboard'
   const navigate = useNavigate()
   const [name, setName] = useState('')
+  const [editstudent, setEditStudent] = useState({
+        FirstName: "",
+          MiddleName: "",
+            LastName: "",
+              StudentType: "",
+                ContactNumber: "",
+                  Address: "",
+        })
 
   //getting name from server
   useEffect(() =>  {
@@ -47,6 +55,9 @@ export function Homepage() {
                 disabled={ false }
                   onClick={ handleLogout }
           />
+
+            
+
     </>
   )
 }
