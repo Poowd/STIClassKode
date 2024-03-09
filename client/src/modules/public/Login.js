@@ -37,7 +37,7 @@ export function Login() {
       <>
         <main className='Login d-flex justify-content-center align-items-center'>
           <form onSubmit={ handleSubmit } className='card'>
-            <div className='card-body'>
+            <div className='card-body my-5'>
               <h1 className='card-title text-center'>Login</h1>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='my-2'>

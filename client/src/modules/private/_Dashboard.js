@@ -9,6 +9,11 @@ import { Button } from "../components/Button"
 import { InsertModal } from "../components/InsertModal"
 import { Table } from '../components/Table'
 import { ViewModal } from '../components/ViewModal'
+import { ConfirmModal } from '../components/ConfirmModal'
+import logout from '../../assets/icons/switch.png'
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
+import { Link } from 'react-router-dom'
 
 
 export function Dashboard() {
@@ -17,6 +22,7 @@ export function Dashboard() {
       const [data, setData] = useState([]) //stores data sent by the server from database
         const [selectedIndex, setSelectedIndex] = useState('') //key for data
   const [userdata, setUserData] = useState([{ //stores user data that will be sent to server
+    SchoolID: "",
     FirstName: "",
       LastName: "",
         Birthday: "",
@@ -77,27 +83,36 @@ export function Dashboard() {
 
   return (
     <>
-      <main className="p-3 overflow" style={{height:"100vh"}}>
+      <main className="p-lg-5 overflow" style={{height:"100vh"}}>
         <header className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h1>{ pageTitle }</h1>
               <h5>You are Authorized { name }, </h5>
             </div>
-            <div className='d-flex align-items-center mx-3 gap-3'>
-              <Button
-                class={ "btn btn-primary" } 
-                  text={ "Logout" } 
-                    disabled={ false }
-                      onClick={ handleLogout }
+            <div className='d-flex align-items-center mx-3 gap-1'>
+            <Button
+              class={ "btn btn-danger" } 
+                text={ "Logout" } 
+                  disabled={ false }
+                    onClick={ () => {} }
+                      databstoggle="modal" 
+                        databstarget="#confirmationModal"
+              />
+              <ConfirmModal 
+                confirm_modal_icon={ logout }
+                  confirm_modal_title={ "Logout" }
+                    confirm_modal_subtitle={ "Are you sure you want to logout?" }
+                      confirm_modal_confirm={ handleLogout }
                 />
-                <Button
-                    class={ "btn btn-primary" }
-                      text={ "Add User" } 
-                        disabled={ false }
-                          onClick={ () => console.log("open-modal") }
-                            databstoggle={ "modal" }
-                              databstarget={ "#insertModal" }
-                  />
+
+                <Link 
+                  to={ "/insert-profile/user" }>
+                  <Button
+                    class={ "btn btn-primary" }  
+                      text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                        onClick={ () => {} }
+                    />
+                </Link>
               </div>
             </header>
             <Table 
@@ -105,29 +120,44 @@ export function Dashboard() {
                 data={
                   data.map((data, index) => (        
                     <tr key={ index }>
-                      <td className="ID">{ data.UserID }</td>
+                      <td className="ID">{ data.SchoolID }</td>
                         <td>{ data.LastName.concat(", ", data.FirstName) }</td>
                           <td className="Actions">
                             <div className="ActionsButton">
-                              <Button
-                                class={ "btn btn-primary" }  
-                                  text={ "View" } 
-                                    disabled={ false }
-                                      onClick={ () => {
-                                        setSelectedIndex( index )
-                                          setUserProfile({
-                                            ID: data.UserID,
-                                              Name: data.LastName.concat(", ", data.FirstName)
-                                          })}}
-                                        databstoggle={ "modal" }
-                                          databstarget={ "#viewModal" }
-                                />
-                                <Button
-                                  class={ "btn btn-primary" }  
-                                    text={ "Edit" } 
-                                      disabled={ false }
-                                        onClick={ () => console.log("Hello World") }
-                                  />
+                              <Link 
+                                to={ "/view-profile/user/"+ index + "/" + data.UserID}
+                                  state={{ 
+                                    Entity: "User",
+                                      UserID: data.UserID,
+                                      SchoolID: data.SchoolID,
+                                      FirstName: data.FirstName,
+                                      LastName: data.LastName,
+                                      Birthday: data.Birthday,
+                                      UserLevel: data.UserLevel,
+                                    }} >
+                                    <Button
+                                      class={ "btn btn-info" }  
+                                        text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                          onClick={ () => {} }
+                                      />
+                                </Link>
+                                <Link 
+                                  to={ "/edit-profile/user/"+ index + "/" + data.UserID}
+                                    state={{ 
+                                      Entity: "User",
+                                        UserID: data.UserID,
+                                        SchoolID: data.SchoolID,
+                                        FirstName: data.FirstName,
+                                        LastName: data.LastName,
+                                        Birthday: data.Birthday,
+                                        UserLevel: data.UserLevel,
+                                      }} >
+                                      <Button
+                                        class={ "btn btn-warning" }  
+                                          text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                            onClick={ () => {} }
+                                        />
+                                </Link>
                               </div>
                           </td>
                       </tr>
@@ -153,7 +183,7 @@ export function Dashboard() {
                   insert_modal_title={ "Add".concat(" ",  pageTitle.concat(" Details")) }
                     insert_modal_content={
                       <form>
-                        <input 
+                          <input 
                           className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
                             type={ "text" }
                               placeholder={ "FirstName" }

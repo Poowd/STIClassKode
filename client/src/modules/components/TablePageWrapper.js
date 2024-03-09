@@ -2,23 +2,21 @@ import React from 'react';
 
 import { Button } from "./Button";
 import { Table } from "./Table";
-import { ViewModal } from './ViewModal';
-import { InsertModal } from './InsertModal';
-import { EditModal } from './EditModal';
+import { Link } from 'react-router-dom';
 
 export class TablePageWrapper extends React.Component {
   render() {
     return (
-      <main className="p-3 overflow" style={{height:"100vh"}}>
+      <main className="p-lg-5 p-3 overflow" style={{height:"100vh"}}>
         <header className="d-flex justify-content-between align-items-center">
             <h1>{ this.props.page }</h1>
-              <Button 
-                class={ this.props.class + " my-3" } 
-                  text={ this.props.text }
-                    onClick={ () => console.log("open-modal") }
-                      databstoggle={ this.props.databstoggle }
-                        databstarget={ this.props.databstarget }
-                />
+              <Link to={ this.props.insert }>
+                <Button 
+                  class={ this.props.class + " my-3" } 
+                    text={ this.props.text }
+                      onClick={ () => {} }
+                  />
+              </Link>
           </header>
           <hr />
           <main>
@@ -28,21 +26,6 @@ export class TablePageWrapper extends React.Component {
                   data={ this.props.data }
                     rows={ this.props.datalength }
                 />
-                <ViewModal 
-                  customclass={ this.props.viewmodalcustomclass }
-                    title={ this.props.viewmodaltitle }
-                      body={ this.props.viewmodalbody }
-                  />
-                  <InsertModal
-                    insert_modal_title={ this.props.insert_modal_title }
-                      insert_modal_content={ this.props.insert_modal_content }
-                        insert_modal_insert={ this.props.insert_modal_insert } 
-                    />
-                    <EditModal
-                      edit_modal_title={ this.props.edit_modal_title }
-                        edit_modal_content={ this.props.edit_modal_content }
-                          edit_modal_edit={ this.props.edit_modal_edit } 
-                      />
             </main>
         </main>
     )}}

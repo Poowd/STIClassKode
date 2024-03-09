@@ -1,12 +1,6 @@
 import React from 'react';
 import '../../App.css'
 
-/* 
-
-  Use Primary Table as: 
-
-*/
-
 export class Table extends React.Component {
   render() {
     return (

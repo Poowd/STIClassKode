@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react";
 //components
 import { Button } from "../components/Button";
 import { TablePageWrapper } from '../components/TablePageWrapper';
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
+import { Link, Navigate } from 'react-router-dom'
 
 export function SchoolFacility() {
   const pageTitle = 'School Facility';
     const [data, setData] = useState([]);
-      const [selectedIndex, setSelectedIndex] = useState('');
   const [schoolfacilitydata, setSchoolFacilityData] = useState([{
     Name: "",
       Capacity: "",
@@ -24,7 +26,7 @@ export function SchoolFacility() {
 
   //get data from server: for faculty member table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/schoolfacility')
+    axios.get('http://localhost:8081/view-schoolfacility')
     .then( res => {
       try {
         setData(res.data)
@@ -40,7 +42,7 @@ export function SchoolFacility() {
       }))}
       //submit the form to create an account
       const sendSchoolFacilityData = () => {
-        if (!schoolfacilitydata.Name == "" && !schoolfacilitydata.Capacity == "" && !schoolfacilitydata.Type == "" && !schoolfacilitydata.Building == "") {
+        if (!schoolfacilitydata.Name === "" && !schoolfacilitydata.Capacity === "" && !schoolfacilitydata.Type === "" && !schoolfacilitydata.Building === "") {
           axios.post('http://localhost:8081/add-schoolfacility', schoolfacilitydata)
           .then(res => {
             try {
@@ -70,25 +72,38 @@ export function SchoolFacility() {
                     <td>{ data.Name }</td>
                       <td className="Actions">
                         <div className="ActionsButton">
-                          <Button
-                            class={ "btn btn-primary" } 
-                              text={ "View" }
-                                onClick={ () => {
-                                  setSelectedIndex(index)
-                                    setUserData({
-                                      ID: data.SchoolFacilityID,
-                                        Name: data.Name
-                                    })}}
-                                  databstoggle={ "modal" }
-                                    databstarget={ "#viewModal" }
-                            />
-                            <Button
-                              class={ "btn btn-primary" }  
-                                text={ "Edit" }
-                                  onClick={ () => console.log("Hello World") }
-                                    databstoggle={ "editmodal" }
-                                      databstarget={ "#editModal" }
-                              />
+                          <Link 
+                            to={ "/view-profile/schoolfacility/"+ index + "/" + data.SchoolFacilityID}
+                              state={{ 
+                                Entity: "School Facility",
+                                  SchoolFacilityID: data.SchoolFacilityID,
+                                  Name: data.Name,
+                                  Capacity: data.Capacity,
+                                  Type: data.Type,
+                                  Building: data.Building,
+                                }} >
+                                <Button
+                                  class={ "btn btn-info" }  
+                                    text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                      onClick={ () => {} }
+                                  />
+                          </Link>
+                          <Link 
+                            to={ "/edit-profile/schoolfacility/"+ index + "/" + data.SchoolFacilityID}
+                              state={{ 
+                                Entity: "School Facility",
+                                  SchoolFacilityID: data.SchoolFacilityID,
+                                  Name: data.Name,
+                                  Capacity: data.Capacity,
+                                  Type: data.Type,
+                                  Building: data.Building,
+                                }} >
+                                <Button
+                                  class={ "btn btn-warning" }  
+                                    text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                      onClick={ () => {} }
+                                  />
+                          </Link>
                           </div>
                         </td>
                   </tr>

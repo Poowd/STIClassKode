@@ -6,6 +6,9 @@ import React, { useEffect, useState } from "react"
 //components
 import { Button } from "../components/Button"
 import { TablePageWrapper } from '../components/TablePageWrapper'
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
+import { Link, Navigate } from 'react-router-dom'
 
 export function Program() {
   const page = 'Program'
@@ -44,24 +47,40 @@ export function Program() {
                   <td>{ data.Name }</td>
                     <td className="Actions">
                       <div className="ActionsButton">
-                        <Button
-                          class={ "btn btn-primary" } 
-                            text={ "View" } 
-                              onClick={ () => {
-                                setSelectedIndex(index)
-                                  setUserData({
-                                    ID: data.ProgramID,
-                                      Name: data.Name
-                                    })}}
-                                  databstoggle={ "modal" }
-                                    databstarget={ "#viewModal" }
-                          />
-                          <Button
-                            class={ "btn btn-primary" }  
-                              text={ "Edit" } 
-                                disabled={ false }
-                                onClick={ () => console.log("Hello World") }
-                            />
+                        <Link 
+                          to={ "/view-profile/program/"+ index + "/" + data.ProgramID}
+                            state={{ 
+                              Entity: "Program",
+                                ProgramID: data.ProgramID,
+                                Name: data.Name,
+                                ProgramCode: data.ProgramCode,
+                                Description: data.Description,
+                                Category: data.Category,
+                                
+                              }} >
+                              <Button
+                                class={ "btn btn-info" }  
+                                  text={ <img src={ view } width="20" height="20" className='custom-icon' /> } 
+                                    onClick={ () => {} }
+                                />
+                        </Link>
+                        <Link 
+                          to={ "/edit-profile/program/"+ index + "/" + data.ProgramID}
+                            state={{ 
+                              Entity: "Program",
+                                ProgramID: data.ProgramID,
+                                Name: data.Name,
+                                ProgramCode: data.ProgramCode,
+                                Description: data.Description,
+                                Category: data.Category,
+                                
+                              }} >
+                              <Button
+                                class={ "btn btn-warning" }  
+                                  text={ <img src={ edit } width="20" height="20" className='custom-icon' /> } 
+                                    onClick={ () => {} }
+                                />
+                        </Link>
                         </div>
                       </td>
                 </tr>

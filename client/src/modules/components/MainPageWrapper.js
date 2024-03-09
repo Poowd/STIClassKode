@@ -15,8 +15,9 @@ export class MainPageWrapper extends React.Component {
                   name={ this.props.name }
                     userlevel={ this.props.userlevel } 
                   />
+
                 </div>
-                <div className="col py-4 px-4"> {/* Content Here */}
+                <div className="col p-0"> {/* Content Here */}
                   { this.props.routes }
                   </div>
               </div>

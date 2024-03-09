@@ -7,10 +7,11 @@ import '../../App.css'
 //routes
 //components
 import { Button } from "../components/Button"
+import logout from '../../assets/icons/switch.png'
+import { ConfirmModal } from '../components/ConfirmModal'
 
 
 export function Homepage() {
-
   const page = 'Dashboard'
   const navigate = useNavigate()
   const [name, setName] = useState('')
@@ -53,11 +54,17 @@ export function Homepage() {
             class={ "btn btn-primary" } 
               text={ "Logout" } 
                 disabled={ false }
-                  onClick={ handleLogout }
+                  onClick={ () => {} }
+                    databstoggle="modal" 
+                      databstarget="#confirmationModal"
           />
-
-            
-
+          
+      <ConfirmModal 
+        confirm_modal_icon={ logout }
+          confirm_modal_title={ "Logout" }
+            confirm_modal_subtitle={ "Are you sure you want to logout?" }
+              confirm_modal_confirm={ handleLogout }
+        />
     </>
   )
 }

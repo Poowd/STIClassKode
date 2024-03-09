@@ -85,8 +85,9 @@ app.use("/js",express.static("./node_modules/bootstrap/dist/js"));
 // CREATE: creating data to the database
 // User
 app.post('/add-user', (req, res) => {
-    const sql = "INSERT INTO tbl_user ( `FirstName`, `LastName`, `Birthday`, `UserLevel`) VALUES (?)"
+    const sql = "INSERT INTO tbl_user ( `SchoolID`, `FirstName`, `LastName`, `Birthday`, `UserLevel`) VALUES (?)"
     const values = [
+        req.body.SchoolID,
         req.body.FirstName,
         req.body.LastName,
         req.body.Birthday,
@@ -156,7 +157,7 @@ app.get('/view-program', (req, res) => {
     })
 })
 // Section
-app.get('/section', (req, res) => {
+app.get('/view-section', (req, res) => {
     const sql = "SELECT * FROM tbl_section WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -164,7 +165,7 @@ app.get('/section', (req, res) => {
     })
 })
 // Student
-app.get('/student', (req, res) => {
+app.get('/view-student', (req, res) => {
     const sql = "SELECT * FROM tbl_student WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -172,7 +173,7 @@ app.get('/student', (req, res) => {
     })
 })
 // Course
-app.get('/course', (req, res) => {
+app.get('/view-course', (req, res) => {
     const sql = "SELECT * FROM tbl_course WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -180,7 +181,7 @@ app.get('/course', (req, res) => {
     })
 })
 // Faculty Member
-app.get('/facultymember', (req, res) => {
+app.get('/view-facultymember', (req, res) => {
     const sql = "SELECT * FROM tbl_facultymember WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -188,7 +189,7 @@ app.get('/facultymember', (req, res) => {
     })
 })
 // School Facility
-app.get('/schoolfacility', (req, res) => {
+app.get('/view-schoolfacility', (req, res) => {
     const sql = "SELECT * FROM tbl_schoolfacility WHERE Status='Active'";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -196,7 +197,7 @@ app.get('/schoolfacility', (req, res) => {
     })
 })
 // Student Section
-app.get('/studentsection', (req, res) => {
+app.get('/view-studentsection', (req, res) => {
     const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -207,8 +208,9 @@ app.get('/studentsection', (req, res) => {
 // UPDATE: updating data to the database
 // Student
 app.post('/update-student', (req, res) => {
-    const sql = "UPDATE tbl_student SET FirstName = ?, MiddleName = ?, LastName = ?, StudentType = ?, ContactNumber = ?, Address = ? WHERE StudentID = ?"
-    db.query(sql, [req.body.FirstName,
+    const sql = "UPDATE tbl_student SET SchoolStudentID = ?, FirstName = ?, MiddleName = ?, LastName = ?, StudentType = ?, ContactNumber = ?, Address = ? WHERE StudentID = ?"
+    db.query(sql, [req.body.SchoolStudentID,
+                   req.body.FirstName,
                    req.body.MiddleName,
                    req.body.LastName,
                    req.body.StudentType,
@@ -219,8 +221,35 @@ app.post('/update-student', (req, res) => {
         return res.json(data)
     })
 })
-
-// Student
+// Faculty Member
+app.post('/update-facultymember', (req, res) => {
+    const sql = "UPDATE tbl_facultymember SET SchoolFacultyMemberID = ?, FirstName = ?, MiddleName = ?, LastName = ?, FacultyMemberType = ?, FacebookLink = ?, ContactNumber = ?, Address = ? WHERE FacultyMemberID = ?"
+    db.query(sql, [req.body.SchoolFacultyMemberID,
+                   req.body.FirstName,
+                   req.body.MiddleName,
+                   req.body.LastName,
+                   req.body.FacultyMemberType,
+                   req.body.FacebookLink,
+                   req.body.ContactNumber,
+                   req.body.Address, 
+                   req.body.FacultyMemberID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// Course
+app.post('/update-course', (req, res) => {
+    const sql = "UPDATE tbl_course SET Name = ?, CourseCode = ?, Description = ?, Category = ? WHERE CourseID = ?"
+    db.query(sql, [req.body.Name,
+                   req.body.CourseCode,
+                   req.body.Description,
+                   req.body.Category,
+                   req.body.CourseID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// Section
 app.post('/update-section', (req, res) => {
     const sql = "UPDATE tbl_section SET Name = ?, Level = ?, Semester = ? WHERE SectionID = ?"
     db.query(sql, [req.body.Name,
@@ -231,3 +260,51 @@ app.post('/update-section', (req, res) => {
         return res.json(data)
     })
 })
+// School Facility
+app.post('/update-schoolfacility', (req, res) => {
+    const sql = "UPDATE tbl_schoolfacility SET Name = ?, Capacity = ?, Type = ?, Building = ? WHERE SchoolFacilityID = ?"
+    db.query(sql, [req.body.Name,
+                   req.body.Capacity,
+                   req.body.Type,
+                   req.body.Building, 
+                   req.body.SchoolFacilityID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// Program
+app.post('/update-program', (req, res) => {
+    const sql = "UPDATE tbl_program SET Name = ?, ProgramCode = ?, Description = ?, Category = ? WHERE ProgramID = ?"
+    db.query(sql, [req.body.Name,
+                   req.body.ProgramCode,
+                   req.body.Description,
+                   req.body.Category, 
+                   req.body.ProgramID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// User
+app.post('/update-user', (req, res) => {
+    const sql = "UPDATE tbl_user SET SchoolID = ?, FirstName = ?, LastName = ?, Birthday = ?, UserLevel = ? WHERE UserID = ?"
+    db.query(sql, [req.body.SchoolID,
+                   req.body.FirstName,
+                   req.body.LastName,
+                   req.body.Birthday,
+                   req.body.UserLevel, 
+                   req.body.UserID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+
+// DELETE: updating data to the database
+// Student
+app.post('/delete-student', (req, res) => {
+    const sql = "UPDATE tbl_user SET Status = ? WHERE UserID = ?"
+    db.query(sql, ["Archive", req.body.UserID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})// 

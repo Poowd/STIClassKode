@@ -6,11 +6,13 @@ import React, { useEffect, useState } from "react"
 //components
 import { Button } from "../components/Button"
 import { TablePageWrapper } from '../components/TablePageWrapper'
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
+import { Link } from 'react-router-dom'
 
 export function Course() {
   const pageTitle = 'Course'
     const [data, setData] = useState([]) //stores data sent by the server from database
-      const [selectedIndex, setSelectedIndex] = useState('') //key for data
   const [coursedata, setCourseData] = useState({ //stores user data that will be sent to server
     Name: "",
       CourseCode: "",
@@ -24,7 +26,7 @@ export function Course() {
   
   //get data from server: for course table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/course')
+    axios.get('http://localhost:8081/view-course')
     .then( res => {
       try {
         setData(res.data)
@@ -40,7 +42,7 @@ export function Course() {
       }))}
       //submit the form to create an account
       const sendCourseData = () => {
-        if (!coursedata.Name == "" && !coursedata.CourseCode == "" && !coursedata.Description == "" && !coursedata.Category == "") {
+        if (!coursedata.Name === "" && !coursedata.CourseCode === "" && !coursedata.Description === "" && !coursedata.Category === "") {
           axios.post('http://localhost:8081/add-course', coursedata)
           .then(res => {
             try {
@@ -71,23 +73,37 @@ export function Course() {
                   <td>{ data.Name }</td>
                     <td className="Actions">
                       <div className="ActionsButton">
-                        <Button
-                          class={ "btn btn-primary" } 
-                            text={ "View" } 
-                              onClick={ () => {
-                                setSelectedIndex(index)
-                                  setUserData({
-                                    ID: data.CourseID,
-                                      Name: data.Name
-                                  })}}
-                                databstoggle={ "modal" }
-                                  databstarget={ "#viewModal" }
-                          />
-                          <Button
-                            class={ "btn btn-primary" }  
-                              text={ "Edit" } 
-                                onClick={ () => console.log("Hello World") }
-                            />
+                        <Link 
+                          to={ "/view-profile/course/"+ index + "/" + data.CourseID}
+                            state={{ 
+                              Entity: "Course",
+                                CourseID: data.CourseID,
+                                Name: data.Name,
+                                CourseCode: data.CourseCode,
+                                Description: data.Description,
+                                Category: data.Category,
+                              }} >
+                              <Button
+                                class={ "btn btn-info" }  
+                                  text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                    onClick={ () => {} }
+                                />
+                        </Link>
+                        <Link 
+                              to={ "/edit-profile/course/"+ index + "/" + data.CourseID} 
+                                state={{ 
+                                  CourseID: data.CourseID,
+                                  Name: data.Name,
+                                  CourseCode: data.CourseCode,
+                                  Description: data.Description,
+                                  Category: data.Category,
+                                  }} >
+                                  <Button
+                                    class={ "btn btn-warning" }  
+                                      text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                        onClick={ () => {} }
+                                    />
+                              </Link>
                         </div>
                       </td>
                 </tr>

@@ -16,6 +16,9 @@ import { SchoolFacility } from './modules/private/SchoolFacility';
 import { Homepage } from './modules/user/Homepage';
 import { MainPageWrapper } from './modules/components/MainPageWrapper';
 import { Program } from './modules/private/Program';
+import { ViewProfile } from './modules/private/ViewProfile';
+import { EditProfile } from './modules/private/EditProfile';
+import { InsertProfile } from './modules/private/InsertProfile';
 
 function App() {
   const [auth, setAuth] = useState(false);
@@ -36,7 +39,7 @@ function App() {
           console.log(message);
       }
     })
-  }, [])
+  }, [message])
 
   return (
     <>
@@ -50,13 +53,16 @@ function App() {
                     routes={
                       <Routes>
                           <Route path='/' element={ <Dashboard /> }></Route>
-                            <Route path='/section' element={ <Section /> }></Route>
-                              <Route path='/student' element={ <Student /> }></Route>
-                                <Route path='/course' element={ <Course /> }></Route>
-                                  <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
-                                    <Route path='/facultymember' element={ <FacultyMember /> }></Route>
-                                      <Route path='/program' element={ <Program /> }></Route>
-                                        <Route path='/*' element={ <Navigate to={"/"} /> }></Route>
+                          <Route path='/section' element={ <Section /> }></Route>
+                          <Route path='/student' element={ <Student /> }></Route>
+                          <Route path='/course' element={ <Course /> }></Route>
+                          <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                          <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                          <Route path='/program' element={ <Program /> }></Route>
+                          <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
+                          <Route path='/edit-profile/:type/:index/:id' element={ <EditProfile /> }></Route>
+                          <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
+                          <Route path='/*' element={ <Navigate to={"/"} /> }></Route>
                         </Routes>
                     }
               />

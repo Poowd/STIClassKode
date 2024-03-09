@@ -9,11 +9,11 @@ import { Button } from "../components/Button"
 import { TablePageWrapper } from '../components/TablePageWrapper'
 import view from '../../assets/icons/view (1).png'
 import edit from '../../assets/icons/edit-text.png'
+import { Link } from 'react-router-dom'
 
 export function Section() {
   const pageTitle = 'Section'
     const [data, setData] = useState([])
-        const [selectedIndex, setSelectedIndex] = useState('')
   const [studentList, setStudentList] = useState([{
     Student: "",
       Section: "",
@@ -38,7 +38,7 @@ export function Section() {
 
   //get data from server: for section table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/section')
+    axios.get('http://localhost:8081/view-section')
     .then( res => {
       try {
         setData(res.data)
@@ -46,16 +46,7 @@ export function Section() {
         console.log(err)
       }
     })}, [])
-    //show student list filtered from the junction
-    useEffect(() =>  {
-      axios.get('http://localhost:8081/studentsection')
-      .then( res => {
-        try {
-          setStudentList(res.data)
-        } catch(err) {
-          console.log(err)
-        }
-      })}, [])
+    
       //updates the userdata per keyboard button press in accordance with input tag
       const handleChange = ( e ) => {
         setSectionData(prev => ({
@@ -64,7 +55,7 @@ export function Section() {
         }))}
         //submit the form to create an account
         const sendSectionData = () => {
-          if (!sectiondata.Name == "" && !sectiondata.Level == "" && !sectiondata.Semester == "") {
+          if (!sectiondata.Name === "" && !sectiondata.Level === "" && !sectiondata.Semester === "") {
             axios.post('http://localhost:8081/add-section', sectiondata)
             .then(res => {
               try {
@@ -78,7 +69,7 @@ export function Section() {
             document.getElementById("err").textContent = "Missing Input/s" }}
           //submit the form to create an account
           const updateEditSection = () => {
-            if (!editsection.Name == "" && !editsection.Level == "" && !editsection.Semester == "" ) {
+            if (!editsection.Name === "" && !editsection.Level === "" && !editsection.Semester === "" ) {
               axios.post('http://localhost:8081/update-section', editsection)
               .then(res => {
                 try {
@@ -101,6 +92,17 @@ export function Section() {
                   ...prev,
                   [ e.target.name ]: document.getElementById( e.target.id ).value
                 }))}
+                
+    //show student list filtered from the junction
+    useEffect(() =>  {
+      axios.get('http://localhost:8081/view-studentsection')
+      .then( res => {
+        try {
+          setStudentList(res.data)
+        } catch(err) {
+          console.log(err)
+        }
+      })}, [])
 
   return (
     <>
@@ -118,32 +120,38 @@ export function Section() {
                   <td>{ data.Name }</td>
                     <td className="Actions">
                       <div className="ActionsButton">
-                        <Button
-                          class={ "btn btn-primary" } 
-                            text={ <img src={ view } width="20" height="20" className='custom-icon' /> } 
-                              onClick={ () => {
-                                setSelectedIndex(index)
-                                  setUserData({
-                                    ID: data.SectionID,
-                                      Name: data.Name
-                                  })}}
-                                databstoggle={ "modal" }
-                                  databstarget={ "#viewModal" }
-                          />
+                        <Link 
+                          to={ "/view-profile/section/"+ index + "/" + data.SectionID}
+                            state={{ 
+                              Entity: "Section",
+                                SectionID: data.SectionID,
+                                Name: data.Name,
+                                Level: data.Level,
+                                Semester: data.Semester,
+                                StudentList: studentList
+                              }} >
+                              <Button
+                                class={ "btn btn-info" }  
+                                  text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                    onClick={ () => {} }
+                                />
+                        </Link>
+                        <Link 
+                          to={ "/edit-profile/section/"+ index + "/" + data.SectionID}
+                          state={{ 
+                            Entity: "Section",
+                            SectionID: data.SectionID,
+                            Name: data.Name,
+                            Level: data.Level,
+                            Semester: data.Semester,
+                            StudentList: studentList
+                          }}>
                           <Button
-                            class={ "btn btn-primary" }  
-                              text={ <img src={ edit } width="20" height="20" className='custom-icon' /> }
-                                onClick={ () => {
-                                  setSelectedIndex( index )
-                                    setEditSection({
-                                      SectionID: data.SectionID,
-                                        Name: data.Name,
-                                          Level: data.Level,
-                                            Semester: data.Semester
-                                      })}}
-                                    databstoggle={ "modal" }
-                                      databstarget={ "#editModal" }
+                            class={ "btn btn-warning" }  
+                              text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                onClick={ () => {} }
                             />
+                        </Link>
                         </div>
                     </td>
                 </tr>
@@ -171,7 +179,7 @@ export function Section() {
                         <ul className='StudentList'>
                           {
                             studentList.map((data, index) => {
-                              if (data.SectionID == userdata.ID) {
+                              if (data.SectionID === userdata.ID) {
                                 return <li className='d-block w-100 text-start' key={ index }> {data.StudentID} : {data.LastName.concat(", ", data.FirstName)} </li>
                               }})}
                           </ul>

@@ -7,11 +7,13 @@ import '../../App.css'
 //components
 import { Button } from "../components/Button"
 import { TablePageWrapper } from '../components/TablePageWrapper'
+import { Link } from 'react-router-dom'
+import view from '../../assets/icons/view (1).png'
+import edit from '../../assets/icons/edit-text.png'
 
 export function FacultyMember() {
   const pageTitle = 'Faculty Member'
     const [data, setData] = useState([])
-      const [selectedIndex, setSelectedIndex] = useState('')
   const [adduserdata, setAddUserData] = useState({
     FirstName: "",
       LastName: "",
@@ -25,7 +27,7 @@ export function FacultyMember() {
 
   //get data from server: for faculty member table
   useEffect(() =>  {
-    axios.get('http://localhost:8081/facultymember')
+    axios.get('http://localhost:8081/view-facultymember')
     .then( res => {
       try {
         setData(res.data)
@@ -42,7 +44,7 @@ export function FacultyMember() {
       }))}
       //submit the form to create an account
       const sendFacultyMemberData = () => {
-        if (!adduserdata.FirstName == "" && !adduserdata.LastName == "" && !adduserdata.Birthday == "") {
+        if (!adduserdata.FirstName === "" && !adduserdata.LastName === "" && !adduserdata.Birthday === "") {
           axios.post('http://localhost:8081/add-user', adduserdata)
           .then(res => {
             try {
@@ -59,35 +61,63 @@ export function FacultyMember() {
     <>
       <TablePageWrapper
         page={ pageTitle }
-          class={ "btn btn-primary" }
-            text={ "Add " + pageTitle }
-              databstoggle={ "modal" }
-                databstarget={ "#insertModal" }
+          insert={ "/facultymember-form-insert" }
+            class={ "btn btn-primary" }
+              text={ "Add " + pageTitle }
         tablename={ pageTitle }
           data={
             data.map((data, index) => (        
               <tr key={ index }>
-                <td className="ID">{ data.FacultyMemberID }</td>
+                <td className="ID">{ data.SchoolFacultyMemberID }</td>
                   <td>{ data.LastName.concat(", ", data.FirstName) }</td>
                     <td className="Actions">
                       <div className="ActionsButton">
-                        <Button
-                          class={ "btn btn-primary" } 
-                            text={ "View" } 
-                              onClick={ () => {
-                                setSelectedIndex(index)
-                                  setUserData({
-                                    ID: data.FacultyMemberID,
-                                      Name: data.LastName.concat(", ", data.FirstName)
-                                  })}}
-                                databstoggle={ "modal" }
-                                  databstarget={ "#viewModal" }
-                          />
-                          <Button
-                            class={ "btn btn-primary" }  
-                              text={ "Edit" } 
-                              onClick={ () => console.log("Hello World") }
-                            />
+                          <Link 
+                            to={ "/view-profile/facultymember/" + index + "/" + data.FacultyMemberID}
+                              state={{ 
+                                Entity: "Faculty Member",
+                                  FacultyMemberID: data.FacultyMemberID,
+                                    UserID: data.UserID,
+                                    SchoolFacultyMemberID: data.SchoolFacultyMemberID,
+                                      FirstName: data.FirstName,
+                                        MiddleName: data.MiddleName,
+                                          LastName: data.LastName,
+                                            FacultyMemberType: data.FacultyMemberType,
+                                              Email: data.Email,
+                                                ContactNumber: data.ContactNumber,
+                                                  FacebookLink: data.FacebookLink,
+                                                    Address: data.Address,
+                                                      DateCreated: data.DateCreated,
+                                }} >
+                                <Button
+                                  class={ "btn btn-info" }  
+                                    text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                      onClick={ () => {} }
+                                  />
+                          </Link>
+                          <Link 
+                              to={ "/edit-profile/facultymember/" + index + "/" + data.FacultyMemberID} 
+                                state={{ 
+                                  Entity: "Faculty Member",
+                                    FacultyMemberID: data.FacultyMemberID,
+                                      UserID: data.UserID,
+                                      SchoolFacultyMemberID: data.SchoolFacultyMemberID,
+                                        FirstName: data.FirstName,
+                                          MiddleName: data.MiddleName,
+                                            LastName: data.LastName,
+                                              FacultyMemberType: data.FacultyMemberType,
+                                                Email: data.Email,
+                                                  ContactNumber: data.ContactNumber,
+                                                    FacebookLink: data.FacebookLink,
+                                                      Address: data.Address,
+                                                        DateCreated: data.DateCreated,
+                                  }} >
+                                  <Button
+                                    class={ "btn btn-warning" }  
+                                      text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                                        onClick={ () => {} }
+                                    />
+                              </Link>
                         </div>
                       </td>
                 </tr>
