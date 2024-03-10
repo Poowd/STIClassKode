@@ -110,6 +110,14 @@ export class Sidebar extends React.Component {
                             <Link to='/' className="nav-link">
                               <img src={ document } width="15" height="15" />
                               <span className="d-none d-sm-inline px-2">
+                                Schedule {/* Editable Text */}
+                              </span>
+                            </Link>
+                        </li>
+                        <li className="w-100"> {/* Program */}
+                            <Link to='/' className="nav-link">
+                              <img src={ document } width="15" height="15" />
+                              <span className="d-none d-sm-inline px-2">
                                 Section {/* Editable Text */}
                               </span>
                             </Link>

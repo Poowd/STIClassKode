@@ -3,38 +3,41 @@ import React, { useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { Form } from '../../components/crud/Form';
+import { Input } from '../Input';
 
 export function CourseEditProfiles() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-
   const [editcourse, setEditCourse] = useState({
     CourseID: params.id,
     Name: state.Name,
     CourseCode: state.CourseCode,
+    Type: state.Type,
     Description: state.Description,
     Category: state.Category,
   })
 
-  //submit the form to create an account
+  //---
   const EditCourse = (e) => {
-      axios.post('http://localhost:8081/update-course', editcourse)
-      .then(res => {
-        try {
-          navigate(-1)
-        } catch(err) {
-          console.log(err)
-        }
-      })
-      .catch(err => console.log(err))
-    }
-    //---
-    const handleChange = (e) => {
-      setEditCourse(prev => ({
-        ...prev,
-        [ e.target.name ]: e.target.value
-      }))}
+    e.preventDefault()
+    axios.post('http://localhost:8081/update-course', editcourse)
+    .then(res => {
+      try {
+        navigate(-1)
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  //---
+  const handleChange = (e) => {
+    setEditCourse(prev => ({
+      ...prev,
+      [ e.target.name ]: e.target.value
+  }))}
 
   return (
     <>
@@ -42,33 +45,41 @@ export function CourseEditProfiles() {
         form_title={ "Edit " + params.id }
         form_content={ 
           <>
-            <label className='fs-6'>Name</label>
-            <input 
-              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+            <Input 
+              title={ "Name" }
               type={ "text" }
               placeholder={ "Name" }
-              onChange={ handleChange } 
+              trigger={ handleChange }
               name={ "Name" }
               value={ editcourse.Name }
               required
             />
-
-            <label className='fs-6'>Course Code</label>
-            <input 
-              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+            <Input 
+              title={ "CourseCode" }
               type={ "text" }
               placeholder={ "CourseCode" }
-              onChange={ handleChange } 
+              trigger={ handleChange }
               name={ "CourseCode" }
               value={ editcourse.CourseCode }
+              required
             />
 
-            <label className='fs-6'>Description</label>
-            <input 
-              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+            <label className='fs-6'>Type</label>
+            <select 
+              className="d-block w-100 mb-3 px-4 py-2 form-select" 
+              id={ "Type" }
+              name={ "Type" }
+              onChange={ handleChange }>
+                <option defaultValue={ editcourse.Type }>{ editcourse.Type }</option>
+                  {editcourse.Type === "Minor" ? "":<option value="Minor">Minor</option>}
+                  {editcourse.Type === "Major" ? "":<option value="Major">Major</option>}
+            </select>
+
+            <Input 
+              title={ "Description" }
               type={ "text" }
               placeholder={ "Description" }
-              onChange={ handleChange } 
+              trigger={ handleChange }
               name={ "Description" }
               value={ editcourse.Description }
               required

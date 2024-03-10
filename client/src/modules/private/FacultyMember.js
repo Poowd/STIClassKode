@@ -61,9 +61,9 @@ export function FacultyMember() {
     <>
       <TablePageWrapper
         page={ pageTitle }
-          insert={ "/facultymember-form-insert" }
-            class={ "btn btn-primary" }
-              text={ "Add " + pageTitle }
+        insert={ "/insert-profile/facultymember" }
+        class={ "btn btn-primary" }
+        text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
         tablename={ pageTitle }
           data={
             data.map((data, index) => (        

@@ -11,7 +11,7 @@ import edit from '../../assets/icons/edit-text.png'
 import { Link, Navigate } from 'react-router-dom'
 
 export function Program() {
-  const page = 'Program'
+  const pageTitle = 'Program'
     const [data, setData] = useState([])
       const [selectedIndex, setSelectedIndex] = useState('')
   const [userdata, setUserData] = useState([{
@@ -34,12 +34,11 @@ export function Program() {
   return (
     <>
       <TablePageWrapper 
-        page={ page }
-          class={ "btn btn-primary" }
-            text={ "Add " + page }
-              databstoggle={ "modal" }
-                databstarget={ "#insertModal" }
-        tablename={ page }
+        page={ pageTitle }
+        insert={ "/insert-profile/program" }
+        class={ "btn btn-primary" }
+        text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
+        tablename={ pageTitle }
           data={
             data.map((data, index) => (        
               <tr key={ index }>
@@ -86,7 +85,7 @@ export function Program() {
                 </tr>
               ))}
             datalength={ data.length }
-        viewmodaltitle={ page.concat(" Details") }
+        viewmodaltitle={ pageTitle.concat(" Details") }
           viewmodalbody={
             <div className="card">
               <ul className="list-group list-group-flush">

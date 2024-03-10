@@ -5,30 +5,92 @@ import { useParams } from 'react-router-dom';
 import { Form } from '../crud/Form';
 
 export function FacultyMemberInsertProfiles() {
-    let navigate = useNavigate();
-    const params = useParams();
-    let { state } = useLocation();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const params = useParams();
+  const [adduser, setAddUser] = useState({
+    SchoolID: '',
+    FirstName: '',
+    LastName: '',
+    Birthday: '',
+    UserLevel: 'Coach',
+  })
 
-    return (
-      <>
-        <div className='w-100 text-end'>
-          <button className='btn btn-secondary' onClick={() => navigate(-1)}>Back</button>
-            </div>
-        <h1>View { params.id }</h1>
-        <ul>
-            <li>{state.Entity}</li>
-            <li>{state.FacultyMemberID}</li>
-            <li>{state.UserID}</li>
-            <li>{state.SchoolFacultyMemberID}</li>
-            <li>{state.FirstName}</li>
-            <li>{state.MiddleName}</li>
-            <li>{state.LastName}</li>
-            <li>{state.StudentType}</li>
-            <li>{state.Email}</li>
-            <li>{state.ContactNumber}</li>
-            <li>{state.Address}</li>
-            <li>{state.DateCreated}</li>
-        </ul>
-      </>
-    );
+  //---
+  const AddUser = (e) => {
+    e.preventDefault()
+    axios.post('http://localhost:8081/add-user', adduser)
+    .then(res => {
+      try {
+        navigate(-1)
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  //---
+  const handleChange = (e) => {
+    setAddUser(prev => ({
+      ...prev,
+      [ e.target.name ]: e.target.value
+  }))}
+      
+  return (
+    <>
+      <Form 
+        form_back={ () => navigate("/facultymember") }
+        form_title={ "Insert " + params.type }
+        form_content={ 
+          <>
+            <label htmlFor='SchoolID' className='fs-6'>School ID</label>
+            <input 
+              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+              type={ "text" }
+              placeholder={ "SchoolID" }
+              onChange={ handleChange } 
+              name={ "SchoolID" }
+              id={ "SchoolID" }
+              required
+            />
+
+            <label htmlFor='FirstName' className='fs-6'>First Name</label>
+            <input 
+              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+              type={ "text" }
+              placeholder={ "FirstName" }
+              onChange={ handleChange } 
+              name={ "FirstName" }
+              id={ "FirstName" }
+              required
+            />
+
+            <label htmlFor='LastName' className='fs-6'>Last Name</label>
+            <input 
+              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+              type={ "text" }
+              placeholder={ "LastName" }
+              onChange={ handleChange } 
+              name={ "LastName" }
+              id={ "LastName" }
+              required
+            />
+
+            <label htmlFor='Birthday' className='fs-6'>Birthday</label>  
+            <input 
+              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
+              type={ "email" }
+              placeholder={ "Birthday (yyyy-mm-dd)" }
+              onChange={ handleChange } 
+              name={ "Birthday" }
+              id={ "Birthday" }
+              required
+            />
+          </>
+        }
+        form_submit={ AddUser }
+      />
+    </>
+  )
 }

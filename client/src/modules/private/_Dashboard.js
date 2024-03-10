@@ -162,60 +162,8 @@ export function Dashboard() {
                           </td>
                       </tr>
                   ))}
-                  rows={ userprofile.length }
+                  rows={ data.length }
               />
-              <ViewModal 
-                title={ "Users" }
-                  body={ 
-                    <div className="card">
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                          <p className='p-0 m-0'><span className='fs-6'>ID:</span> { userprofile.ID }</p>
-                          </li>
-                          <li className="list-group-item">
-                            <p className='p-0 m-0'><span className='fs-6'>Name:</span> { userprofile.Name }</p>
-                            </li>
-                        </ul>
-                      </div>
-                    }
-                />
-                <InsertModal 
-                  insert_modal_title={ "Add".concat(" ",  pageTitle.concat(" Details")) }
-                    insert_modal_content={
-                      <form>
-                          <input 
-                          className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
-                            type={ "text" }
-                              placeholder={ "FirstName" }
-                                onChange={ handleChange } 
-                                  name={ "FirstName" }
-                          />
-                          <input 
-                            className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
-                              type={ "text" }
-                                placeholder={ "LastName" }
-                                  onChange={ handleChange } 
-                                    name={ "LastName" }
-                            />
-                            <input 
-                              className={ "d-block w-100 mb-3 px-4 py-2 form-control" }
-                                type={ "email" }
-                                  placeholder={ "Birthday (yyyy-mm-dd)" }
-                                    onChange={ handleChange } 
-                                      name={ "Birthday" }
-                              />
-                              <input 
-                                className={ "d-block w-100 px-4 py-2 form-control" }
-                                  type={ "text" }
-                                    placeholder={ "User Level (Student | Coach | Admin)" }
-                                      onChange={ handleChange } 
-                                        name={ "UserLevel" }
-                                />
-                        <p id='err' className='input-error'></p>
-                        </form>
-                      }
-                      insert_modal_insert={ sendUserData } 
-                />
         </main>
       </>
   )}

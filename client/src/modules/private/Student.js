@@ -29,9 +29,9 @@ export function Student() {
     <>
       <TablePageWrapper
         page={ pageTitle }
-          insert={ "/insert-profile/student" }
-            class={ "btn btn-primary" }
-              text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
+        insert={ "/insert-profile/student" }
+        class={ "btn btn-primary" }
+        text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
         tablename={ pageTitle }
           data={
               data.map((data, index) => (        

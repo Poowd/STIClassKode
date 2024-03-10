@@ -98,7 +98,7 @@ app.post('/add-user', (req, res) => {
         return res.json(data)
     })
 })
-
+// User
 app.post('/add-section', (req, res) => {
     const sql = "INSERT INTO tbl_section (`Name`, `Level`, `Semester`) VALUES (?)"
     const values = [
@@ -111,12 +111,13 @@ app.post('/add-section', (req, res) => {
         return res.json(data)
     })
 })
-
+// User
 app.post('/add-course', (req, res) => {
-    const sql = "INSERT INTO tbl_course (`Name`, `CourseCode`, `Description`, `Category`) VALUES (?)"
+    const sql = "INSERT INTO tbl_course (`Name`, `CourseCode`, `Type`, `Description`, `Category`) VALUES (?)"
     const values = [
         req.body.Name,
         req.body.CourseCode,
+        req.body.Type,
         req.body.Description,
         req.body.Category
     ]
@@ -125,7 +126,7 @@ app.post('/add-course', (req, res) => {
         return res.json(data)
     })
 })
-
+// User
 app.post('/add-schoolfacility', (req, res) => {
     const sql = "INSERT INTO tbl_schoolfacility (`Name`, `Capacity`, `Type`, `Building`) VALUES (?)"
     const values = [
@@ -133,6 +134,20 @@ app.post('/add-schoolfacility', (req, res) => {
         req.body.Capacity,
         req.body.Type,
         req.body.Building
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+// Program
+app.post('/add-program', (req, res) => {
+    const sql = "INSERT INTO tbl_program (`Name`, `ProgramCode`, `Description`, `Category`) VALUES (?)"
+    const values = [
+        req.body.Name,
+        req.body.ProgramCode,
+        req.body.Description,
+        req.body.Category
     ]
     db.query(sql, [values], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -239,9 +254,10 @@ app.post('/update-facultymember', (req, res) => {
 })
 // Course
 app.post('/update-course', (req, res) => {
-    const sql = "UPDATE tbl_course SET Name = ?, CourseCode = ?, Description = ?, Category = ? WHERE CourseID = ?"
+    const sql = "UPDATE tbl_course SET Name = ?, CourseCode = ?, Type = ?, Description = ?, Category = ? WHERE CourseID = ?"
     db.query(sql, [req.body.Name,
                    req.body.CourseCode,
+                   req.body.Type,
                    req.body.Description,
                    req.body.Category,
                    req.body.CourseID], (err, data) => {

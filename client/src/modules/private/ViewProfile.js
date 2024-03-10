@@ -24,17 +24,9 @@ export function ViewProfile() {
           class={ "btn btn-secondary" } 
             text={ "Go Back" } 
               disabled={ false }
-                onClick={ () => {} }
-                  databstoggle="modal" 
-                    databstarget="#confirmationModal"
+                onClick={ () => navigate(-1) }
         />
-        <ConfirmModal 
-          confirm_modal_icon={ logout }
-            confirm_modal_title={ "Go Back" }
-              confirm_modal_subtitle={ "Are you sure you want to go back?" }
-                confirm_modal_confirm={ () => navigate(-1) }
-          />
-
+        
         <hr />
 
         { params.type === "student" ? <StudentProfiles /> : "" }

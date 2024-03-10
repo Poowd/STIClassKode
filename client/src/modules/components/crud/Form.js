@@ -6,15 +6,14 @@ export class Form extends React.Component {
     return (
       <>
         <h1>{ this.props.form_title }</h1>
-        <form>
+        <form onSubmit={this.props.form_submit}>
           { this.props.form_content }
           <Button
             class={ "btn btn-primary" } 
-              text={ "Save" }
-              type={ "submit" }
-                onClick={ this.props.form_submit }
+            text={ "Save" }
+            type={ "submit" }
+            onClick={ () => {} }
           />
-          <p id='err' className='input-error'></p>
         </form>
       </>
     );

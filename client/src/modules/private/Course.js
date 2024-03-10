@@ -16,6 +16,7 @@ export function Course() {
   const [coursedata, setCourseData] = useState({ //stores user data that will be sent to server
     Name: "",
       CourseCode: "",
+      Type: "",
         Description: "",
           Category: "",
     })
@@ -60,10 +61,9 @@ export function Course() {
       <TablePageWrapper 
         //header
         page={ pageTitle }
-          class={ "btn btn-primary" }
-            text={ "Add " + pageTitle }
-              databstoggle={ "modal" }
-                databstarget={ "#insertModal" }
+        insert={ "/insert-profile/course" }
+        class={ "btn btn-primary" }
+        text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
         //table
         tablename={ pageTitle }
           data={
@@ -80,6 +80,7 @@ export function Course() {
                                 CourseID: data.CourseID,
                                 Name: data.Name,
                                 CourseCode: data.CourseCode,
+                                Type: data.Type,
                                 Description: data.Description,
                                 Category: data.Category,
                               }} >
@@ -95,6 +96,7 @@ export function Course() {
                                   CourseID: data.CourseID,
                                   Name: data.Name,
                                   CourseCode: data.CourseCode,
+                                  Type: data.Type,
                                   Description: data.Description,
                                   Category: data.Category,
                                   }} >

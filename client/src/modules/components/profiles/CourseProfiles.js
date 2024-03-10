@@ -15,6 +15,7 @@ export function CourseProfiles() {
             <li>{state.CourseID}</li>
             <li>{state.Name}</li>
             <li>{state.CourseCode}</li>
+            <li>{state.Type}</li>
             <li>{state.Description}</li>
             <li>{state.Category}</li>
         </ul>

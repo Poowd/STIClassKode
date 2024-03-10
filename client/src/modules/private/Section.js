@@ -108,10 +108,9 @@ export function Section() {
     <>
       <TablePageWrapper
         page={ pageTitle }
-          class={ "btn btn-primary" }
-            text={ "Add " + pageTitle }
-              databstoggle={ "modal" }
-                databstarget={ "#insertModal" }
+        insert={ "/insert-profile/section" }
+        class={ "btn btn-primary" }
+        text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> }
         tablename={ pageTitle }
           data={
             data.map((data, index) => (        
