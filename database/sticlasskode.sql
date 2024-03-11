@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2024 at 06:01 PM
+-- Generation Time: Mar 11, 2024 at 04:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -72,8 +72,8 @@ CREATE TABLE `jnc_sectionprogram` (
 --
 
 CREATE TABLE `jnc_student-program` (
-  `StudentID` varchar(10) NOT NULL,
-  `ProgramID` varchar(10) NOT NULL
+  `StudentID` varchar(15) NOT NULL,
+  `ProgramID` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -83,8 +83,8 @@ CREATE TABLE `jnc_student-program` (
 --
 
 CREATE TABLE `jnc_studentsection` (
-  `StudentID` varchar(10) NOT NULL,
-  `SectionID` varchar(10) NOT NULL
+  `StudentID` varchar(15) NOT NULL,
+  `SectionID` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -92,9 +92,7 @@ CREATE TABLE `jnc_studentsection` (
 --
 
 INSERT INTO `jnc_studentsection` (`StudentID`, `SectionID`) VALUES
-('Stdn000001', 'Sect000001'),
-('Stdn000002', 'Sect000001'),
-('Stdn000003', 'Sect000001');
+('Stdn000001', 'Sect000001');
 
 -- --------------------------------------------------------
 
@@ -103,11 +101,12 @@ INSERT INTO `jnc_studentsection` (`StudentID`, `SectionID`) VALUES
 --
 
 CREATE TABLE `tbl_course` (
-  `CourseID` varchar(10) NOT NULL,
+  `CourseID` varchar(15) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `CourseCode` varchar(20) NOT NULL,
+  `Type` enum('Minor','Major','','') NOT NULL,
   `Description` varchar(255) NOT NULL,
-  `Category` enum('Information & Communications Technology','Business & Management','Hospitality Management','Tourism Management','Engineering','Arts & Sciences','General Studies') NOT NULL,
+  `Category` enum('Information & Communications Technology','Business & Management','Hospitality Management','Tourism Management','Engineering','Arts & Sciences','General Studies','Other') NOT NULL,
   `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -115,10 +114,8 @@ CREATE TABLE `tbl_course` (
 -- Dumping data for table `tbl_course`
 --
 
-INSERT INTO `tbl_course` (`CourseID`, `Name`, `CourseCode`, `Description`, `Category`, `Status`) VALUES
-('Cors000001', 'Intermediate Web Programming', 'INF-INTPROG-001', 'Focuses on using PHP', 'Information & Communications Technology', 'Active'),
-('Cors000002', 'Fundamentals of Web Program', 'INF-WEBPROG-002', 'Fundamentals', 'Information & Communications Technology', 'Active'),
-('Cors000003', 'Readings in Philippine History', 'GEN-RPH-001', 'Filipino Ako', 'General Studies', 'Active');
+INSERT INTO `tbl_course` (`CourseID`, `Name`, `CourseCode`, `Type`, `Description`, `Category`, `Status`) VALUES
+('Cors000001', 'Computer Programming 1', 'INF-CP1-001', 'Major', '', 'Information & Communications Technology', 'Active');
 
 --
 -- Triggers `tbl_course`
@@ -149,8 +146,9 @@ DELIMITER ;
 --
 
 CREATE TABLE `tbl_facultymember` (
-  `FacultyMemberID` varchar(10) NOT NULL,
-  `UserID` varchar(10) NOT NULL,
+  `FacultyMemberID` varchar(15) NOT NULL,
+  `UserID` varchar(15) NOT NULL,
+  `SchoolFacultyMemberID` varchar(20) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `MiddleName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
@@ -160,25 +158,16 @@ CREATE TABLE `tbl_facultymember` (
   `FacebookLink` varchar(255) NOT NULL,
   `Address` varchar(255) NOT NULL,
   `DateCreated` datetime NOT NULL DEFAULT current_timestamp(),
-  `Status` enum('Active','Archived','','') NOT NULL DEFAULT 'Active'
+  `Status` enum('Active','Archived','','') NOT NULL DEFAULT 'Active',
+  `Image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_facultymember`
 --
 
-INSERT INTO `tbl_facultymember` (`FacultyMemberID`, `UserID`, `FirstName`, `MiddleName`, `LastName`, `FacultyMemberType`, `Email`, `ContactNumber`, `FacebookLink`, `Address`, `DateCreated`, `Status`) VALUES
-('Fclt000001', 'User000005', 'Joshua Rhey', '', 'Oliveros', 'Fulltime', 'Oliveros@munoz.sti.edu.ph', '', '', '', '0000-00-00 00:00:00', 'Active'),
-('Fclt000002', 'User000011', 'John Rexon', '', 'Insigne', 'Fulltime', 'Insigne@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:07:08', 'Active'),
-('Fclt000003', 'User000012', 'Jesca', '', 'Velasco', 'Fulltime', 'Velasco@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:07:28', 'Active'),
-('Fclt000004', 'User000013', 'Edmar', '', 'Umpad', 'Fulltime', 'Umpad@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:07:46', 'Active'),
-('Fclt000005', 'User000014', 'Eddie Wilson', '', 'Broqueza', 'Fulltime', 'Broqueza@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:08:20', 'Active'),
-('Fclt000006', 'User000015', 'RG', '', 'Alberto', 'Fulltime', 'Alberto@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:09:15', 'Active'),
-('Fclt000007', 'User000016', 'Micheal', '', 'Qiuambao', 'Fulltime', 'Qiuambao@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:09:54', 'Active'),
-('Fclt000008', 'User000017', 'Aiman', '', 'Lazaro', 'Fulltime', 'Lazaro@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:10:09', 'Active'),
-('Fclt000009', 'User000018', 'Cristylen', '', 'Esporsado', 'Fulltime', 'Esporsado@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:11:52', 'Active'),
-('Fclt000010', 'User000019', 'Josue Demdem', '', 'Lacudine', 'Fulltime', 'Lacudine@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:14:05', 'Active'),
-('Fclt000011', 'User000020', 'Jomar', '', 'Manlapaz', 'Fulltime', 'Manlapaz@munoz.sti.edu.ph', '', '', '', '2024-03-02 19:24:14', 'Active');
+INSERT INTO `tbl_facultymember` (`FacultyMemberID`, `UserID`, `SchoolFacultyMemberID`, `FirstName`, `MiddleName`, `LastName`, `FacultyMemberType`, `Email`, `ContactNumber`, `FacebookLink`, `Address`, `DateCreated`, `Status`, `Image`) VALUES
+('Fclt000001', 'User000003', '02000257907', 'Joshua Rhey', '', 'Oliveros', 'Fulltime', 'Oliveros.257907@munoz.sti.edu.ph', '', '', '', '2024-03-11 19:36:32', 'Active', '');
 
 --
 -- Triggers `tbl_facultymember`
@@ -197,9 +186,9 @@ DELIMITER ;
 --
 
 CREATE TABLE `tbl_program` (
-  `ProgramID` varchar(10) NOT NULL,
+  `ProgramID` varchar(15) NOT NULL,
   `Name` varchar(255) NOT NULL,
-  `ProgramCode` varchar(10) NOT NULL,
+  `ProgramCode` varchar(15) NOT NULL,
   `Description` varchar(255) NOT NULL,
   `Category` enum('Information & Communications Technology','Business & Management','Hospitality Management','Tourism Management','Engineering','Arts & Sciences','General Studies') NOT NULL,
   `Status` enum('Active','Archive') NOT NULL DEFAULT 'Active'
@@ -210,10 +199,7 @@ CREATE TABLE `tbl_program` (
 --
 
 INSERT INTO `tbl_program` (`ProgramID`, `Name`, `ProgramCode`, `Description`, `Category`, `Status`) VALUES
-('Prgm000001', 'Bachelor of Science in Computer Science', 'INF-CS-001', 'Computer Science Major', 'Information & Communications Technology', 'Active'),
-('Prgm000002', 'Bachelor of Science in Information Technology', 'INF-IT-002', 'Information Technology Specialist', 'Information & Communications Technology', 'Active'),
-('Prgm000003', 'Bachelor of Science in Accounting Information System', 'BUS-AS-001', 'Accounting Information System Specialist', 'Business & Management', 'Active'),
-('Prgm000004', 'Bachelor of Science in Business Administration', 'BUS-BA-002', 'eqwe', 'Business & Management', 'Active');
+('Prgm000001', 'Bachelor of Science in Computer Science', 'INF-BS-001', '', 'Information & Communications Technology', 'Active');
 
 --
 -- Triggers `tbl_program`
@@ -275,11 +261,48 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_schedules`
+--
+
+CREATE TABLE `tbl_schedules` (
+  `ScheduleID` varchar(15) NOT NULL,
+  `Section` varchar(255) NOT NULL,
+  `Course` varchar(255) NOT NULL,
+  `Room` varchar(255) NOT NULL,
+  `FacultyMember` varchar(255) NOT NULL,
+  `TimeStart` enum('7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM') NOT NULL,
+  `TimeEnd` enum('7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM','7:00 PM','7:30 PM') NOT NULL,
+  `Units` int(1) NOT NULL,
+  `AYStart` varchar(4) NOT NULL,
+  `AYEnd` varchar(4) NOT NULL,
+  `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_schedules`
+--
+
+INSERT INTO `tbl_schedules` (`ScheduleID`, `Section`, `Course`, `Room`, `FacultyMember`, `TimeStart`, `TimeEnd`, `Units`, `AYStart`, `AYEnd`, `Status`) VALUES
+('0000000001', 'Sect000001', 'Cors000001', 'Scft000001', 'Fclt000001', '7:00 AM', '10:00 AM', 3, '2024', '2025', 'Active');
+
+--
+-- Triggers `tbl_schedules`
+--
+DELIMITER $$
+CREATE TRIGGER `Schedule_ID` BEFORE INSERT ON `tbl_schedules` FOR EACH ROW BEGIN
+    SET New.ScheduleID = CONCAT(LPAD((SELECT COUNT(*) FROM tbl_schedules) + 1, 10, "0"));
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_schoolfacility`
 --
 
 CREATE TABLE `tbl_schoolfacility` (
-  `SchoolFacilityID` varchar(10) NOT NULL,
+  `SchoolFacilityID` varchar(15) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Capacity` int(11) NOT NULL,
   `Type` enum('Regular Room','Laboratory','Audio Visual Room','Outdoor','Others') NOT NULL,
@@ -292,8 +315,7 @@ CREATE TABLE `tbl_schoolfacility` (
 --
 
 INSERT INTO `tbl_schoolfacility` (`SchoolFacilityID`, `Name`, `Capacity`, `Type`, `Building`, `Status`) VALUES
-('Scft000001', '303M', 40, 'Regular Room', 'Main', 'Active'),
-('Scft000002', '105B', 15, 'Regular Room', 'Annex B', 'Active');
+('Scft000001', 'Laboratory 1', 45, 'Laboratory', 'Main', 'Active');
 
 --
 -- Triggers `tbl_schoolfacility`
@@ -312,7 +334,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `tbl_section` (
-  `SectionID` varchar(10) NOT NULL,
+  `SectionID` varchar(15) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Level` enum('First Year','Second Year','Third Year','Fourth Year') NOT NULL,
   `Semester` enum('First Semester','Second Semester') NOT NULL,
@@ -331,31 +353,7 @@ INSERT INTO `tbl_section` (`SectionID`, `Name`, `Level`, `Semester`, `Status`) V
 ('Sect000005', 'CS501', 'Third Year', 'First Semester', 'Active'),
 ('Sect000006', 'CS601', 'Third Year', 'Second Semester', 'Active'),
 ('Sect000007', 'CS701', 'Fourth Year', 'First Semester', 'Active'),
-('Sect000008', 'CS801', 'Fourth Year', 'Second Semester', 'Active'),
-('Sect000009', 'IT101', 'First Year', 'First Semester', 'Active'),
-('Sect000010', 'IT201', 'First Year', 'Second Semester', 'Active'),
-('Sect000011', 'IT301', 'Second Year', 'First Semester', 'Active'),
-('Sect000012', 'IT401', 'Second Year', 'Second Semester', 'Active'),
-('Sect000013', 'IT501', 'Third Year', 'First Semester', 'Active'),
-('Sect000014', 'IT601', 'Third Year', 'Second Semester', 'Active'),
-('Sect000015', 'IT701', 'Fourth Year', 'First Semester', 'Active'),
-('Sect000016', 'IT801', 'Fourth Year', 'Second Semester', 'Active'),
-('Sect000017', 'AS101', 'First Year', 'First Semester', 'Active'),
-('Sect000018', 'AS201', 'First Year', 'Second Semester', 'Active'),
-('Sect000019', 'AS301', 'Second Year', 'First Semester', 'Active'),
-('Sect000020', 'AS401', 'Second Year', 'Second Semester', 'Active'),
-('Sect000021', 'AS501', 'Third Year', 'First Semester', 'Active'),
-('Sect000022', 'AS601', 'Third Year', 'Second Semester', 'Active'),
-('Sect000023', 'AS701', 'Fourth Year', 'First Semester', 'Active'),
-('Sect000024', 'AS801', 'Fourth Year', 'Second Semester', 'Active'),
-('Sect000025', 'BA101', 'First Year', 'First Semester', 'Active'),
-('Sect000026', 'BA201', 'First Year', 'Second Semester', 'Active'),
-('Sect000027', 'BA301', 'Second Year', 'First Semester', 'Active'),
-('Sect000028', 'BA401', 'Second Year', 'Second Semester', 'Active'),
-('Sect000029', 'BA501', 'Third Year', 'First Semester', 'Active'),
-('Sect000030', 'BA601', 'Third Year', 'Second Semester', 'Active'),
-('Sect000031', 'BA701', 'Fourth Year', 'First Semester', 'Active'),
-('Sect000032', 'BA801', 'Fourth Year', 'Second Semester', 'Active');
+('Sect000008', 'CS801', 'Fourth Year', 'Second Semester', 'Active');
 
 --
 -- Triggers `tbl_section`
@@ -374,8 +372,9 @@ DELIMITER ;
 --
 
 CREATE TABLE `tbl_student` (
-  `StudentID` varchar(10) NOT NULL,
-  `UserID` varchar(10) DEFAULT NULL,
+  `StudentID` varchar(15) NOT NULL,
+  `UserID` varchar(15) DEFAULT NULL,
+  `SchoolStudentID` varchar(20) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `MiddleName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
@@ -384,22 +383,16 @@ CREATE TABLE `tbl_student` (
   `ContactNumber` varchar(11) NOT NULL,
   `Address` varchar(255) NOT NULL,
   `DateCreated` datetime NOT NULL DEFAULT current_timestamp(),
-  `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active'
+  `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active',
+  `Image` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_student`
 --
 
-INSERT INTO `tbl_student` (`StudentID`, `UserID`, `FirstName`, `MiddleName`, `LastName`, `StudentType`, `Email`, `ContactNumber`, `Address`, `DateCreated`, `Status`) VALUES
-('Stdn000001', 'User000002', 'Mark', 'Lopez', 'Lape', 'Regular', 'Lape@munoz.sti.edu.ph', '09682349311', 'BLOCK 72 LOT 15 Villa Zaragoza Subd. Brgy. Turo, Bocaue, Bulacan, Philippines', '0000-00-00 00:00:00', 'Active'),
-('Stdn000002', 'User000003', 'Yranimez', 'Romano', 'Repil', 'Regular', 'Repil@munoz.sti.edu.ph', '09682349311', 'BLOCK 72 LOT 15 Villa Zaragoza Subd. Brgy. Turo, Bocaue, Bulacan, Philippines', '0000-00-00 00:00:00', 'Active'),
-('Stdn000003', 'User000004', 'James Bernard', '', 'Gereña', 'Irregular', 'Gereña@munoz.sti.edu.ph', '', '', '0000-00-00 00:00:00', 'Active'),
-('Stdn000004', 'User000006', 'Joy', '', 'Lacadman', 'Irregular', 'Lacadman@munoz.sti.edu.ph', '', '', '0000-00-00 00:00:00', 'Active'),
-('Stdn000005', 'User000007', 'Christian Kobe', '', 'Malonzo', 'Irregular', 'Malonzo@munoz.sti.edu.ph', '', '', '2024-03-02 19:05:59', 'Active'),
-('Stdn000006', 'User000008', 'Kian', '', 'Dela Cruz', 'Irregular', 'Dela Cruz@munoz.sti.edu.ph', '', '', '2024-03-02 19:06:07', 'Active'),
-('Stdn000007', 'User000009', 'Emman Isaac', '', 'Conggas', 'Irregular', 'Conggas@munoz.sti.edu.ph', '', '', '2024-03-02 19:06:24', 'Active'),
-('Stdn000008', 'User000010', 'Kyle Carlos', '', 'Agullana', 'Irregular', 'Agullana@munoz.sti.edu.ph', '', '', '2024-03-02 19:06:37', 'Active');
+INSERT INTO `tbl_student` (`StudentID`, `UserID`, `SchoolStudentID`, `FirstName`, `MiddleName`, `LastName`, `StudentType`, `Email`, `ContactNumber`, `Address`, `DateCreated`, `Status`, `Image`) VALUES
+('Stdn000001', 'User000002', '02000257907', 'Mark Limuel', 'Lopez', 'Lape', 'Regular', 'Lape.257907@munoz.sti.edu.ph', '09682349311', 'BLOCK 72 LOT 15 Villa Zaragoza Subd. Brgy. Turo, Bocaue, Bulacan, Philippines', '2024-03-11 19:28:47', 'Active', '');
 
 --
 -- Triggers `tbl_student`
@@ -418,7 +411,8 @@ DELIMITER ;
 --
 
 CREATE TABLE `tbl_user` (
-  `UserID` varchar(10) NOT NULL,
+  `UserID` varchar(15) NOT NULL,
+  `SchoolID` varchar(20) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Email` varchar(255) NOT NULL,
@@ -432,27 +426,10 @@ CREATE TABLE `tbl_user` (
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, `Birthday`, `UserLevel`, `Status`) VALUES
-('User000001', '', 'admin', 'admin@munoz.sti.edu.ph', '12345', '2024-03-01', 'Admin', 'Active'),
-('User000002', 'Mark', 'Lape', 'Lape@munoz.sti.edu.ph', '123', '2024-03-01', 'Student', 'Active'),
-('User000003', 'Yranimez', 'Repil', 'Repil@munoz.sti.edu.ph', '123', '2024-03-01', 'Student', 'Active'),
-('User000004', 'James Bernard', 'Gereña', 'Gereña@munoz.sti.edu.ph', '123', '2024-03-01', 'Student', 'Active'),
-('User000005', 'Joshua Rhey', 'Oliveros', 'Oliveros@munoz.sti.edu.ph', '123', '2024-03-01', 'Coach', 'Active'),
-('User000006', 'Joy', 'Lacadman', 'Lacadman@munoz.sti.edu.ph', '112002', '2002-11-06', 'Student', 'Active'),
-('User000007', 'Christian Kobe', 'Malonzo', 'Malonzo@munoz.sti.edu.ph', 'Malonzo112002', '2002-11-18', 'Student', 'Active'),
-('User000008', 'Kian', 'Dela Cruz', 'Dela Cruz@munoz.sti.edu.ph', 'Dela Cruz112002', '2002-11-18', 'Student', 'Active'),
-('User000009', 'Emman Isaac', 'Conggas', 'Conggas@munoz.sti.edu.ph', 'Conggas112002', '2002-11-18', 'Student', 'Active'),
-('User000010', 'Kyle Carlos', 'Agullana', 'Agullana@munoz.sti.edu.ph', 'Agullana112002', '2002-11-18', 'Student', 'Active'),
-('User000011', 'John Rexon', 'Insigne', 'Insigne@munoz.sti.edu.ph', 'Insigne112002', '2002-11-18', 'Coach', 'Active'),
-('User000012', 'Jesca', 'Velasco', 'Velasco@munoz.sti.edu.ph', 'Velasco112002', '2002-11-18', 'Coach', 'Active'),
-('User000013', 'Edmar', 'Umpad', 'Umpad@munoz.sti.edu.ph', 'Umpad112002', '2002-11-18', 'Coach', 'Active'),
-('User000014', 'Eddie Wilson', 'Broqueza', 'Broqueza@munoz.sti.edu.ph', 'Broqueza112002', '2002-11-18', 'Coach', 'Active'),
-('User000015', 'RG', 'Alberto', 'Alberto@munoz.sti.edu.ph', 'Alberto112002', '2002-11-18', 'Coach', 'Active'),
-('User000016', 'Micheal', 'Qiuambao', 'Qiuambao@munoz.sti.edu.ph', 'Qiuambao112002', '2002-11-18', 'Coach', 'Active'),
-('User000017', 'Aiman', 'Lazaro', 'Lazaro@munoz.sti.edu.ph', 'Lazaro112002', '2002-11-18', 'Coach', 'Active'),
-('User000018', 'Cristylen', 'Esporsado', 'Esporsado@munoz.sti.edu.ph', 'Esporsado112002', '2002-11-18', 'Coach', 'Active'),
-('User000019', 'Josue Demdem', 'Lacudine', 'Lacudine@munoz.sti.edu.ph', 'Lacudine112002', '2002-11-18', 'Coach', 'Active'),
-('User000020', 'Jomar', 'Manlapaz', 'Manlapaz@munoz.sti.edu.ph', 'Manlapaz112002', '2002-11-18', 'Coach', 'Active');
+INSERT INTO `tbl_user` (`UserID`, `SchoolID`, `FirstName`, `LastName`, `Email`, `Password`, `Birthday`, `UserLevel`, `Status`) VALUES
+('User000001', '0000000000', 'STI College', 'Admin', 'admin@edu.com', 'admin', '0000-00-00', 'Admin', 'Active'),
+('User000002', '02000257907', 'Mark Limuel', 'Lape', 'Lape.257907@munoz.sti.edu.ph', 'Lape.257907_2002', '2002-11-18', 'Student', 'Active'),
+('User000003', '02000257907', 'Joshua Rhey', 'Oliveros', 'Oliveros.257907@munoz.sti.edu.ph', 'Oliveros.257907_2002', '2002-11-18', 'Coach', 'Active');
 
 --
 -- Triggers `tbl_user`
@@ -460,21 +437,45 @@ INSERT INTO `tbl_user` (`UserID`, `FirstName`, `LastName`, `Email`, `Password`, 
 DELIMITER $$
 CREATE TRIGGER `Set_User_Details` AFTER INSERT ON `tbl_user` FOR EACH ROW BEGIN
     IF NEW.UserLevel = 'Student' THEN
-        INSERT INTO tbl_student (FirstName, LastName, Email, UserID)
-        VALUES (NEW.FirstName, NEW.LastName, NEW.Email, New.UserID);
+        INSERT INTO tbl_student (SchoolStudentID, FirstName, LastName, Email, UserID)
+        VALUES (NEW.SchoolID, NEW.FirstName, NEW.LastName, NEW.Email, New.UserID);
     END IF;
     
     IF New.UserLevel = 'Coach' THEN
-    	INSERT INTO tbl_facultymember (FirstName, LastName, Email, UserID)
-        VALUES (NEW.FirstName, NEW.LastName, NEW.Email, New.UserID);
+    	INSERT INTO tbl_facultymember (SchoolFacultyMemberID, FirstName, LastName, Email, UserID)
+        VALUES (NEW.SchoolID, NEW.FirstName, NEW.LastName, NEW.Email, New.UserID);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Update_Status` AFTER UPDATE ON `tbl_user` FOR EACH ROW BEGIN
+    IF NEW.UserLevel = 'Student' THEN
+        UPDATE tbl_student SET Status = New.Status WHERE UserID = New.UserID;
+    END IF;
+    
+    IF New.UserLevel = 'Coach' THEN
+        UPDATE tbl_facultymember SET Status = New.Status WHERE UserID = New.UserID;
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `Update_User_Details` AFTER UPDATE ON `tbl_user` FOR EACH ROW BEGIN
+    IF NEW.UserLevel = 'Student' THEN
+        UPDATE tbl_student SET SchoolStudentID = NEW.SchoolID, FirstName = NEW.FirstName, LastName = NEW.LastName WHERE UserID = New.UserID;
+    END IF;
+    
+    IF New.UserLevel = 'Coach' THEN
+        UPDATE tbl_facultymember SET SchoolFacultyMemberID = NEW.SchoolID, FirstName = NEW.FirstName, LastName = NEW.LastName WHERE UserID = New.UserID;
     END IF;
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `User_Email` BEFORE INSERT ON `tbl_user` FOR EACH ROW BEGIN
-    SET New.Email = CONCAT(New.LastName, "@munoz.sti.edu.ph");
-    SET New.Password = CONCAT(New.LastName, EXTRACT(MONTH FROM New.Birthday), EXTRACT(YEAR FROM New.Birthday));
+    SET New.Email = CONCAT(New.LastName, ".", SUBSTRING(NEW.SchoolID, -6, 6), "@munoz.sti.edu.ph");
+    SET New.Password = CONCAT(New.LastName, ".", SUBSTRING(NEW.SchoolID, -6, 6), "_", EXTRACT(YEAR FROM New.Birthday));
 END
 $$
 DELIMITER ;
@@ -543,13 +544,24 @@ ALTER TABLE `tbl_course`
 --
 ALTER TABLE `tbl_facultymember`
   ADD PRIMARY KEY (`FacultyMemberID`),
-  ADD KEY `UserID` (`UserID`);
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `Status` (`Status`);
 
 --
 -- Indexes for table `tbl_program`
 --
 ALTER TABLE `tbl_program`
   ADD PRIMARY KEY (`ProgramID`);
+
+--
+-- Indexes for table `tbl_schedules`
+--
+ALTER TABLE `tbl_schedules`
+  ADD PRIMARY KEY (`ScheduleID`),
+  ADD KEY `Course` (`Course`) USING BTREE,
+  ADD KEY `Section` (`Section`),
+  ADD KEY `Room` (`Room`),
+  ADD KEY `FacultyMember` (`FacultyMember`);
 
 --
 -- Indexes for table `tbl_schoolfacility`
@@ -562,20 +574,23 @@ ALTER TABLE `tbl_schoolfacility`
 --
 ALTER TABLE `tbl_section`
   ADD PRIMARY KEY (`SectionID`),
-  ADD KEY `SectionID` (`SectionID`);
+  ADD KEY `SectionID` (`SectionID`),
+  ADD KEY `Name` (`Name`);
 
 --
 -- Indexes for table `tbl_student`
 --
 ALTER TABLE `tbl_student`
   ADD PRIMARY KEY (`StudentID`),
-  ADD KEY `UserID` (`UserID`);
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `Status` (`Status`);
 
 --
 -- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  ADD PRIMARY KEY (`UserID`);
+  ADD PRIMARY KEY (`UserID`),
+  ADD KEY `Status` (`Status`);
 
 --
 -- Constraints for dumped tables
@@ -628,6 +643,15 @@ ALTER TABLE `jnc_studentsection`
 --
 ALTER TABLE `tbl_facultymember`
   ADD CONSTRAINT `tbl_facultymember_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `tbl_user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_schedules`
+--
+ALTER TABLE `tbl_schedules`
+  ADD CONSTRAINT `tbl_schedules_ibfk_3` FOREIGN KEY (`Course`) REFERENCES `tbl_course` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_4` FOREIGN KEY (`Room`) REFERENCES `tbl_schoolfacility` (`SchoolFacilityID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_5` FOREIGN KEY (`FacultyMember`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_6` FOREIGN KEY (`Section`) REFERENCES `tbl_section` (`SectionID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_student`
