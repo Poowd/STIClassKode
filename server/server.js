@@ -211,6 +211,14 @@ app.get('/view-schoolfacility', (req, res) => {
         return res.json(data)
     })
 })
+// Schedule
+app.get('/view-schedule', (req, res) => {
+    const sql = "SELECT * FROM tbl_schedules WHERE Status='Active'";
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
 // Student Section
 app.get('/view-studentsection', (req, res) => {
     const sql = "SELECT tbl_student.StudentID, jnc_studentsection.SectionID, tbl_student.FirstName, tbl_student.LastName FROM tbl_student INNER JOIN jnc_studentsection ON tbl_student.StudentID = jnc_studentsection.StudentID";
@@ -316,11 +324,43 @@ app.post('/update-user', (req, res) => {
 
 
 // DELETE: updating data to the database
-// Student
-app.post('/delete-student', (req, res) => {
+// User
+app.post('/delete-user', (req, res) => {
     const sql = "UPDATE tbl_user SET Status = ? WHERE UserID = ?"
     db.query(sql, ["Archive", req.body.UserID], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         return res.json(data)
     })
-})// 
+}) 
+// Course
+app.post('/delete-course', (req, res) => {
+    const sql = "UPDATE tbl_course SET Status = ? WHERE CourseID = ?"
+    db.query(sql, ["Archive", req.body.CourseID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+}) 
+// Program
+app.post('/delete-program', (req, res) => {
+    const sql = "UPDATE tbl_program SET Status = ? WHERE ProgramID = ?"
+    db.query(sql, ["Archive", req.body.ProgramID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+}) 
+// Facility
+app.post('/delete-schoolfacility', (req, res) => {
+    const sql = "UPDATE tbl_schoolfacility SET Status = ? WHERE SchoolFacilityID = ?"
+    db.query(sql, ["Archive", req.body.SchoolFacilityID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+}) 
+// Section
+app.post('/delete-section', (req, res) => {
+    const sql = "UPDATE tbl_section SET Status = ? WHERE SectionID = ?"
+    db.query(sql, ["Archive", req.body.SectionID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+}) 

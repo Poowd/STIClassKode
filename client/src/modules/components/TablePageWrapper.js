@@ -10,13 +10,7 @@ export class TablePageWrapper extends React.Component {
       <main className="p-lg-5 p-3 overflow" style={{height:"100vh"}}>
         <header className="d-flex justify-content-between align-items-center">
             <h1>{ this.props.page }</h1>
-              <Link to={ this.props.insert }>
-                <Button 
-                  class={ this.props.class + " my-3" } 
-                    text={ this.props.text }
-                      onClick={ () => {} }
-                  />
-              </Link>
+            { this.props.add }
           </header>
           <hr />
           <main>

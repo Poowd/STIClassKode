@@ -7,7 +7,7 @@ import '../../App.css'
 //routes
 //components
 import { Button } from "../components/Button"
-import logout from '../../assets/icons/switch.png'
+import logoutIcon from '../../assets/icons/switch.png'
 import { ConfirmModal } from '../components/ConfirmModal'
 
 
@@ -51,20 +51,23 @@ export function Homepage() {
     <>
       <h1>Hi</h1>
       <Button
-            class={ "btn btn-primary" } 
-              text={ "Logout" } 
-                disabled={ false }
-                  onClick={ () => {} }
-                    databstoggle="modal" 
-                      databstarget="#confirmationModal"
-          />
+        class={ "btn btn-danger" } 
+        text={ "Logout" } 
+        disabled={ false }
+        onClick={ () => {} }
+        databstoggle="modal" 
+        databstarget="#logout"
+      />
           
       <ConfirmModal 
-        confirm_modal_icon={ logout }
-          confirm_modal_title={ "Logout" }
-            confirm_modal_subtitle={ "Are you sure you want to logout?" }
-              confirm_modal_confirm={ handleLogout }
-        />
+        id={ "logout" }
+        icon={ logoutIcon }
+        title={ "Logout" }
+        subtitle={ "Are you sure you want to logout?" }
+        confirm={ handleLogout }
+        textclass={ "text-danger" }
+        btnclass={ "btn-danger" }
+      />
     </>
   )
 }

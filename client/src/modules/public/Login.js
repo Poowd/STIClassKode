@@ -37,7 +37,7 @@ export function Login() {
       <>
         <main className='Login d-flex justify-content-center align-items-center'>
           <form onSubmit={ handleSubmit } className='card'>
-            <div className='card-body my-5'>
+            <div className='card-body my-3'>
               <h1 className='card-title text-center'>Login</h1>
                 <div className='d-flex flex-column align-items-center'>
                   <div className='my-2'>
@@ -58,17 +58,14 @@ export function Login() {
                           name={ "Password" }
                           required
                         />
-                          <div className="input-group-text">
-                            <input id="password-toggler" className="form-check-input mt-0" type="checkbox" value="" />
-                            </div>
                         </div>
                     </div>
-                  <Button //submit button
-                    class={ "btn btn-primary" }
-                      type= { "submit" }
-                        text={ "Login" } 
-                          onClick={ () => console.log("Log-Login-Clicked") }
-                    />
+                    <Button //submit button
+                      class={ "btn btn-primary" }
+                        type= { "submit" }
+                          text={ "Login" } 
+                            onClick={ () => console.log("Log-Login-Clicked") }
+                      />
                     </div>
               <p className='custom-tag card-text text-center my-3'><Link to={ "/termspolicy" }>Terms & Policy</Link></p>
             </div>

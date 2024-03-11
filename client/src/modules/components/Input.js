@@ -13,6 +13,7 @@ export class Input extends React.Component {
               name={ this.props.name }
               id={ this.props.name }
               value={ this.props.value }
+              required={ this.props.required }
             />
       </div>
     );

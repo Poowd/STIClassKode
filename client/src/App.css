@@ -69,6 +69,6 @@ td {
 
 .custom-profile-img {
   object-fit: cover;
-  height: 20em;
-  width: 100%;
+  height: 15em;
+  aspect-ratio: 1/1;
 }
