@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 11, 2024 at 04:55 PM
+-- Generation Time: Mar 14, 2024 at 08:19 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -167,7 +167,7 @@ CREATE TABLE `tbl_facultymember` (
 --
 
 INSERT INTO `tbl_facultymember` (`FacultyMemberID`, `UserID`, `SchoolFacultyMemberID`, `FirstName`, `MiddleName`, `LastName`, `FacultyMemberType`, `Email`, `ContactNumber`, `FacebookLink`, `Address`, `DateCreated`, `Status`, `Image`) VALUES
-('Fclt000001', 'User000003', '02000257907', 'Joshua Rhey', '', 'Oliveros', 'Fulltime', 'Oliveros.257907@munoz.sti.edu.ph', '', '', '', '2024-03-11 19:36:32', 'Active', '');
+('Fclt000001', 'User000003', '02000257942', 'Joshua Rhey', '', 'Oliveros', 'Fulltime', 'Oliveros.257907@munoz.sti.edu.ph', '', '', '', '2024-03-11 19:36:32', 'Active', '');
 
 --
 -- Triggers `tbl_facultymember`
@@ -175,6 +175,39 @@ INSERT INTO `tbl_facultymember` (`FacultyMemberID`, `UserID`, `SchoolFacultyMemb
 DELIMITER $$
 CREATE TRIGGER `FacultyMember_ID` BEFORE INSERT ON `tbl_facultymember` FOR EACH ROW BEGIN
     SET New.FacultyMemberID = CONCAT('Fclt', LPAD((SELECT COUNT(*) FROM tbl_facultymember) + 1, 6, "0"));
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_permissions`
+--
+
+CREATE TABLE `tbl_permissions` (
+  `PermissionID` varchar(15) NOT NULL,
+  `User` varchar(15) NOT NULL,
+  `UserLevel` enum('Admin','Coach','Student','') NOT NULL,
+  `File_Management` enum('True','False') NOT NULL,
+  `Access_View` enum('True','False') NOT NULL,
+  `Access_Edit` enum('True','False') NOT NULL,
+  `Access_Insert` enum('True','False') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_permissions`
+--
+
+INSERT INTO `tbl_permissions` (`PermissionID`, `User`, `UserLevel`, `File_Management`, `Access_View`, `Access_Edit`, `Access_Insert`) VALUES
+('PRM000002', 'User000001', 'Admin', 'True', 'True', 'True', 'True');
+
+--
+-- Triggers `tbl_permissions`
+--
+DELIMITER $$
+CREATE TRIGGER `Permission_ID` BEFORE INSERT ON `tbl_permissions` FOR EACH ROW BEGIN
+    SET New.PermissionID = CONCAT('PRM', LPAD((SELECT COUNT(*) FROM tbl_permissions) + 1, 6, "0"));
 END
 $$
 DELIMITER ;
@@ -199,7 +232,7 @@ CREATE TABLE `tbl_program` (
 --
 
 INSERT INTO `tbl_program` (`ProgramID`, `Name`, `ProgramCode`, `Description`, `Category`, `Status`) VALUES
-('Prgm000001', 'Bachelor of Science in Computer Science', 'INF-BS-001', '', 'Information & Communications Technology', 'Active');
+('Prgm000001', 'Bachelor of Science in Computer Science', 'INF-BS-001', 'hey', 'Information & Communications Technology', 'Active');
 
 --
 -- Triggers `tbl_program`
@@ -283,7 +316,7 @@ CREATE TABLE `tbl_schedules` (
 --
 
 INSERT INTO `tbl_schedules` (`ScheduleID`, `Section`, `Course`, `Room`, `FacultyMember`, `TimeStart`, `TimeEnd`, `Units`, `AYStart`, `AYEnd`, `Status`) VALUES
-('0000000001', 'Sect000001', 'Cors000001', 'Scft000001', 'Fclt000001', '7:00 AM', '10:00 AM', 3, '2024', '2025', 'Active');
+('0000000001', 'Sect000001', 'Cors000001', 'Scft000001', 'Fclt000001', '7:00 AM', '10:30 AM', 3, '2024', '2025', 'Active');
 
 --
 -- Triggers `tbl_schedules`
@@ -429,7 +462,7 @@ CREATE TABLE `tbl_user` (
 INSERT INTO `tbl_user` (`UserID`, `SchoolID`, `FirstName`, `LastName`, `Email`, `Password`, `Birthday`, `UserLevel`, `Status`) VALUES
 ('User000001', '0000000000', 'STI College', 'Admin', 'admin@edu.com', 'admin', '0000-00-00', 'Admin', 'Active'),
 ('User000002', '02000257907', 'Mark Limuel', 'Lape', 'Lape.257907@munoz.sti.edu.ph', 'Lape.257907_2002', '2002-11-18', 'Student', 'Active'),
-('User000003', '02000257907', 'Joshua Rhey', 'Oliveros', 'Oliveros.257907@munoz.sti.edu.ph', 'Oliveros.257907_2002', '2002-11-18', 'Coach', 'Active');
+('User000003', '02000257942', 'Joshua Rhey', 'Oliveros', 'Oliveros.257907@munoz.sti.edu.ph', 'Oliveros.257907_2002', '2002-11-18', 'Coach', 'Active');
 
 --
 -- Triggers `tbl_user`
@@ -475,13 +508,62 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `User_Email` BEFORE INSERT ON `tbl_user` FOR EACH ROW BEGIN
     SET New.Email = CONCAT(New.LastName, ".", SUBSTRING(NEW.SchoolID, -6, 6), "@munoz.sti.edu.ph");
-    SET New.Password = CONCAT(New.LastName, ".", SUBSTRING(NEW.SchoolID, -6, 6), "_", EXTRACT(YEAR FROM New.Birthday));
+    SET New.Password = CONCAT(New.LastName, "_", New.UserID);
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `User_ID` BEFORE INSERT ON `tbl_user` FOR EACH ROW BEGIN
     SET New.UserID = CONCAT('User', LPAD((SELECT COUNT(*) FROM tbl_user) + 1, 6, "0"));
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `User_Permissions` AFTER INSERT ON `tbl_user` FOR EACH ROW BEGIN
+    IF NEW.UserLevel = 'Student' THEN
+        INSERT INTO tbl_permissions (User, 
+                                     UserLevel, 
+                                     File_Management,
+                                     Access_View,
+                                     Access_Edit,
+                                     Access_Insert)
+        					 VALUES (NEW.UserID, 
+                                     NEW.UserLevel, 
+                                     "False", 
+                                     "True", 
+                                     "False", 
+                                     "False");
+    END IF;
+    
+    IF New.UserLevel = 'Coach' THEN
+        INSERT INTO tbl_permissions (User, 
+                                     UserLevel, 
+                                     File_Management,
+                                     Access_View,
+                                     Access_Edit,
+                                     Access_Insert)
+        					 VALUES (NEW.UserID, 
+                                     NEW.UserLevel, 
+                                     "False", 
+                                     "True", 
+                                     "False", 
+                                     "False");
+    END IF;
+    
+    IF NEW.UserLevel = 'Admin' THEN
+        INSERT INTO tbl_permissions (User, 
+                                     UserLevel, 
+                                     File_Management,
+                                     Access_View,
+                                     Access_Edit,
+                                     Access_Insert)
+        					 VALUES (NEW.UserID, 
+                                     NEW.UserLevel,  
+                                     "True", 
+                                     "True",  
+                                     "True",   
+                                     "True");
+    END IF;
 END
 $$
 DELIMITER ;
@@ -548,6 +630,13 @@ ALTER TABLE `tbl_facultymember`
   ADD KEY `Status` (`Status`);
 
 --
+-- Indexes for table `tbl_permissions`
+--
+ALTER TABLE `tbl_permissions`
+  ADD PRIMARY KEY (`PermissionID`),
+  ADD KEY `User` (`User`);
+
+--
 -- Indexes for table `tbl_program`
 --
 ALTER TABLE `tbl_program`
@@ -590,6 +679,8 @@ ALTER TABLE `tbl_student`
 --
 ALTER TABLE `tbl_user`
   ADD PRIMARY KEY (`UserID`),
+  ADD UNIQUE KEY `SchoolID` (`SchoolID`),
+  ADD UNIQUE KEY `SchoolID_2` (`SchoolID`),
   ADD KEY `Status` (`Status`);
 
 --
@@ -643,6 +734,12 @@ ALTER TABLE `jnc_studentsection`
 --
 ALTER TABLE `tbl_facultymember`
   ADD CONSTRAINT `tbl_facultymember_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `tbl_user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tbl_permissions`
+--
+ALTER TABLE `tbl_permissions`
+  ADD CONSTRAINT `tbl_permissions_ibfk_1` FOREIGN KEY (`User`) REFERENCES `tbl_user` (`UserID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_schedules`
