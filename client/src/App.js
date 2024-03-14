@@ -1,7 +1,7 @@
 //dependencies
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 //css
 import './App.css';
 //routes
@@ -23,6 +23,7 @@ import { Schedule } from './modules/private/schedules/Schedule';
 import { Missing } from './modules/public/Missing';
 
 function App() {
+  const navigate = new useNavigate();
   const [auth, setAuth] = useState(false);
     const [name, setName] = useState('');
       const [message, setMessage] = useState('');
@@ -55,21 +56,19 @@ function App() {
                     routes={
                       <Routes>
                           <Route path='/' element={ <Dashboard /> }></Route>
-
+                          
                           <Route path='/section' element={ <Section /> }></Route>
                           <Route path='/student' element={ <Student /> }></Route>
                           <Route path='/course' element={ <Course /> }></Route>
                           <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
                           <Route path='/facultymember' element={ <FacultyMember /> }></Route>
                           <Route path='/program' element={ <Program /> }></Route>
-                          
                           <Route path='/schedule' element={ <Schedule /> }></Route>
-
                           <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
                           <Route path='/edit-profile/:type/:index/:id' element={ <EditProfile /> }></Route>
                           <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
 
-                          <Route path='/*' element={ <Missing /> }></Route>
+                          <Route path='/*' element={ "" }></Route>
                         </Routes>
                     }
               />
@@ -80,22 +79,15 @@ function App() {
                     routes={
                       <Routes>
                         <Route path='/' element={ <Homepage /> }></Route>
-
                         <Route path='/schedule' element={ <Schedule /> }></Route>
-
                         <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
-
-                        <Route path='/*' element={ <Missing /> }></Route>
+                        <Route path='/*' element={ "" }></Route>
                       </Routes>
                     }
               />
           :
             <main>
-              <Routes>
-                <Route path='/' element={ <Login /> }></Route>
-
-                <Route path='/*' element={ <Missing /> }></Route>
-              </Routes>
+              <Login />
             </main>
         }
       </main>
