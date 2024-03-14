@@ -21,14 +21,33 @@ export function Schedule() {
         Description: "",
           Category: "",
     })
-    const [userlevel, setUserLevel] = useState('');
+    const [userdetails, setUserDetails] = useState({
+      Auth: false,
+      UserID: "",
+      Name: "",
+      Message: "",
+      UserLevel: "",
+      File_Management: "",
+      Access_View: "",
+      Access_Edit: "",
+      Access_Insert: "",
+    })
     const [message, setMessage] = useState('');
   
     useEffect(() =>  { //get authentication from server
       axios.get('http://localhost:8081')
       .then(res => {
         if (res.data.Status === "Success") {
-              setUserLevel(res.data.UserLevel);
+          setUserDetails({
+            Auth: true,
+            UserID: res.data.UserID,
+            Name: res.data.Name,
+            UserLevel: res.data.UserLevel,
+            File_Management: res.data.File_Management,
+            Access_View: res.data.Access_View,
+            Access_Edit: res.data.Access_Edit,
+            Access_Insert: res.data.Access_Insert,
+          })
         } else {
             console.log(message);
         }
@@ -51,7 +70,7 @@ export function Schedule() {
       <TablePageWrapper
         page={ pageTitle }
         add={
-          userlevel === "Admin" ?
+          userdetails.Access_Insert === "True" ?
           <Link to={ "/insert-profile/schedule" }>
             <Button 
               class={ "btn btn-primary my-3" } 
@@ -83,7 +102,7 @@ export function Schedule() {
                         />
                 </Link>
                 {
-                  userlevel === "Admin" ?
+                  userdetails.Access_Insert === "True" ?
                   <Link 
                     to={ "/edit-profile/schedule/"+ index + "/" + data.ScheduleID} 
                       state={{
@@ -105,8 +124,8 @@ export function Schedule() {
           ))
         }
         datalength={ data.length }
-        />
-      </>
+      />
+    </>
   )
 }
   

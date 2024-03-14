@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheduler</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      gap: 2.5em;
+    }
+
+    .schedule-container {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .cs-table table,
+    .coe-table table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="schedule-container cs-table">
+    <h1>CS Schedule</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Subjects and Time Slots</th>
+        </tr>
+      </thead>
+      <tbody id="cs-schedule-body"></tbody>
+    </table>
+  </div>
+
+  <div class="schedule-container coe-table">
+    <h1>COE Schedule</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Subjects and Time Slots</th>
+        </tr>
+      </thead>
+      <tbody id="coe-schedule-body"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function createSchedule(course, subjects) {
+      const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      const startTime = 8; // 8 am
+      const endTime = 19; // 7 pm
+      const unitsPerSubject = 3;
+
+      let schedule = {};
+
+      // Calculate the number of subjects to be studied each day
+      const subjectsPerDay = Math.ceil(subjects.length / daysOfWeek.length);
+
+      for (const day of daysOfWeek) {
+        schedule[day] = [];
+
+        for (let i = 0; i < subjectsPerDay; i++) {
+          if (subjects.length === 0) break;
+
+          const subjectIndex = Math.floor(Math.random() * subjects.length);
+          const subject = subjects.splice(subjectIndex, 1)[0];
+
+          let conflict = true;
+
+          while (conflict) {
+            const startHour = Math.floor(Math.random() * (endTime - unitsPerSubject + 1)) + startTime;
+            const endHour = startHour + unitsPerSubject;
+
+            // Check for time slot conflicts
+            conflict = schedule[day].some(existingSlot => {
+              const existingStartHour = parseInt(existingSlot.match(/\d+/)[0], 10);
+              const existingEndHour = parseInt(existingSlot.match(/\d+/)[1], 10);
+              return (startHour < existingEndHour && endHour > existingStartHour);
+            });
+
+            if (!conflict) {
+              // Format the time slots with AM or PM
+              const startAMPM = startHour < 12 ? 'AM' : 'PM';
+              const endAMPM = endHour < 12 ? 'AM' : 'PM';
+
+              const formattedStartHour = startHour % 12 === 0 ? 12 : startHour % 12;
+              const formattedEndHour = endHour % 12 === 0 ? 12 : endHour % 12;
+
+              const timeSlot = `${subject} (${formattedStartHour}:${startAMPM} - ${formattedEndHour}:${endAMPM})`;
+              schedule[day].push(timeSlot);
+            }
+
+            console.log(startHour)
+          }
+        }
+      }
+
+      return schedule;
+    }
+
+    function displaySchedule(course, scheduleId) {
+      const subjects = course === 'CS' ?
+        ['JAVA', 'C#', 'C', 'Phyton', 'JavaScript', 'Ruby', 'CSS', 'HTML', 'SQL'] :
+        ['JAVA', 'C#', 'C', 'Phyton', 'JavaScript', 'History', 'Computer', 'Algo', 'Hardware'];
+
+      const schedule = createSchedule(course, subjects);
+      const scheduleBody = document.getElementById(scheduleId);
+
+      for (const day in schedule) {
+        const subjectsAndTimeSlots = schedule[day];
+        const row = document.createElement('tr');
+        const dayCell = document.createElement('td');
+        const subjectsAndTimeSlotsCell = document.createElement('td');
+
+        dayCell.textContent = day;
+        subjectsAndTimeSlotsCell.innerHTML = subjectsAndTimeSlots.join('<br>');
+
+        row.appendChild(dayCell);
+        row.appendChild(subjectsAndTimeSlotsCell);
+
+        scheduleBody.appendChild(row);
+      }
+    }
+
+    displaySchedule('CS', 'cs-schedule-body');
+    displaySchedule('COE', 'coe-schedule-body');
+  </script>
+</body>
+</html>

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 export function Student() {
   const pageTitle = 'Student'
-    const [data, setData] = useState([])
+  const [data, setData] = useState([])
   //get data from server: for student table
   useEffect(() =>  {
     axios.get('http://localhost:8081/view-student')

@@ -39,7 +39,7 @@ export function Login() {
           <form onSubmit={ handleSubmit } className='card'>
             <div className='card-body my-3'>
               <h1 className='card-title text-center'>Login</h1>
-                <div className='d-flex flex-column align-items-center'>
+                <div className='px-lg-5'>
                   <div className='my-2'>
                         <Input 
                           title={ "Email" }
@@ -61,7 +61,7 @@ export function Login() {
                         </div>
                     </div>
                     <Button //submit button
-                      class={ "btn btn-primary" }
+                      class={ "btn btn-primary w-100" }
                         type= { "submit" }
                           text={ "Login" } 
                             onClick={ () => console.log("Log-Login-Clicked") }

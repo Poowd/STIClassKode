@@ -32,6 +32,11 @@ const verifyUser = (req, res, next) => {
             } else {
                 req.Name = decoded.Name;
                 req.UserLevel = decoded.UserLevel
+                req.UserID = decoded.UserID
+                req.File_Management = decoded.File_Management
+                req.Access_View = decoded.Access_View
+                req.Access_Edit = decoded.Access_Edit
+                req.Access_Insert = decoded.Access_Insert
                 next();
             }
         })
@@ -39,19 +44,40 @@ const verifyUser = (req, res, next) => {
 }
 
 app.get('/', verifyUser, (req, res) => {
-    return res.json({Status: "Success", Name: req.Name, UserLevel: req.UserLevel});
-})
+    return res.json({Status: "Success", 
+                     Name: req.Name, 
+                     UserLevel: req.UserLevel,
+                     UserID: req.UserID,
+                     File_Management: req.File_Management,
+                     Access_View: req.Access_View,
+                     Access_Edit: req.Access_Edit,
+                     Access_Insert: req.Access_Insert,
+})})
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM tbl_user WHERE Email = ? AND Password = ?";
+    const sql = "SELECT * FROM tbl_user INNER JOIN tbl_permissions ON tbl_user.UserID=tbl_permissions.User WHERE Email = ? AND Password = ?";
     db.query(sql, [req.body.email, req.body.password], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         if (data.length > 0) {
             const FirstName = data[0].FirstName;
             const LastName = data[0].LastName;
             const UserLevel = data[0].UserLevel;
-            const Name = LastName.concat(" ", FirstName);
-            const token = jwt.sign({Name, UserLevel}, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
+            const UserID = data[0].UserID;
+            const Name = LastName.concat(", ", FirstName);
+
+            const File_Management = data[0].File_Management
+            const Access_View = data[0].Access_View
+            const Access_Edit = data[0].Access_Edit
+            const Access_Insert = data[0].Access_Insert
+
+            const token = jwt.sign({Name, 
+                                    UserLevel, 
+                                    UserID, 
+                                    File_Management, 
+                                    Access_View, 
+                                    Access_Edit, 
+                                    Access_Insert,
+            }, "our-jsonwebtoken-secret-key", {expiresIn: '1d'});
             res.cookie('token', token);
             return res.json({Status: "Success"})
         } else {
