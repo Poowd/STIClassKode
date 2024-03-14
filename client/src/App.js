@@ -74,7 +74,7 @@ function App() {
             <>
               <MainPageWrapper
                 name={ userdetails.Name }
-                userlevel={ userdetails.UserLevel }
+                File_Management={ userdetails.File_Management }
                 routes={
                   <Routes>
                     {

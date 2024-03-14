@@ -13,7 +13,7 @@ export class MainPageWrapper extends React.Component {
               <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 border-end">  {/* Sidebar Here */}
                 <Sidebar 
                   name={ this.props.name }
-                    userlevel={ this.props.userlevel } 
+                  File_Management={ this.props.File_Management } 
                   />
 
                 </div>

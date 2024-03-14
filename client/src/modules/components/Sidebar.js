@@ -30,8 +30,6 @@ export class Sidebar extends React.Component {
                 <strong>STI College Muñoz-EDSA</strong> {/* Editable Text */}
               </span>
             </Link>
-            {
-              this.props.userlevel === "Admin" ?
               <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li className="nav-item"> {/* Home */}
                     <Link to='/' className="nav-link align-middle px-0">
@@ -41,64 +39,68 @@ export class Sidebar extends React.Component {
                       </span>
                     </Link>
                 </li>
-                <li>{/* Dropdown */}
-                    <a href="#submenu0" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Entities */}
-                      <img src={ home } width="15" height="15" />
-                      <span className="ms-2 d-none d-sm-inline">
-                        File Maintainance {/* Editable Text */}
-                      </span>
-                    </a>
-                    <ul className="collapse show nav flex-column" id="submenu0" data-bs-parent="#menu">
-                        <li className="w-100"> {/* Program */}
-                            <Link to='/program' className="nav-link">
-                              <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Program {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* Student */}
-                            <Link to='/student' className="nav-link">
-                              <img src={ user } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Student {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* Section */}
-                            <Link to='/section' className="nav-link">
-                              <img src={ users } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Section {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* Course */}
-                            <Link to='/course' className="nav-link">
-                              <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Course {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* FacultyMember */}
-                            <Link to='/schoolfacility' className="nav-link">
-                              <img src={ user } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                School Facility {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* FacultyMember */}
-                            <Link to='/facultymember' className="nav-link">
-                              <img src={ user } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Faculty Member {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                      </ul>
-                </li>
+                {
+                  this.props.File_Management === "True" ?
+                    <li>{/* Dropdown */}
+                      <a href="#submenu0" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Entities */}
+                        <img src={ home } width="15" height="15" />
+                        <span className="ms-2 d-none d-sm-inline">
+                          File Maintainance {/* Editable Text */}
+                        </span>
+                      </a>
+                      <ul className="collapse show nav flex-column" id="submenu0" data-bs-parent="#menu">
+                          <li className="w-100"> {/* Program */}
+                              <Link to='/program' className="nav-link">
+                                <img src={ document } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Program {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                          <li className="w-100"> {/* Student */}
+                              <Link to='/student' className="nav-link">
+                                <img src={ user } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Student {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                          <li className="w-100"> {/* Section */}
+                              <Link to='/section' className="nav-link">
+                                <img src={ users } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Section {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                          <li className="w-100"> {/* Course */}
+                              <Link to='/course' className="nav-link">
+                                <img src={ document } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Course {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                          <li className="w-100"> {/* FacultyMember */}
+                              <Link to='/schoolfacility' className="nav-link">
+                                <img src={ user } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  School Facility {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                          <li className="w-100"> {/* FacultyMember */}
+                              <Link to='/facultymember' className="nav-link">
+                                <img src={ user } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Faculty Member {/* Editable Text */}
+                                </span>
+                              </Link>
+                          </li>
+                        </ul>
+                  </li>
+                  : ""
+                }
                 <li>{/* Dropdown */}
                     <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Entities */}
                       <img src={ clock } width="15" height="15" />
@@ -115,30 +117,36 @@ export class Sidebar extends React.Component {
                               </span>
                             </Link>
                         </li>
-                        <li className="w-100"> {/* Program */}
-                            <Link to='/' className="nav-link">
-                              <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Section {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* Program */}
-                            <Link to='/' className="nav-link">
-                              <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                Faculty Member {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
-                        <li className="w-100"> {/* Program */}
-                            <Link to='/' className="nav-link">
-                              <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
-                                School Facility {/* Editable Text */}
-                              </span>
-                            </Link>
-                        </li>
+                        {
+                          this.props.File_Management === "True" ?
+                          <>
+                            <li className="w-100"> {/* Program */}
+                              <Link to='/' className="nav-link">
+                                <img src={ document } width="15" height="15" />
+                                <span className="d-none d-sm-inline px-2">
+                                  Section {/* Editable Text */}
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="w-100"> {/* Program */}
+                                <Link to='/' className="nav-link">
+                                  <img src={ document } width="15" height="15" />
+                                  <span className="d-none d-sm-inline px-2">
+                                    Faculty Member {/* Editable Text */}
+                                  </span>
+                                </Link>
+                            </li>
+                            <li className="w-100"> {/* Program */}
+                                <Link to='/' className="nav-link">
+                                  <img src={ document } width="15" height="15" />
+                                  <span className="d-none d-sm-inline px-2">
+                                    School Facility {/* Editable Text */}
+                                  </span>
+                                </Link>
+                            </li>
+                          </>
+                          : ""
+                        }
                       </ul>
                 </li>
                 <li> {/* Dropdown */}
@@ -160,34 +168,7 @@ export class Sidebar extends React.Component {
                     </ul>
                 </li>
             </ul>
-            :
-            <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-                <li className="nav-item"> {/* Home */}
-                    <Link to='/' className="nav-link align-middle px-0">
-                      <img src={ home } width="15" height="15" />
-                      <span className="ms-2 d-none d-sm-inline">
-                        Dashboard {/* Editable Text */}
-                      </span>
-                    </Link>
-                </li>
-                <li className="w-100"> {/* Program */}
-                  <Link to='/schedule' className="nav-link">
-                    <img src={ document } width="15" height="15" />
-                    <span className="d-none d-sm-inline px-2">
-                      Schedule {/* Editable Text */}
-                    </span>
-                  </Link>
-                </li>
-                <li className="w-100"> {/* Free Space */}
-                  <Link to='/section' className="nav-link">
-                    <img src={ exclamation } width="15" height="15" />
-                    <span className="d-none d-sm-inline px-2">
-                      Locator {/* Editable Text */}
-                    </span>
-                  </Link>
-                </li>
-            </ul>
-            }
+            
             <hr/>
 
             <div className="dropup dropup mb-3">
@@ -197,7 +178,10 @@ export class Sidebar extends React.Component {
                 <span className="d-none d-sm-inline ms-3 me-1">{ this.props.name }</span>
               </button>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Action</a></li>
+                <Link 
+                  to={ "/"} >
+                      <li><a className="dropdown-item" href="#">Action</a></li>
+                </Link>
                 <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item" href="#" onClick={ handleLogout }>Logout</a></li>
               </ul>
