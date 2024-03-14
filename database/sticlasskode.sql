@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2024 at 08:19 AM
+-- Generation Time: Mar 14, 2024 at 09:10 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -35,10 +35,10 @@ CREATE TABLE `jnc_course-program` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jnc_facultymember-course`
+-- Table structure for table `jnc_facultymembercourse`
 --
 
-CREATE TABLE `jnc_facultymember-course` (
+CREATE TABLE `jnc_facultymembercourse` (
   `FacultyMemberID` varchar(10) NOT NULL,
   `CourseID` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -46,10 +46,10 @@ CREATE TABLE `jnc_facultymember-course` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jnc_facultymember-program`
+-- Table structure for table `jnc_facultymemberprogram`
 --
 
-CREATE TABLE `jnc_facultymember-program` (
+CREATE TABLE `jnc_facultymemberprogram` (
   `FacultyMemberID` varchar(10) NOT NULL,
   `ProgramID` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,10 +68,10 @@ CREATE TABLE `jnc_sectionprogram` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jnc_student-program`
+-- Table structure for table `jnc_studentprogram`
 --
 
-CREATE TABLE `jnc_student-program` (
+CREATE TABLE `jnc_studentprogram` (
   `StudentID` varchar(15) NOT NULL,
   `ProgramID` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -86,13 +86,6 @@ CREATE TABLE `jnc_studentsection` (
   `StudentID` varchar(15) NOT NULL,
   `SectionID` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `jnc_studentsection`
---
-
-INSERT INTO `jnc_studentsection` (`StudentID`, `SectionID`) VALUES
-('Stdn000001', 'Sect000001');
 
 -- --------------------------------------------------------
 
@@ -109,13 +102,6 @@ CREATE TABLE `tbl_course` (
   `Category` enum('Information & Communications Technology','Business & Management','Hospitality Management','Tourism Management','Engineering','Arts & Sciences','General Studies','Other') NOT NULL,
   `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_course`
---
-
-INSERT INTO `tbl_course` (`CourseID`, `Name`, `CourseCode`, `Type`, `Description`, `Category`, `Status`) VALUES
-('Cors000001', 'Computer Programming 1', 'INF-CP1-001', 'Major', '', 'Information & Communications Technology', 'Active');
 
 --
 -- Triggers `tbl_course`
@@ -163,13 +149,6 @@ CREATE TABLE `tbl_facultymember` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_facultymember`
---
-
-INSERT INTO `tbl_facultymember` (`FacultyMemberID`, `UserID`, `SchoolFacultyMemberID`, `FirstName`, `MiddleName`, `LastName`, `FacultyMemberType`, `Email`, `ContactNumber`, `FacebookLink`, `Address`, `DateCreated`, `Status`, `Image`) VALUES
-('Fclt000001', 'User000003', '02000257942', 'Joshua Rhey', '', 'Oliveros', 'Fulltime', 'Oliveros.257907@munoz.sti.edu.ph', '', '', '', '2024-03-11 19:36:32', 'Active', '');
-
---
 -- Triggers `tbl_facultymember`
 --
 DELIMITER $$
@@ -200,7 +179,8 @@ CREATE TABLE `tbl_permissions` (
 --
 
 INSERT INTO `tbl_permissions` (`PermissionID`, `User`, `UserLevel`, `File_Management`, `Access_View`, `Access_Edit`, `Access_Insert`) VALUES
-('PRM000002', 'User000001', 'Admin', 'True', 'True', 'True', 'True');
+('PRM000001', 'User000001', 'Admin', 'True', 'True', 'True', 'True'),
+('PRM000002', 'User000002', 'Student', 'False', 'True', 'False', 'False');
 
 --
 -- Triggers `tbl_permissions`
@@ -226,13 +206,6 @@ CREATE TABLE `tbl_program` (
   `Category` enum('Information & Communications Technology','Business & Management','Hospitality Management','Tourism Management','Engineering','Arts & Sciences','General Studies') NOT NULL,
   `Status` enum('Active','Archive') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_program`
---
-
-INSERT INTO `tbl_program` (`ProgramID`, `Name`, `ProgramCode`, `Description`, `Category`, `Status`) VALUES
-('Prgm000001', 'Bachelor of Science in Computer Science', 'INF-BS-001', 'hey', 'Information & Communications Technology', 'Active');
 
 --
 -- Triggers `tbl_program`
@@ -312,13 +285,6 @@ CREATE TABLE `tbl_schedules` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_schedules`
---
-
-INSERT INTO `tbl_schedules` (`ScheduleID`, `Section`, `Course`, `Room`, `FacultyMember`, `TimeStart`, `TimeEnd`, `Units`, `AYStart`, `AYEnd`, `Status`) VALUES
-('0000000001', 'Sect000001', 'Cors000001', 'Scft000001', 'Fclt000001', '7:00 AM', '10:30 AM', 3, '2024', '2025', 'Active');
-
---
 -- Triggers `tbl_schedules`
 --
 DELIMITER $$
@@ -340,15 +306,8 @@ CREATE TABLE `tbl_schoolfacility` (
   `Capacity` int(11) NOT NULL,
   `Type` enum('Regular Room','Laboratory','Audio Visual Room','Outdoor','Others') NOT NULL,
   `Building` enum('Main','Annex A','Annex B','') NOT NULL,
-  `Status` enum('Active','Archived','','') DEFAULT 'Active'
+  `Status` enum('Active','Archive','','') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_schoolfacility`
---
-
-INSERT INTO `tbl_schoolfacility` (`SchoolFacilityID`, `Name`, `Capacity`, `Type`, `Building`, `Status`) VALUES
-('Scft000001', 'Laboratory 1', 45, 'Laboratory', 'Main', 'Active');
 
 --
 -- Triggers `tbl_schoolfacility`
@@ -373,20 +332,6 @@ CREATE TABLE `tbl_section` (
   `Semester` enum('First Semester','Second Semester') NOT NULL,
   `Status` enum('Active','Archive','','') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_section`
---
-
-INSERT INTO `tbl_section` (`SectionID`, `Name`, `Level`, `Semester`, `Status`) VALUES
-('Sect000001', 'CS101', 'First Year', 'First Semester', 'Active'),
-('Sect000002', 'CS201', 'First Year', 'Second Semester', 'Active'),
-('Sect000003', 'CS301', 'Second Year', 'First Semester', 'Active'),
-('Sect000004', 'CS401', 'Second Year', 'Second Semester', 'Active'),
-('Sect000005', 'CS501', 'Third Year', 'First Semester', 'Active'),
-('Sect000006', 'CS601', 'Third Year', 'Second Semester', 'Active'),
-('Sect000007', 'CS701', 'Fourth Year', 'First Semester', 'Active'),
-('Sect000008', 'CS801', 'Fourth Year', 'Second Semester', 'Active');
 
 --
 -- Triggers `tbl_section`
@@ -425,7 +370,7 @@ CREATE TABLE `tbl_student` (
 --
 
 INSERT INTO `tbl_student` (`StudentID`, `UserID`, `SchoolStudentID`, `FirstName`, `MiddleName`, `LastName`, `StudentType`, `Email`, `ContactNumber`, `Address`, `DateCreated`, `Status`, `Image`) VALUES
-('Stdn000001', 'User000002', '02000257907', 'Mark Limuel', 'Lopez', 'Lape', 'Regular', 'Lape.257907@munoz.sti.edu.ph', '09682349311', 'BLOCK 72 LOT 15 Villa Zaragoza Subd. Brgy. Turo, Bocaue, Bulacan, Philippines', '2024-03-11 19:28:47', 'Active', '');
+('Stdn000001', 'User000002', '02000257907', 'Mark', '', 'Lape', 'Regular', 'Lape.257907@munoz.sti.edu.ph', '', '', '2024-03-14 15:28:04', 'Active', '');
 
 --
 -- Triggers `tbl_student`
@@ -451,7 +396,7 @@ CREATE TABLE `tbl_user` (
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Birthday` date DEFAULT NULL,
-  `UserLevel` enum('Student','Coach','Admin','') NOT NULL,
+  `UserLevel` enum('Student','Coach','Admin','') NOT NULL DEFAULT 'Student',
   `Status` enum('Active','Archive','','') NOT NULL DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -460,9 +405,8 @@ CREATE TABLE `tbl_user` (
 --
 
 INSERT INTO `tbl_user` (`UserID`, `SchoolID`, `FirstName`, `LastName`, `Email`, `Password`, `Birthday`, `UserLevel`, `Status`) VALUES
-('User000001', '0000000000', 'STI College', 'Admin', 'admin@edu.com', 'admin', '0000-00-00', 'Admin', 'Active'),
-('User000002', '02000257907', 'Mark Limuel', 'Lape', 'Lape.257907@munoz.sti.edu.ph', 'Lape.257907_2002', '2002-11-18', 'Student', 'Active'),
-('User000003', '02000257942', 'Joshua Rhey', 'Oliveros', 'Oliveros.257907@munoz.sti.edu.ph', 'Oliveros.257907_2002', '2002-11-18', 'Coach', 'Active');
+('User000001', '00000000000', 'STI College', 'Admin', 'admin@a.a', 'admin', '2002-11-06', 'Admin', 'Active'),
+('User000002', '02000257907', 'Mark', 'Lape', 'Lape.257907@munoz.sti.edu.ph', 'Lape_User000002', '2002-11-18', 'Student', 'Active');
 
 --
 -- Triggers `tbl_user`
@@ -580,16 +524,16 @@ ALTER TABLE `jnc_course-program`
   ADD KEY `ProgramID` (`ProgramID`);
 
 --
--- Indexes for table `jnc_facultymember-course`
+-- Indexes for table `jnc_facultymembercourse`
 --
-ALTER TABLE `jnc_facultymember-course`
+ALTER TABLE `jnc_facultymembercourse`
   ADD KEY `FacultyMemberID` (`FacultyMemberID`,`CourseID`),
   ADD KEY `CourseID` (`CourseID`);
 
 --
--- Indexes for table `jnc_facultymember-program`
+-- Indexes for table `jnc_facultymemberprogram`
 --
-ALTER TABLE `jnc_facultymember-program`
+ALTER TABLE `jnc_facultymemberprogram`
   ADD KEY `FacultyMemberID` (`FacultyMemberID`,`ProgramID`),
   ADD KEY `ProgramID` (`ProgramID`);
 
@@ -602,9 +546,9 @@ ALTER TABLE `jnc_sectionprogram`
   ADD KEY `ProgramID` (`ProgramID`);
 
 --
--- Indexes for table `jnc_student-program`
+-- Indexes for table `jnc_studentprogram`
 --
-ALTER TABLE `jnc_student-program`
+ALTER TABLE `jnc_studentprogram`
   ADD KEY `StudentID` (`StudentID`,`ProgramID`),
   ADD KEY `ProgramID` (`ProgramID`);
 
@@ -695,18 +639,18 @@ ALTER TABLE `jnc_course-program`
   ADD CONSTRAINT `jnc_course-program_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `jnc_facultymember-course`
+-- Constraints for table `jnc_facultymembercourse`
 --
-ALTER TABLE `jnc_facultymember-course`
-  ADD CONSTRAINT `jnc_facultymember-course_ibfk_1` FOREIGN KEY (`FacultyMemberID`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `jnc_facultymember-course_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `tbl_course` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `jnc_facultymembercourse`
+  ADD CONSTRAINT `jnc_facultymembercourse_ibfk_1` FOREIGN KEY (`FacultyMemberID`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `jnc_facultymembercourse_ibfk_2` FOREIGN KEY (`CourseID`) REFERENCES `tbl_course` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `jnc_facultymember-program`
+-- Constraints for table `jnc_facultymemberprogram`
 --
-ALTER TABLE `jnc_facultymember-program`
-  ADD CONSTRAINT `jnc_facultymember-program_ibfk_1` FOREIGN KEY (`FacultyMemberID`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `jnc_facultymember-program_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `jnc_facultymemberprogram`
+  ADD CONSTRAINT `jnc_facultymemberprogram_ibfk_1` FOREIGN KEY (`FacultyMemberID`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `jnc_facultymemberprogram_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `jnc_sectionprogram`
@@ -716,11 +660,11 @@ ALTER TABLE `jnc_sectionprogram`
   ADD CONSTRAINT `jnc_sectionprogram_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `jnc_student-program`
+-- Constraints for table `jnc_studentprogram`
 --
-ALTER TABLE `jnc_student-program`
-  ADD CONSTRAINT `jnc_student-program_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `tbl_student` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `jnc_student-program_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `jnc_studentprogram`
+  ADD CONSTRAINT `jnc_studentprogram_ibfk_1` FOREIGN KEY (`StudentID`) REFERENCES `tbl_student` (`StudentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `jnc_studentprogram_ibfk_2` FOREIGN KEY (`ProgramID`) REFERENCES `tbl_program` (`ProgramID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `jnc_studentsection`
@@ -745,10 +689,10 @@ ALTER TABLE `tbl_permissions`
 -- Constraints for table `tbl_schedules`
 --
 ALTER TABLE `tbl_schedules`
-  ADD CONSTRAINT `tbl_schedules_ibfk_3` FOREIGN KEY (`Course`) REFERENCES `tbl_course` (`CourseID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_schedules_ibfk_4` FOREIGN KEY (`Room`) REFERENCES `tbl_schoolfacility` (`SchoolFacilityID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_schedules_ibfk_5` FOREIGN KEY (`FacultyMember`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_schedules_ibfk_6` FOREIGN KEY (`Section`) REFERENCES `tbl_section` (`SectionID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_schedules_ibfk_10` FOREIGN KEY (`Section`) REFERENCES `tbl_section` (`SectionID`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_7` FOREIGN KEY (`FacultyMember`) REFERENCES `tbl_facultymember` (`FacultyMemberID`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_8` FOREIGN KEY (`Room`) REFERENCES `tbl_schoolfacility` (`SchoolFacilityID`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_schedules_ibfk_9` FOREIGN KEY (`Course`) REFERENCES `tbl_course` (`CourseID`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_student`
