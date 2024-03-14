@@ -15,14 +15,6 @@ export function Homepage() {
   const page = 'Dashboard'
   const navigate = useNavigate()
   const [name, setName] = useState('')
-  const [editstudent, setEditStudent] = useState({
-        FirstName: "",
-          MiddleName: "",
-            LastName: "",
-              StudentType: "",
-                ContactNumber: "",
-                  Address: "",
-        })
 
   //getting name from server
   useEffect(() =>  {
@@ -49,25 +41,61 @@ export function Homepage() {
 
   return (
     <>
-      <h1>Hi</h1>
-      <Button
-        class={ "btn btn-danger" } 
-        text={ "Logout" } 
-        disabled={ false }
-        onClick={ () => {} }
-        databstoggle="modal" 
-        databstarget="#logout"
-      />
-          
-      <ConfirmModal 
-        id={ "logout" }
-        icon={ logoutIcon }
-        title={ "Logout" }
-        subtitle={ "Are you sure you want to logout?" }
-        confirm={ handleLogout }
-        textclass={ "text-danger" }
-        btnclass={ "btn-danger" }
-      />
+      <main className="p-lg-5 p-3 overflow" style={{height:"100vh"}}>
+        <header className="d-flex justify-content-between align-items-center">
+            <div className='w-100'>
+              <h1>{ "Homepage" }</h1>
+              <h5>You are Authorized { name }. </h5>
+            </div>
+            <Button
+              class={ "btn btn-danger" } 
+              text={ "Logout" } 
+              disabled={ false }
+              onClick={ () => {} }
+              databstoggle="modal" 
+              databstarget="#logout"
+            />
+                
+            <ConfirmModal 
+              id={ "logout" }
+              icon={ logoutIcon }
+              title={ "Logout" }
+              subtitle={ "Are you sure you want to logout?" }
+              confirm={ handleLogout }
+              textclass={ "text-danger" }
+              btnclass={ "btn-danger" }
+            />
+          </header>
+          <hr />
+          <main>
+               <div className='d-lg-flex w-100 justify-content-between gap-3'>
+                  <div class="card border-primary mb-3 w-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-primary">
+                      <h5 class="card-title">Card 1</h5>
+                      <p class="card-text">...</p>
+                    </div>
+                  </div>
+
+                  <div class="card border-primary mb-3 w-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-primary">
+                      <h5 class="card-title">Card 2</h5>
+                      <p class="card-text">...</p>
+                    </div>
+                  </div>
+
+                  <div class="card border-primary mb-3 w-100">
+                    <div class="card-header">Header</div>
+                    <div class="card-body text-primary">
+                      <h5 class="card-title">Card 3</h5>
+                      <p class="card-text">...</p>
+                    </div>
+                  </div>
+               </div>
+          </main>
+      </main>
+      
     </>
   )
 }

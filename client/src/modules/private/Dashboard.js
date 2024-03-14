@@ -68,7 +68,7 @@ export function Dashboard() {
         <header className="d-flex justify-content-between align-items-center mb-3">
           <div>
             <h1>{ pageTitle }</h1>
-              <h5>You are Authorized { name }, </h5>
+              <h5>You are Authorized { name }. </h5>
             </div>
             <div className='d-flex align-items-center'>
               <Button

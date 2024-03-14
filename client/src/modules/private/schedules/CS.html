@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Set character encoding -->
+  <meta charset="UTF-8">
+  <!-- Set viewport for responsive design -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Title of the webpage -->
+  <title>Scheduler</title>
+  <!-- Internal CSS styling -->
+  <style>
+    /* CSS styles for the body */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    /* CSS styles for the schedule container */
+    .schedule-container {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* CSS styles for the table */
+    .cs-table table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    /* CSS styles for table headers and cells */
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* CSS styles for table headers */
+    th {
+      background-color: #f2f2f2;
+    }
+
+    /* CSS styles for the generate button */
+    #generate-btn {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Schedule container with CS Schedule table -->
+  <div class="schedule-container cs-table">
+    <h1>CS Schedule</h1>
+    <!-- Button to generate the schedule -->
+    <button id="generate-btn">Generate Schedule</button>
+    <!-- Table for displaying the schedule -->
+    <table>
+      <thead>
+        <!-- Table header row -->
+        <tr>
+          <th>Day</th>
+          <th>Subjects</th>
+          <th>Time Slots</th>
+          <th>Room</th>
+          <th>Coach</th>
+        </tr>
+      </thead>
+      <!-- Table body where schedule will be dynamically populated -->
+      <tbody id="cs-schedule-body"></tbody>
+    </table>
+  </div>
+
+  <!-- JavaScript code for generating and displaying the schedule -->
+  <script>
+    // Function to create a schedule based on given course and subjects
+    function createSchedule(course, subjects) {
+      // Define days of the week
+      const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+      // Define start and end time for schedule
+      const startTime = 8; // 8 am
+      const endTime = 19; // 7 pm
+      // Define number of units per subject
+      const unitsPerSubject = 3;
+      // Define available rooms
+      const rooms = ['101', '102'];
+      // Define available coaches
+      const coaches = ['Sir Oliveros', 'Sir Insigne'];
+
+      // Initialize an empty schedule object
+      let schedule = {};
+
+      // Calculate number of subjects per day
+      const subjectsPerDay = Math.ceil(subjects.length / daysOfWeek.length);
+
+      // Iterate over each day of the week
+      for (const day of daysOfWeek) {
+        // Initialize an array for each day in the schedule
+        schedule[day] = [];
+
+        // Populate schedule with subjects for the day
+        for (let i = 0; i < subjectsPerDay; i++) {
+          if (subjects.length === 0) break;
+
+          // Randomly select a subject from the list
+          const subjectIndex = Math.floor(Math.random() * subjects.length);
+          const subject = subjects.splice(subjectIndex, 1)[0];
+
+          let conflict = true;
+
+          // Check for conflicts and schedule subjects accordingly
+          while (conflict) {
+            const startHour = Math.floor(Math.random() * (endTime - unitsPerSubject + 1)) + startTime;
+            const endHour = startHour + unitsPerSubject;
+
+            if (startHour >= 8 && endHour <= 18) {
+              const roomIndex = Math.floor(Math.random() * rooms.length);
+              const room = rooms[roomIndex];
+              const coachIndex = Math.floor(Math.random() * coaches.length);
+              const coach = coaches[coachIndex];
+
+              conflict = schedule[day].some(existingSlot => {
+                const existingStartHour = parseInt(existingSlot.time.match(/\d+/)[0], 10);
+                const existingEndHour = parseInt(existingSlot.time.match(/\d+/)[1], 10);
+                return (startHour < existingEndHour && endHour > existingStartHour) ||
+                  existingSlot.room === room || existingSlot.coach === coach;
+              });
+
+              if (!conflict) {
+                const startAMPM = startHour < 12 ? 'AM' : 'PM';
+                const endAMPM = endHour < 12 ? 'AM' : 'PM';
+
+                const formattedStartHour = startHour % 12 === 0 ? 12 : startHour % 12;
+                const formattedEndHour = endHour % 12 === 0 ? 12 : endHour % 12;
+
+                const timeSlot = `${formattedStartHour}:${startAMPM} - ${formattedEndHour}:${endAMPM}`;
+                schedule[day].push({ subject, time: timeSlot, room, coach });
+              }
+            }
+          }
+        }
+      }
+
+      // Return the generated schedule
+      return schedule;
+    }
+
+    // Function to display the schedule on the webpage
+    function displaySchedule(course, scheduleId) {
+      // Define subjects for CS course
+      const subjects = course === 'CS' ? ['JAVA', 'C#', 'C', 'Python', 'JavaScript', 'Ruby', 'CSS', 'HTML', 'SQL'] : [];
+
+      // Generate schedule based on course and subjects
+      const schedule = createSchedule(course, subjects);
+      // Get the schedule body element by ID
+      const scheduleBody = document.getElementById(scheduleId);
+
+      // Iterate over each day in the schedule
+      for (const day in schedule) {
+        const slots = schedule[day];
+        // Iterate over each time slot for the day
+        slots.forEach(slot => {
+          // Create a new row for each time slot
+          const row = document.createElement('tr');
+          const dayCell = document.createElement('td');
+          const subjectsCell = document.createElement('td'); // New cell for subjects
+          const timeSlotCell = document.createElement('td');
+          const roomCell = document.createElement('td');
+          const coachCell = document.createElement('td');
+
+          // Populate cells with schedule data
+          dayCell.textContent = day;
+          subjectsCell.textContent = slot.subject; // Display subject in its cell
+          timeSlotCell.textContent = slot.time;
+          roomCell.textContent = slot.room;
+          coachCell.textContent = slot.coach;
+
+          // Append cells to the row
+          row.appendChild(dayCell);
+          row.appendChild(subjectsCell);
+          row.appendChild(timeSlotCell);
+          row.appendChild(roomCell);
+          row.appendChild(coachCell);
+
+          // Append row to the schedule body
+          scheduleBody.appendChild(row);
+        });
+      }
+    }
+
+    // Function to handle button click event
+    document.getElementById('generate-btn').addEventListener('click', function() {
+      // Clear existing schedule before generating a new one
+      document.getElementById('cs-schedule-body').innerHTML = '';
+      // Generate CS schedule
+      displaySchedule('CS', 'cs-schedule-body');
+    });
+  </script>
+</body>
+
+</html>
+
