@@ -21,6 +21,8 @@ import { EditProfile } from './modules/private/interactions/EditProfile';
 import { InsertProfile } from './modules/private/interactions/InsertProfile';
 import { Schedule } from './modules/private/schedules/Schedule';
 import { Missing } from './modules/public/Missing';
+import { NewFormat } from './modules/private/new/NewFormat';
+import { EditPage } from './modules/private/new/EditPage';
 
 function App() {
   const navigate = new useNavigate();
@@ -106,6 +108,9 @@ function App() {
                       <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
                       : ""
                     }
+                      <Route path='/sample' element={ <NewFormat /> }></Route>
+                      <Route path='/page' element={ <EditPage /> }></Route>
+                      
                       <Route path='/schedule' element={ <Schedule/> }></Route>
                       <Route path='/*' element={ "" }></Route>
                     </Routes>

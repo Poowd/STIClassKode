@@ -1,6 +1,6 @@
 //dependencies
 import React from "react"
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentInsertProfiles } from './insertprofiles/StudentInsertProfiles';
 import { FacultyMemberInsertProfiles } from './insertprofiles/FacultyMemberInsertProfiles';
 import { SchoolFacilityInsertProfiles } from './insertprofiles/SchoolFacilityInsertProfiles';
@@ -19,27 +19,17 @@ export function InsertProfile() {
   const params = useParams();
   return (  
     <>
-      <main className="p-lg-5 p-3">
-        <Button
-          class={ "btn btn-secondary" } 
-            text={ "Go Back" } 
-              disabled={ false }
-                onClick={ () => {} }
-                  databstoggle="modal" 
-                    databstarget="#back"
-        />
-        <ConfirmModal 
-          id={ "back" }
-          icon={ warningIcon }
-          title={ "Go Back" }
-          subtitle={ "Are you sure you want to go back?" }
-          confirm={ () => navigate(-1) }
-          textclass={ "text-warning" }
-          btnclass={ "btn-warning" }
-        />
-
-        <hr />
-
+      <main className="p-lg-5 p-3 overflow-auto vh-100">
+        <header>
+          <h2>{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</h2>
+          <nav aria-label="breadcrumb">
+              <ol className="breadcrumb fs-6 ps-1">
+                  <li className="breadcrumb-item"><Link to="">ClassKode</Link></li>
+                  <li className="breadcrumb-item active" aria-current="page">{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</li>
+              </ol>
+          </nav>
+          <hr />
+        </header>
         { params.type === "student" ? <StudentInsertProfiles /> : "" }
         { params.type === "facultymember" ? <FacultyMemberInsertProfiles /> : "" }  
         { params.type === "schoolfacility" ? <SchoolFacilityInsertProfiles /> : "" }  

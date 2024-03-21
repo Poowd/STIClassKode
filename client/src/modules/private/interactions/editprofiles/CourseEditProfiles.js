@@ -59,6 +59,7 @@ export function CourseEditProfiles() {
       [ e.target.name ]: e.target.value
   }))}
 
+  console.log(editcourse.Name)
   return (
     <>
       <Form

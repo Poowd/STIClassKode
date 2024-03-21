@@ -12,18 +12,7 @@ import { Link } from 'react-router-dom'
 
 export function Course() {
   const pageTitle = 'Course'
-    const [data, setData] = useState([]) //stores data sent by the server from database
-  const [coursedata, setCourseData] = useState({ //stores user data that will be sent to server
-    Name: "",
-      CourseCode: "",
-      Type: "",
-        Description: "",
-          Category: "",
-    })
-    const [userdata, setUserData] = useState([{ //stores data to show in view modal
-      ID: "",
-        Name: "",
-      }])
+  const [data, setData] = useState([]) //stores data sent by the server from database
   
   //get data from server: for course table
   useEffect(() =>  {
@@ -35,26 +24,6 @@ export function Course() {
         console.log(err)
       }
     })}, [])
-    //updates the userdata per keyboard button press in accordance with input tag
-    const handleChange = (e) => {
-      setCourseData(prev => ({
-        ...prev,
-        [ e.target.name ]: e.target.value
-      }))}
-      //submit the form to create an account
-      const sendCourseData = () => {
-        if (!coursedata.Name === "" && !coursedata.CourseCode === "" && !coursedata.Description === "" && !coursedata.Category === "") {
-          axios.post('http://localhost:8081/add-course', coursedata)
-          .then(res => {
-            try {
-              window.location.reload(true)
-            } catch(err) {
-              console.log(err)
-            }
-          })
-          .catch(err => console.log(err))
-        } else {
-          document.getElementById("err").textContent = "Missing Input/s" }}
 
   return (
     <>

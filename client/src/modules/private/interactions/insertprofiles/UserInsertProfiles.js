@@ -1,20 +1,21 @@
 import axios from 'axios'
-import React, { useState } from "react"
-import { useLocation, useNavigate} from "react-router-dom";
-import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
-import { Input } from '../../../components/Input';
+import React, {useState} from "react"
+import {useLocation, useNavigate} from "react-router-dom";
+import {useParams} from 'react-router-dom';
+import {Form} from '../../../components/Form';
+import {Input} from '../../../components/Input';
+import { Select } from '../../../components/Select';
 
 export function UserInsertProfiles() {
-  const { state } = useLocation();
+  const {state} = useLocation();
   const navigate = useNavigate();
   const params = useParams();
   const [adduser, setAddUser] = useState({
     SchoolID: '',
     FirstName: '',
     LastName: '',
-    Birthday: '',
-    UserLevel: '',
+    Email: '',
+    UserType: '',
   })
 
   //---
@@ -24,10 +25,10 @@ export function UserInsertProfiles() {
     .then(res => {
       try {
         navigate(-1)
-      } catch(err) {
+    } catch(err) {
         console.log(err)
-      }
-    })
+    }
+  })
     .catch(err => console.log(err))
   }
 
@@ -40,71 +41,81 @@ export function UserInsertProfiles() {
     
   return (
     <>
-      <Form 
+      <Form
+        navigate={() => navigate(-1)}
         status={
           adduser.SchoolID !== "" && 
           adduser.FirstName !== "" && 
           adduser.LastName !== "" && 
-          adduser.Birthday !== "" && 
-          adduser.UserLevel !== "" ? true : false
-        }
-        form_status={ "You have successfully created a " + params.type }
-        form_back={ () => navigate("/") }
-        form_title={ "Insert " + params.type }
-        form_content={ 
-          <>
-            <Input 
-              title={ "SchoolID" }
-              type={ "text" }
-              placeholder={ "SchoolID" }
-              trigger={ handleChange }
-              name={ "SchoolID" }
-              required
-            />
-            
-            <Input 
-              title={ "FirstName" }
-              type={ "text" }
-              placeholder={ "FirstName" }
-              trigger={ handleChange }
-              name={ "FirstName" }
-              required
-            />
+          adduser.Email !== "" && 
+          adduser.UserType !== "" ? true : false
+      }
+        form_status={"You have successfully created a " + params.type}
+        form_back={() => navigate("/")}
+        form_content={<>
+          <Input 
+            title={"School ID"}
+            type={"text"}
+            placeholder={"School ID"}
+            trigger={handleChange}
+            name={"SchoolID"}
+            required
+          />
 
-            <Input 
-              title={ "LastName" }
-              type={ "text" }
-              placeholder={ "LastName" }
-              trigger={ handleChange }
-              name={ "LastName" }
-              required
-            />
+          <div class="row">
+            <div class="col">
+              <Input 
+                title={"FirstName"}
+                type={"text"}
+                placeholder={"FirstName"}
+                trigger={handleChange}
+                name={"FirstName"}
+                required
+              />
+            </div>
+            <div class="col">
+              <Input 
+                title={"LastName"}
+                type={"text"}
+                placeholder={"LastName"}
+                trigger={handleChange}
+                name={"LastName"}
+                required
+              />
+            </div>
+          </div>
 
-            <Input 
-              title={ "Birthday" }
-              type={ "text" }
-              placeholder={ "Birthday" }
-              trigger={ handleChange }
-              name={ "Birthday" }
-              required
-            />
+          <Input 
+            title={"Email"}
+            type={"email"}
+            placeholder={"Email"}
+            trigger={handleChange}
+            name={"Email"}
+            required
+          />
 
-            <label htmlFor='UserLevel' className='fs-6'>User Level</label>
-            <select 
-              className="d-block w-100 mb-3 px-4 py-2 form-select" 
-              id={ "UserLevel" }
-              name={ "UserLevel"}
-              onChange={ handleChange }
-              required
-            >
-              <option defaultValue={ adduser.UserLevel }>{ adduser.UserLevel }</option>
-                {adduser.UserLevel === "Admin" ? "":<option value="Admin">Admin</option>}
-                {adduser.UserLevel === "Student" ? "":<option value="Student">Student</option>}
-                {adduser.UserLevel === "Coach" ?  "":<option value="Coach">Coach</option>}
-            </select>
-          </>
-        }
-        form_submit={ AddUser }
+          <Select 
+            title={"UserType"}
+            class={""}
+            name={"UserType"}
+            trigger={handleChange}
+            options={<>
+                <option defaultValue={adduser.UserType}>{adduser.UserType}</option>
+                {adduser.UserType === "Admin" ? "":<option value="Admin">Admin</option>}
+                {adduser.UserType === "Student" ? "":<option value="Student">Student</option>}
+                {adduser.UserType === "Coach" ?  "":<option value="Coach">Coach</option>}
+            </>}
+            required
+          />
+        </>}
+        form_submit={AddUser}
+        cardContent={<>
+            <p><span className='fs-6 text-secondary'>School ID:</span> {adduser.SchoolID}</p>
+            <p><span className='fs-6 text-secondary'>FirstName:</span> {adduser.FirstName}</p>
+            <p><span className='fs-6 text-secondary'>LastName:</span> {adduser.LastName}</p>
+            <p><span className='fs-6 text-secondary'>Email:</span> {adduser.Email}</p>
+            <p><span className='fs-6 text-secondary'>UserType:</span> {adduser.UserType}</p>
+        </>} 
       />
     </>
   )

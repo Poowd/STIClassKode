@@ -386,7 +386,28 @@ app.post('/delete-schoolfacility', (req, res) => {
 app.post('/delete-section', (req, res) => {
     const sql = "UPDATE tbl_section SET Status = ? WHERE SectionID = ?"
     db.query(sql, ["Archive", req.body.SectionID], (err, data) => {
-        if (err) return res.json({Message: "Server Sided Error"});
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+}) 
+
+/*
+    Section 2: Displaying of Data
+
+    The following codes are used to display data sent from the database to server to client.
+    This section contains SELECT function of the mysql with searching capabilities such as WHERE clause
+    and LIKE operator.
+*/
+
+app.post('/display-user', (req, res) => {
+    const sql = "SELECT * FROM tbl_user WHERE Status='Active' AND " + 
+                    "UserID LIKE '%"+ req.body.Search +"%' OR " + 
+                    "FirstName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "LastName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "UserLevel LIKE '%"+ req.body.Search +"%'"
+                    
+    db.query(sql, ["Archive", req.body.SectionID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
         return res.json(data)
     })
 }) 

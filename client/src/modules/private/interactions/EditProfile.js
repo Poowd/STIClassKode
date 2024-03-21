@@ -21,25 +21,12 @@ export function EditProfile() {
     <>
       <main className="p-lg-5 p-3">
         <Button
-          class={ "btn btn-secondary" } 
-            text={ "Go Back" } 
-              disabled={ false }
-                onClick={ () => {} }
-                  databstoggle="modal" 
-                    databstarget="#back"
+          class={"btn btn-secondary"} 
+          text={"Go Back"} 
+          disabled={false}
+          onClick={() => {navigate(-1)}}
         />
-        <ConfirmModal 
-          id={ "back" }
-          icon={ warningIcon }
-          title={ "Go Back" }
-          subtitle={ "Are you sure you want to go back?" }
-          confirm={ () => navigate(-1) }
-          textclass={ "text-warning" }
-          btnclass={ "btn-warning" }
-        />
-
         <hr />
-
         { params.type === "student" ? <StudentEditProfiles /> : "" }
         { params.type === "facultymember" ? <FacultyMemberEditProfiles /> : "" }  
         { params.type === "schoolfacility" ? <SchoolFacilityEditProfiles /> : "" }  
