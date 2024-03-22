@@ -110,7 +110,7 @@ export class Sidebar extends React.Component {
                         Schedules
                       </span>
                     </a>
-                    <ul className="collapse show nav flex-column" id="submenu2" data-bs-parent="#menu">
+                    <ul className="collapse nav flex-column" id="submenu2" data-bs-parent="#menu">
                         <li className="w-100">
                             <Link to='/schedule' className="nav-link">
                               <img src={ document } width="15" height="15" />
@@ -158,7 +158,7 @@ export class Sidebar extends React.Component {
                         Faculty Locator
                       </span>
                     </a>
-                    <ul className="collapse show nav flex-column" id="submenu3" data-bs-parent="#menu">
+                    <ul className="collapse  nav flex-column" id="submenu3" data-bs-parent="#menu">
                         <li className="w-100"> {/* Free Space */}
                             <Link to='/' className="nav-link">
                               <img src={ exclamation } width="15" height="15" />

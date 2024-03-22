@@ -5,7 +5,7 @@ import { Button } from "../components/Button"
 import { Input } from "../components/Input"
 import edit from '../../assets/icons/edit-text.png'
 import { Link } from 'react-router-dom'
-import { ContentWrapper } from '../components/wrapper/ContentWrapper'
+import { ContentWrapper } from '../wrapper/ContentWrapper'
 
 
 export function Dashboard() {

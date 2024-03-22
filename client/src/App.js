@@ -1,7 +1,7 @@
 //dependencies
 import axios from 'axios';
 import React, { useEffect, useState, } from "react";
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, Link } from 'react-router-dom';
 //css
 import './App.css';
 //routes
@@ -23,6 +23,11 @@ import { Schedule } from './modules/private/schedules/Schedule';
 import { Missing } from './modules/public/Missing';
 import { NewFormat } from './modules/private/new/NewFormat';
 import { EditPage } from './modules/private/new/EditPage';
+import { Layout1 } from './modules/layout/Layout1';
+import { Layout2 } from './modules/layout/Layout2';
+import { Layout3 } from './modules/layout/Layout3';
+import { Button } from './modules/components/Button';
+import icon from './assets/icons/document.png'
 
 function App() {
   const navigate = new useNavigate();
@@ -37,7 +42,7 @@ function App() {
     Message: "",
     UserLevel: "",
     File_Management: "",
-    Access_View: "",
+    Access_icon: "",
     Access_Edit: "",
     Access_Insert: "",
   })
@@ -68,55 +73,119 @@ function App() {
     })
   }, [message])
 
+  const handleLogout = () => {
+    axios.post('http://localhost:8081/logout')
+    .then(res => {
+      if (res.data.Status === "Success") {
+        window.location.reload(true);
+      } else {
+        alert("Error");
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
   return (
     <>
       <main>
         {
           userdetails.Auth ?
-            <>
-              <MainPageWrapper
-                name={ userdetails.Name }
-                File_Management={ userdetails.File_Management }
-                routes={
-                  <Routes>
-                    {
-                      userdetails.UserLevel === "Admin" ?
-                        <Route path='/' element={ <Dashboard /> }></Route>
+            <Layout1
+              header={
+                <section className='w-100 d-flex align-items-center justify-content-between'>
+                  <h3 className='fw-bold'>Class Kode</h3>
+                  <Button 
+                    class={ "btn btn-primary my-3" } 
+                      text={"Logout"}
+                        onClick={handleLogout}
+                    />
+                </section>
+              }
+              sidebar={
+                <ul className='d-flex flex-column align-items-center px-0 py-3 my-3'>
+                  <Link to='/' className="nav-link align-middle p-0 m-0">
+                    <img src={icon} width="30" height="30" />
+                  </Link>
+                </ul>
+              }
+              content={
+                <Routes>
+                  <Route path='/' element={userdetails.UserLevel === "Admin" ? <Dashboard />:<Homepage />}></Route>
+                  { userdetails.File_Management === "True" ? 
+                      <><Route path='/section' element={ <Section /> }></Route>
+                        <Route path='/student' element={ <Student /> }></Route>
+                        <Route path='/course' element={ <Course /> }></Route>
+                        <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                        <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                        <Route path='/program' element={ <Program /> }></Route></>
                       :
-                        <Route path='/' element={ <Homepage /> }></Route>
-                    }{ 
-                      userdetails.File_Management === "True" ? 
-                        <>
-                          <Route path='/section' element={ <Section /> }></Route>
-                          <Route path='/student' element={ <Student /> }></Route>
-                          <Route path='/course' element={ <Course /> }></Route>
-                          <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
-                          <Route path='/facultymember' element={ <FacultyMember /> }></Route>
-                          <Route path='/program' element={ <Program /> }></Route>
-                        </>
-                      : ""
-                    }{
-                      userdetails.Access_View === "True" ?
+                      <h1>Page not Found</h1>
+                  }{
+                    userdetails.Access_View === "True" ?
                       <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
-                      : ""
-                    }{
-                      userdetails.Access_Edit === "True" ?
+                      :<h1>Page not Found</h1>
+                  }{
+                    userdetails.Access_Edit === "True" ?
                       <Route path='/edit-profile/:type/:index/:id' element={ <EditProfile /> }></Route>
-                      : ""
-                    }{
-                      userdetails.Access_Insert === "True" ?
+                      :<h1>Page not Found</h1>
+                  }{
+                    userdetails.Access_Insert === "True" ?
                       <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
-                      : ""
-                    }
-                      <Route path='/sample' element={ <NewFormat /> }></Route>
-                      <Route path='/page' element={ <EditPage /> }></Route>
-                      
-                      <Route path='/schedule' element={ <Schedule/> }></Route>
-                      <Route path='/*' element={ "" }></Route>
-                    </Routes>
-                }
-              />
-            </>
+                      :<h1>Page not Found</h1>
+                  }
+
+                    <Route path='/sample' element={ <NewFormat /> }></Route>
+                    <Route path='/page' element={ <EditPage /> }></Route>
+                    
+                    <Route path='/schedule' element={ <Schedule/> }></Route>
+                    <Route path='/*' element={ <h1>Page not Found</h1> }></Route>
+                </Routes>
+              }
+            />
+            /* <MainPageWrapper
+              name={ userdetails.Name }
+              File_Management={ userdetails.File_Management }
+              routes={
+                <Routes>
+                  {
+                    userdetails.UserLevel === "Admin" ?
+                      <Route path='/' element={ <Dashboard /> }></Route>
+                    :
+                      <Route path='/' element={ <Homepage /> }></Route>
+                  }{ 
+                    userdetails.File_Management === "True" ? 
+                      <>
+                        <Route path='/section' element={ <Section /> }></Route>
+                        <Route path='/student' element={ <Student /> }></Route>
+                        <Route path='/course' element={ <Course /> }></Route>
+                        <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                        <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                        <Route path='/program' element={ <Program /> }></Route>
+                      </>
+                    : ""
+                  }{
+                    userdetails.Access_View === "True" ?
+                    <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
+                    : ""
+                  }{
+                    userdetails.Access_Edit === "True" ?
+                    <Route path='/edit-profile/:type/:index/:id' element={ <EditProfile /> }></Route>
+                    : ""
+                  }{
+                    userdetails.Access_Insert === "True" ?
+                    <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
+                    : ""
+                  }
+                    <Route path='/sample' element={ <NewFormat /> }></Route>
+                    <Route path='/page' element={ <EditPage /> }></Route>
+
+                    <Route path='/layout1' element={ <Layout1 /> }></Route>
+                    
+                    <Route path='/schedule' element={ <Schedule/> }></Route>
+                    <Route path='/*' element={ "" }></Route>
+                  </Routes>
+              }
+            /> */
           :
             <main>
               <Login />
