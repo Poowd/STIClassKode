@@ -15,23 +15,22 @@ export class Layout2 extends React.Component {
   render() {
     return (
       <main>
-        <header className='row' style={{height: "8vh"}}>
-          <nav className='px-3' style={{backgroundColor: "orange"}}>
-            <ul className='m-0 p-0 d-flex gap-3 align-items-center' style={{height: "8vh"}}>
-              <li>Item 1</li>
-              <li>Item 2</li>
-              <li>Item 3</li>
-              <li>Item 4</li>
-              <li>Item 5</li>
-            </ul>
-          </nav>
-        </header>
-        <main className='row' style={{height: "84vh"}}>
-          <section className='col-8 p-3' style={{backgroundColor: "violet"}}>
-            Form
+        <main className='row' style={{height: "80vh"}}>
+          <section className='col-8 p-3'>
+            <form onSubmit={this.props.form_submit}>
+              {this.props.form_content}
+            </form>
           </section>
-          <section className='col-4 p-3' style={{backgroundColor: "magenta"}}>
-            Output
+          <section className='col-4 p-3'>
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Details</h5>
+                <h6 className="card-subtitle mb-2 text-body-secondary">check this out!</h6>
+                <div className='py-2 px-3'>
+                  {this.props.card_content}
+                </div>
+              </div>
+            </div>
           </section>
         </main>
       </main>

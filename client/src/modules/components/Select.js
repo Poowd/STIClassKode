@@ -3,10 +3,10 @@ import React from 'react';
 export class Select extends React.Component {
   render() {
     return (
-      <div className="Select w-100">
-      <label className='fs-6'>{this.props.title}</label>
+      <div className="Select w-100 my-2">
+        <label className='fs-6'>{this.props.title}</label>
         <select 
-          className={"d-block w-100 mb-3 px-4 py-2 form-select " + this.props.class}
+          className={"d-block w-100 px-4 py-2 form-select " + this.props.class}
           id={this.props.name}
           name={this.props.name}
           onChange={this.props.trigger}

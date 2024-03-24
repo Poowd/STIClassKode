@@ -6,14 +6,14 @@ import { Input } from "../components/Input"
 import edit from '../../assets/icons/edit-text.png'
 import { Link } from 'react-router-dom'
 import { ContentWrapper } from '../wrapper/ContentWrapper'
+import { Layout3 } from '../layout/Layout3';
+import { Table } from '../components/Table'
+import view from '../../assets/icons/view (1).png'
 
 
 export function Dashboard() {
   const [name, setName] = useState('')
   const [data, setData] = useState([])
-  const [itemDetails, SetItemDetails] = useState({
-    Name: "",
-  })
   const [search, SetSearch] = useState({
     Search: ""
   })
@@ -31,7 +31,7 @@ export function Dashboard() {
       } catch(err) {
         console.log(err)
       }
-    })
+  })
   
   const handleChange = (e) => {
     SetSearch(prev => ({
@@ -41,67 +41,107 @@ export function Dashboard() {
   }
     
   return (<>
-    <ContentWrapper 
-      PageTitle={"Dashboard"}
-      ParentPage={"ClassKode: " + name}
-      Selected={itemDetails.SchoolID}
-      TableName={"User"}
-      Search={handleChange}
-      SearchValue={search.Search}
-      Trigger={handleChange}
-      Options={
-        <>
-          <option defaultValue=""></option>
-          <option value="Admin">Admin</option>
-          <option value="Coach">Coach</option>
-          <option value="Student">Student</option>
-        </>
+    <Layout3 
+      item_1={"curriculum"}
+      item_2={"academic year"}
+      item_3={"semester"}
+      col_1_1={"d"}
+      col_2_1={
+        <section>
+          <h6>{"Table"}</h6>
+          <Table
+            table_items={
+              data.map((user, i) => (        
+                <tr key={i} 
+                  onClick={() => {console.log("Row Clicked!")}
+                }>
+                  <td><div className='pt-2'>{user.SCHLID}</div></td>
+                  <td><div className='pt-2'>{user.LastName.concat(", ", user.FirstName)}</div></td>
+                  <td className=''>
+                    <div className='d-flex gap-1'>
+                      <Link to={ "/view-profile/user/"+ i + "/" + user.UUID} state={{ 
+                          UUID: user.UUID,
+                        }}>
+                        <Button
+                          class={ "btn btn-info" }  
+                          text={ <img src={ view } alt='...' width="20" height="20" className='custom-icon' /> } 
+                          onClick={ () => {console.log("Button Clicked!")} }
+                        />
+                      </Link>
+                      <Link to={ "/edit-profile/user/"+ i + "/" + user.UUID} state={{ 
+                          UUID: user.UUID,
+                        }}>
+                        <Button
+                          class={ "btn btn-warning" }  
+                          text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
+                          onClick={ () => {console.log("Button Clicked!")} }
+                        />
+                      </Link>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            }
+          />
+          <p className="w-100 fs-6 text mt-3 text-secondary">Table contains {data.length} rows.</p>
+        </section>
       }
-      TableItems={
-        data.map((user, i) => (        
-          <tr key={i} 
-            onClick={() => {
-              SetItemDetails({
-                  SchoolID: user.SchoolID,
-                  Name: user.LastName.concat(", ", user.FirstName),
-                  UserLevel: user.UserLevel,
-            })}
-          }>
-            <td>{ user.SchoolID }</td>
-            <td>{user.LastName.concat(", ", user.FirstName)}</td>
-            <td>
-              <Link to={ "/edit-profile/user/"+ i + "/" + user.UserID} state={{ 
-                Entity: "User",
-                UserID: user.UserID,
-                SchoolID: user.SchoolID,
-                FirstName: user.FirstName,
-                LastName: user.LastName,
-                Birthday: user.Birthday,
-                UserLevel: user.UserLevel,
-              }}>
-              <Button
-                class={ "btn btn-warning" }  
-                  text={ <img src={ edit } alt='...' width="20" height="20" className='custom-icon' /> } 
-                    onClick={ () => {console.log(5-6)} }
-                />
-              </Link>
-            </td>
-          </tr>
-        ))
-      }
-      Counter={data.length}
-      TableItemDetails={
-        <>
-          <li className="list-group-item">
-            <span className="fs-6 text-secondary">ID:</span> {itemDetails.SchoolID}
-          </li>
-          <li className="list-group-item">
-            <span className="fs-6 text-secondary">Name:</span> {itemDetails.Name}
-          </li>
-          <li className="list-group-item">
-            <span className="fs-6 text-secondary">UserLevel:</span> {itemDetails.UserLevel}
-          </li>
-        </>
+      col_2_2={
+        <section className="">
+          <section className="w-100">
+              <h6>{"Details"}</h6>
+              <section className="d-flex align-items-center gap-2 my-2">
+                  <input 
+                      className={"d-block w-100 px-4 py-2 form-control"}
+                      type={"text"}
+                      placeholder={"Search"}
+                      name={"Search"}
+                      onChange={handleChange}
+                      value={search.Search}
+                  />
+                  <Link to={ "/insert-profile/user" }>
+                      <Button
+                          class={"btn btn-primary"}  
+                          text={"Add"} 
+                          onClick={() => {console.log("Button Clicked!")}}
+                      />
+                  </Link>
+              </section>
+              <section className='mt-3 shadow-sm'>
+                <ul className="list-group bg-none shadow-sm">
+                  <li className="list-group-item">
+                    <h6 className='fs-6'>Filters:</h6>
+                    <div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="Search" id="FilterRadio1" value="" onChange={handleChange}/>
+                        <label className="form-check-label" htmlFor="FilterRadio1">
+                          All
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="Search" id="FilterRadio2" value="Admin" onChange={handleChange}/>
+                        <label className="form-check-label" htmlFor="FilterRadio2">
+                          Admin
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="Search" id="FilterRadio3" value="Coach" onChange={handleChange}/>
+                        <label className="form-check-label" htmlFor="FilterRadio3">
+                          Coach
+                        </label>
+                      </div>
+                      <div className="form-check">
+                        <input className="form-check-input" type="radio" name="Search" id="FilterRadio4" value="Student" onChange={handleChange}/>
+                        <label className="form-check-label" htmlFor="FilterRadio4">
+                          Student
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </section>
+          </section>
+        </section>
       }
     />
   </>)}

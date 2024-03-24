@@ -17,7 +17,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "",
-    database: "sticlasskode"
+    database: "db_sticlasskode"
 })
 
 //authentication of the account logged in
@@ -31,9 +31,9 @@ const verifyUser = (req, res, next) => {
                 return res.json({Message: "Authentication Error."});
             } else {
                 req.Name = decoded.Name;
-                req.UserLevel = decoded.UserLevel
-                req.UserID = decoded.UserID
-                req.File_Management = decoded.File_Management
+                req.UserType = decoded.UserType
+                req.UUID = decoded.UUID
+                req.File_Maintainance = decoded.File_Maintainance
                 req.Access_View = decoded.Access_View
                 req.Access_Edit = decoded.Access_Edit
                 req.Access_Insert = decoded.Access_Insert
@@ -46,34 +46,34 @@ const verifyUser = (req, res, next) => {
 app.get('/', verifyUser, (req, res) => {
     return res.json({Status: "Success", 
                      Name: req.Name, 
-                     UserLevel: req.UserLevel,
-                     UserID: req.UserID,
-                     File_Management: req.File_Management,
+                     UserType: req.UserType,
+                     UUID: req.UUID,
+                     File_Maintainance: req.File_Maintainance,
                      Access_View: req.Access_View,
                      Access_Edit: req.Access_Edit,
                      Access_Insert: req.Access_Insert,
 })})
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM tbl_user INNER JOIN tbl_permissions ON tbl_user.UserID=tbl_permissions.User WHERE Email = ? AND Password = ?";
+    const sql = "SELECT * FROM tbl_user INNER JOIN tbl_permission ON tbl_user.UUID=tbl_permission.UUID WHERE Email = ? AND Password = ?";
     db.query(sql, [req.body.email, req.body.password], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         if (data.length > 0) {
             const FirstName = data[0].FirstName;
             const LastName = data[0].LastName;
-            const UserLevel = data[0].UserLevel;
-            const UserID = data[0].UserID;
+            const UserType = data[0].UserType;
+            const UUID = data[0].UUID;
             const Name = LastName.concat(", ", FirstName);
 
-            const File_Management = data[0].File_Management
+            const File_Maintainance = data[0].File_Maintainance
             const Access_View = data[0].Access_View
             const Access_Edit = data[0].Access_Edit
             const Access_Insert = data[0].Access_Insert
 
             const token = jwt.sign({Name, 
-                                    UserLevel, 
-                                    UserID, 
-                                    File_Management, 
+                                    UserType, 
+                                    UUID, 
+                                    File_Maintainance, 
                                     Access_View, 
                                     Access_Edit, 
                                     Access_Insert,
@@ -131,21 +131,6 @@ app.post('/add-section', (req, res) => {
         req.body.Name,
         req.body.Level,
         req.body.Semester
-    ]
-    db.query(sql, [values], (err, data) => {
-        if (err) return res.json({Message: "Server Sided Error"});
-        return res.json(data)
-    })
-})
-// User
-app.post('/add-course', (req, res) => {
-    const sql = "INSERT INTO tbl_course (`Name`, `CourseCode`, `Type`, `Description`, `Category`) VALUES (?)"
-    const values = [
-        req.body.Name,
-        req.body.CourseCode,
-        req.body.Type,
-        req.body.Description,
-        req.body.Category
     ]
     db.query(sql, [values], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
@@ -286,19 +271,6 @@ app.post('/update-facultymember', (req, res) => {
         return res.json(data)
     })
 })
-// Course
-app.post('/update-course', (req, res) => {
-    const sql = "UPDATE tbl_course SET Name = ?, CourseCode = ?, Type = ?, Description = ?, Category = ? WHERE CourseID = ?"
-    db.query(sql, [req.body.Name,
-                   req.body.CourseCode,
-                   req.body.Type,
-                   req.body.Description,
-                   req.body.Category,
-                   req.body.CourseID], (err, data) => {
-        if (err) return res.json({Message: "Server Sided Error"});
-        return res.json(data)
-    })
-})
 // Section
 app.post('/update-section', (req, res) => {
     const sql = "UPDATE tbl_section SET Name = ?, Level = ?, Semester = ? WHERE SectionID = ?"
@@ -358,14 +330,6 @@ app.post('/delete-user', (req, res) => {
         return res.json(data)
     })
 }) 
-// Course
-app.post('/delete-course', (req, res) => {
-    const sql = "UPDATE tbl_course SET Status = ? WHERE CourseID = ?"
-    db.query(sql, ["Archive", req.body.CourseID], (err, data) => {
-        if (err) return res.json({Message: "Server Sided Error"});
-        return res.json(data)
-    })
-}) 
 // Program
 app.post('/delete-program', (req, res) => {
     const sql = "UPDATE tbl_program SET Status = ? WHERE ProgramID = ?"
@@ -391,6 +355,33 @@ app.post('/delete-section', (req, res) => {
     })
 }) 
 
+
+
+/*
+    Section 1: Creating of Data
+
+    The following codes are used to create data inserted by the user at client then sent into server which is saved unto database.
+    This section contains INSERT INTO function of the mysql with searching capabilities such as WHERE clause
+    and LIKE operator.
+*/
+
+app.post('/create-course', (req, res) => {
+    const sql = "INSERT INTO tbl_course (`CourseCode`, `CourseName`, `Units`, `LessonType`, `PRGID`) VALUES (?)"
+    const values = [
+        req.body.CourseCode,
+        req.body.CourseName,
+        req.body.Units,
+        req.body.LessonType,
+        req.body.PRGID,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+}) 
+
+
+
 /*
     Section 2: Displaying of Data
 
@@ -399,15 +390,102 @@ app.post('/delete-section', (req, res) => {
     and LIKE operator.
 */
 
+/* 
+
+    Part 1: Displaying of Data for Tables
+
+*/
 app.post('/display-user', (req, res) => {
-    const sql = "SELECT * FROM tbl_user WHERE Status='Active' AND " + 
-                    "UserID LIKE '%"+ req.body.Search +"%' OR " + 
-                    "FirstName LIKE '%"+ req.body.Search +"%' OR " + 
-                    "LastName LIKE '%"+ req.body.Search +"%' OR " + 
-                    "UserLevel LIKE '%"+ req.body.Search +"%'"
+    const sql = "SELECT * FROM tbl_user " +
+                
+                "WHERE " + 
+                    "Deleted='False' AND UUID LIKE '%"+ req.body.Search +"%' OR " + 
+                    "Deleted='False' AND FirstName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "Deleted='False' AND LastName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "Deleted='False' AND UserType LIKE '%"+ req.body.Search +"%'"
                     
-    db.query(sql, ["Archive", req.body.SectionID], (err, data) => {
+    db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"})
         return res.json(data)
     })
 }) 
+
+app.post('/display-course-program', (req, res) => {
+    const sql = "SELECT * FROM tbl_course " + 
+                
+                "INNER JOIN " + 
+                    "tbl_program ON tbl_course.PRGID = tbl_program.PRGID " + 
+                    
+                "WHERE " + 
+                    "tbl_course.Deleted='False' AND tbl_course.CourseName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_course.Deleted='False' AND tbl_program.ProgramName LIKE '%"+ req.body.Search +"%' " + 
+                    
+                "ORDER " + 
+                    "BY tbl_course.CRSID"
+                    
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+})
+
+/* 
+
+    Part 2: Displaying of Data for Input Boxes
+
+*/
+
+app.post('/display-input-program', (req, res) => {
+    const sql = "SELECT * FROM tbl_program WHERE Deleted='False'"
+                    
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+}) 
+
+app.post('/display-input-section', (req, res) => {
+    const sql = "SELECT * FROM tbl_section WHERE Deleted='False'"
+                    
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+}) 
+
+/*
+    Section 3: Updating of Data
+
+    The following codes are used to update data sent from the client then sent into server which is saved unto database.
+    This section contains UPDATE SET function of the mysql with searching capabilities such as WHERE clause
+    and LIKE operator.
+*/
+
+app.post('/update-course', (req, res) => {
+    const sql = "UPDATE tbl_course SET CourseCode = ?, CourseName = ?, Units = ?, LessonType = ?, PRGID = ? WHERE CRSID = ?"
+    db.query(sql, [req.body.CourseCode,
+                   req.body.CourseName,
+                   req.body.Units,
+                   req.body.LessonType,
+                   req.body.PRGID,
+                   req.body.CRSID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+/*
+    Section 4: Deletion of Data
+
+    The following codes are used to delete data sent from the client then sent into server which is saved unto database.
+    This section contains UPDATE SET function of the mysql with searching capabilities such as WHERE clause
+    and LIKE operator.
+*/
+
+app.post('/delete-course', (req, res) => {
+    const sql = "UPDATE tbl_course SET Deleted = ? WHERE CRSID = ?"
+    db.query(sql, ["True", req.body.CRSID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})

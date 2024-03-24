@@ -19,12 +19,12 @@ export function InsertProfile() {
   const params = useParams();
   return (  
     <>
-      <main className="p-lg-5 p-3 overflow-auto vh-100">
+      <main className="p-3 overflow-auto vh-100">
         <header>
           <h2>{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</h2>
           <nav aria-label="breadcrumb">
               <ol className="breadcrumb fs-6 ps-1">
-                  <li className="breadcrumb-item"><Link to="">ClassKode</Link></li>
+              <li className="breadcrumb-item"><Link to={params.type === 'user' ? "/" : "/" + params.type}>{params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</Link></li>
                   <li className="breadcrumb-item active" aria-current="page">{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</li>
               </ol>
           </nav>

@@ -4,21 +4,20 @@ import '../../App.css'
 export class Table extends React.Component {
   render() {
     return (
-      <div className="PrimaryTable">
-        <table className="table">
+      <section style={{overflowY: "auto", height: "60vh"}} className='bg-light'>
+      <table className="table w-100 shadow-sm table-hover">
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>{ this.props.tablename }</th>
-              <th>Action</th>
-            </tr>
+              <tr>
+                  <th className="col-2 py-2">ID</th>
+                  <th className="col-8 py-2">Name</th>
+                  <th className="col-2 py-2">Actions</th>
+              </tr>
           </thead>
           <tbody>
-            { this.props.data }
+          {this.props.table_items}
           </tbody>
-        </table>
-        
-      </div>
+      </table>
+  </section>
     )
   }
 }

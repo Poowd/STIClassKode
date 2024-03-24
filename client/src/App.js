@@ -28,6 +28,8 @@ import { Layout2 } from './modules/layout/Layout2';
 import { Layout3 } from './modules/layout/Layout3';
 import { Button } from './modules/components/Button';
 import icon from './assets/icons/document.png'
+import avatar from './assets/imgs/placeholderimages/avatar.png'
+import { Sidebar } from './modules/components/Sidebar';
 
 function App() {
   const navigate = new useNavigate();
@@ -37,11 +39,11 @@ function App() {
   const [userlevel, setUserLevel] = useState('');
   const [userdetails, setUserDetails] = useState({
     Auth: false,
-    UserID: "",
+    UUID: "",
     Name: "",
     Message: "",
-    UserLevel: "",
-    File_Management: "",
+    UserType: "",
+    File_Maintainance: "",
     Access_icon: "",
     Access_Edit: "",
     Access_Insert: "",
@@ -54,10 +56,10 @@ function App() {
       if (res.data.Status === "Success") {
         setUserDetails({
           Auth: true,
-          UserID: res.data.UserID,
+          UUID: res.data.UUID,
           Name: res.data.Name,
-          UserLevel: res.data.UserLevel,
-          File_Management: res.data.File_Management,
+          UserType: res.data.UserType,
+          File_Maintainance: res.data.File_Maintainance,
           Access_View: res.data.Access_View,
           Access_Edit: res.data.Access_Edit,
           Access_Insert: res.data.Access_Insert,
@@ -92,53 +94,74 @@ function App() {
           userdetails.Auth ?
             <Layout1
               header={
-                <section className='w-100 d-flex align-items-center justify-content-between'>
-                  <h3 className='fw-bold'>Class Kode</h3>
-                  <Button 
-                    class={ "btn btn-primary my-3" } 
-                      text={"Logout"}
-                        onClick={handleLogout}
+                <section className='w-100 h-100 d-flex align-items-center justify-content-between'>
+                  <span className='fw-bold text-light fs-4 mb-1'>Class Kode</span>
+                  <section className='d-flex gap-3'>
+                    <div className="dropdown dropdown">
+                      <button className="btn btn-link dropdown-toggle d-flex align-items-center text-light my-2 btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="45,10">
+                        <span className=" d-sm-inline ms-2 me-1 text-light">{ userdetails.Name }</span>
+                      </button>
+                      <ul className="dropdown-menu">
+                        <Link to={"/"} className='dropdown-item'>
+                          <li>Action</li>
+                        </Link>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li>
+                        <div className='d-flex align-items-center'>
+                          <Button
+                            class={"btn btn-danger"} 
+                            text={"Logout"} 
+                            disabled={false}
+                            onClick={handleLogout}
+                          />
+                        </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <Button 
+                      class={"btn btn-primary my-2 btn-sm"} 
+                        text={"Logout"}
+                          onClick={handleLogout}
                     />
+                  </section>
                 </section>
               }
               sidebar={
-                <ul className='d-flex flex-column align-items-center px-0 py-3 my-3'>
-                  <Link to='/' className="nav-link align-middle p-0 m-0">
-                    <img src={icon} width="30" height="30" />
-                  </Link>
-                </ul>
+                <Sidebar 
+                  File_Maintainance={userdetails.File_Maintainance}
+                />
               }
               content={
                 <Routes>
-                  <Route path='/' element={userdetails.UserLevel === "Admin" ? <Dashboard />:<Homepage />}></Route>
-                  { userdetails.File_Management === "True" ? 
+                  <Route path='/' element={userdetails.UserType === "Admin" ? <Dashboard />:<Homepage />}></Route>
+                  { userdetails.File_Maintainance === "True" ? 
                       <><Route path='/section' element={ <Section /> }></Route>
-                        <Route path='/student' element={ <Student /> }></Route>
+                        {/* <Route path='/student' element={ <Student /> }></Route> */}
                         <Route path='/course' element={ <Course /> }></Route>
                         <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
                         <Route path='/facultymember' element={ <FacultyMember /> }></Route>
                         <Route path='/program' element={ <Program /> }></Route></>
                       :
-                      <h1>Page not Found</h1>
+                      ""
                   }{
                     userdetails.Access_View === "True" ?
                       <Route path='/view-profile/:type/:index/:id' element={ <ViewProfile /> }></Route>
-                      :<h1>Page not Found</h1>
+                      :""
                   }{
                     userdetails.Access_Edit === "True" ?
                       <Route path='/edit-profile/:type/:index/:id' element={ <EditProfile /> }></Route>
-                      :<h1>Page not Found</h1>
+                      :""
                   }{
                     userdetails.Access_Insert === "True" ?
                       <Route path='/insert-profile/:type' element={ <InsertProfile /> }></Route>
-                      :<h1>Page not Found</h1>
+                      :""
                   }
 
                     <Route path='/sample' element={ <NewFormat /> }></Route>
                     <Route path='/page' element={ <EditPage /> }></Route>
                     
                     <Route path='/schedule' element={ <Schedule/> }></Route>
-                    <Route path='/*' element={ <h1>Page not Found</h1> }></Route>
+                    <Route path='/*' element={ "" }></Route>
                 </Routes>
               }
             />

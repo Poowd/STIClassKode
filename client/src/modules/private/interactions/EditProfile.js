@@ -1,6 +1,6 @@
 //dependencies
 import React from "react"
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentEditProfiles } from './editprofiles/StudentEditProfiles';
 import { FacultyMemberEditProfiles } from './editprofiles/FacultyMemberEditProfiles';
 import { SchoolFacilityEditProfiles } from './editprofiles/SchoolFacilityEditProfiles';
@@ -19,14 +19,17 @@ export function EditProfile() {
   const params = useParams();
   return ( 
     <>
-      <main className="p-lg-5 p-3">
-        <Button
-          class={"btn btn-secondary"} 
-          text={"Go Back"} 
-          disabled={false}
-          onClick={() => {navigate(-1)}}
-        />
-        <hr />
+      <main className="p-3 overflow-auto vh-100">
+        <header>
+          <h2>{"Edit " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</h2>
+          <nav aria-label="breadcrumb">
+              <ol className="breadcrumb fs-6 ps-1">
+              <li className="breadcrumb-item"><Link to={params.type === 'user' ? "/" : "/" + params.type}>{params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</Link></li>
+                  <li className="breadcrumb-item active" aria-current="page">{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1) + " / " + params.id}</li>
+              </ol>
+          </nav>
+          <hr />
+        </header>
         { params.type === "student" ? <StudentEditProfiles /> : "" }
         { params.type === "facultymember" ? <FacultyMemberEditProfiles /> : "" }  
         { params.type === "schoolfacility" ? <SchoolFacilityEditProfiles /> : "" }  

@@ -26,43 +26,37 @@ export class Sidebar extends React.Component {
         .catch(err => console.log(err))
       }
       return (
-        <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-95 overflow" style={{overflow:"hidden", text_overflow: "ellipsis", white_space: "nowrap"}}>
-            <Link to='/' className="d-flex align-items-center mb-md-0 me-md-auto text-decoration-none mt-3 py-3"> {/* Title */}
-              <span className="fs-5 d-none d-sm-inline">
-                <strong>STI College Muñoz-EDSA</strong>
-              </span>
-            </Link>
+        <div className="d-flex flex-column align-items-center align-items-sm-start px-4 pt-2" style={{overflow:"auto", text_overflow: "ellipsis", white_space: "nowrap", height: "100vh"}}>
               <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                 <li className="nav-item"> {/* Home */}
                     <Link to='/' className="nav-link align-middle px-0">
                       <img src={ home } width="15" height="15" />
-                      <span className="ms-2 d-none d-sm-inline">
+                      <span className="ms-2 d-none d-sm-inline text-light">
                         Dashboard
                       </span>
                     </Link>
                 </li>
                 {
-                  this.props.File_Management === "True" ?
-                    <li>{/* Dropdown */}
+                  this.props.File_Maintainance === "True" ?
+                    <li>
                       <a href="#submenu0" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Entities */}
                         <img src={ home } width="15" height="15" />
-                        <span className="ms-2 d-none d-sm-inline">
+                        <span className="ms-2 d-none d-sm-inline text-light">
                           File Maintainance
                         </span>
                       </a>
+                      
                       <ul className="collapse show nav flex-column" id="submenu0" data-bs-parent="#menu">
                           <li className="w-100">
                               <Link to='/program' className="nav-link">
                                 <img src={ document } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
-                                  Program
-                                </span>
+                                <span className="d-none d-sm-inline px-2 text-light">Program</span>
                               </Link>
                           </li>
                           {/* <li className="w-100">
                               <Link to='/student' className="nav-link">
                                 <img src={ user } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   Student
                                 </span>
                               </Link>
@@ -70,7 +64,7 @@ export class Sidebar extends React.Component {
                           <li className="w-100">
                               <Link to='/section' className="nav-link">
                                 <img src={ users } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   Section
                                 </span>
                               </Link>
@@ -78,7 +72,7 @@ export class Sidebar extends React.Component {
                           <li className="w-100">
                               <Link to='/course' className="nav-link">
                                 <img src={ document } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   Course
                                 </span>
                               </Link>
@@ -86,7 +80,7 @@ export class Sidebar extends React.Component {
                           <li className="w-100"> 
                               <Link to='/schoolfacility' className="nav-link">
                                 <img src={ user } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   School Facility
                                 </span>
                               </Link>
@@ -94,7 +88,7 @@ export class Sidebar extends React.Component {
                           <li className="w-100"> 
                               <Link to='/facultymember' className="nav-link">
                                 <img src={ user } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   Faculty Member
                                 </span>
                               </Link>
@@ -106,7 +100,7 @@ export class Sidebar extends React.Component {
                 <li>{/* Dropdown */}
                     <a href="#submenu2" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Entities */}
                       <img src={ clock } width="15" height="15" />
-                      <span className="ms-2 d-none d-sm-inline">
+                      <span className="ms-2 d-none d-sm-inline text-light">
                         Schedules
                       </span>
                     </a>
@@ -114,7 +108,7 @@ export class Sidebar extends React.Component {
                         <li className="w-100">
                             <Link to='/schedule' className="nav-link">
                               <img src={ document } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
+                              <span className="d-none d-sm-inline px-2 text-light">
                                 Schedule
                               </span>
                             </Link>
@@ -125,7 +119,7 @@ export class Sidebar extends React.Component {
                             <li className="w-100">
                               <Link to='/' className="nav-link">
                                 <img src={ document } width="15" height="15" />
-                                <span className="d-none d-sm-inline px-2">
+                                <span className="d-none d-sm-inline px-2 text-light">
                                   Section
                                 </span>
                               </Link>
@@ -133,7 +127,7 @@ export class Sidebar extends React.Component {
                             <li className="w-100">
                                 <Link to='/' className="nav-link">
                                   <img src={ document } width="15" height="15" />
-                                  <span className="d-none d-sm-inline px-2">
+                                  <span className="d-none d-sm-inline px-2 text-light">
                                     Faculty Member
                                   </span>
                                 </Link>
@@ -141,7 +135,7 @@ export class Sidebar extends React.Component {
                             <li className="w-100">
                                 <Link to='/' className="nav-link">
                                   <img src={ document } width="15" height="15" />
-                                  <span className="d-none d-sm-inline px-2">
+                                  <span className="d-none d-sm-inline px-2 text-light">
                                     School Facility
                                   </span>
                                 </Link>
@@ -154,7 +148,7 @@ export class Sidebar extends React.Component {
                 <li> {/* Dropdown */}
                     <a href="#submenu3" data-bs-toggle="collapse" className="nav-link px-lg-0 align-middle"> {/* Free Space */}
                       <img src={ exclamation } width="15" height="15" />
-                      <span className="ms-2 d-none d-sm-inline">
+                      <span className="ms-2 d-none d-sm-inline text-light">
                         Faculty Locator
                       </span>
                     </a>
@@ -162,7 +156,7 @@ export class Sidebar extends React.Component {
                         <li className="w-100"> {/* Free Space */}
                             <Link to='/' className="nav-link">
                               <img src={ exclamation } width="15" height="15" />
-                              <span className="d-none d-sm-inline px-2">
+                              <span className="d-none d-sm-inline px-2 text-light">
                                 Locator
                               </span>
                             </Link>
@@ -170,33 +164,6 @@ export class Sidebar extends React.Component {
                     </ul>
                 </li>
             </ul>
-            
-            <hr/>
-            
-
-            <div className="dropup dropup my-3">
-              <button className="btn btn-link dropdown-toggle d-flex align-items-center p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="45,10">
-                <img src={ avatar } alt="hugenerd" width="30" height="30" className="rounded-circle" style={{objectFit:"cover"}}/>
-
-                <span className="d-none d-sm-inline ms-3 me-1">{ this.props.name }</span>
-              </button>
-              <ul className="dropdown-menu">
-                <Link to={ "/"} className='dropdown-item'>
-                  <li>Action</li>
-                </Link>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                <div className='d-flex align-items-center'>
-                  <Button
-                    class={ "btn btn-danger" } 
-                    text={ "Logout" } 
-                    disabled={ false }
-                    onClick={ handleLogout }
-                  />
-                </div>
-                </li>
-              </ul>
-            </div>
         </div>
       )
     }
