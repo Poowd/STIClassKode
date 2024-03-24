@@ -9,7 +9,7 @@ import { Table } from '../../components/Table'
 import { RadioButton } from '../../components/RadioButton'
 import { Layout4 } from '../../layout/Layout4'
 
-export function Course() {
+export function Coach() {
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -22,7 +22,7 @@ export function Course() {
   const [search, SetSearch] = useState({
     Search: ""
   })
-  axios.post('http://localhost:8081/display-course-program', search)
+  axios.post('http://localhost:8081/display-coach', search)
     .then( res => {
       try {
         setData(res.data)
@@ -31,11 +31,11 @@ export function Course() {
       }
   })
 
-  const [program, setProgram] = useState([])
-  axios.post('http://localhost:8081/display-input-program')
+  const [department, setDepartment] = useState([])
+  axios.post('http://localhost:8081/display-input-department')
     .then( res => {
       try {
-        setProgram(res.data)
+        setDepartment(res.data)
       } catch(err) {
         console.log(err)
       }
@@ -44,32 +44,37 @@ export function Course() {
   return (
     <Layout4
       parent_page={"File Maintainance"}
-      page_title={"Course"}
+      page_title={"Coach"}
       col_1_1={"d"}
       col_2_1={
         <section>
           <h6>{"Table"}</h6>
           <Table
             table_items={
-              data.map((course, i) => (       
+              data.map((coach, i) => (       
                 <tr key={i} 
                   onClick={() => {console.log("Row Clicked!")}
                 }>
-                  <td><div className='pt-2'>{course.CRSID}</div></td>
-                  <td><div className='pt-2'>{course.CourseName}</div></td>
+                  <td><div className='pt-2'>{coach.CCHID}</div></td>
+                  <td><div className='pt-2'>{coach.LastName.concat(", ", coach.FirstName)}</div></td>
                   <td className=''>
                     <div className='d-flex gap-1'>
-                      <Link to={ "/view-profile/course/"+ i + "/" + course.CRSID} state={{ 
-                          CRSID: course.CRSID,
-                          CourseCode: course.CourseCode,
-                          CourseName: course.CourseName,
-                          Units: course.Units,
-                          LessonType: course.LessonType,
-                          Program: program.map(option => (
-                            option.PRGID === course.PRGID ?
-                            option.ProgramName:""
+                      <Link to={ "/view-profile/coach/"+ i + "/" + coach.CCHID} state={{ 
+                          CCHID: coach.CCHID,
+                          SCHLID: coach.SCHLID,
+                          FirstName: coach.FirstName,
+                          MiddleInitial: coach.MiddleInitial,
+                          LastName: coach.LastName,
+                          Type: coach.Type,
+                          Units: coach.Units,
+                          DPTID: department.map(option => (
+                            option.DPTID === coach.DPTID ?
+                            option.DepartmentName:""
                           )),
-                          DateCreated: course.DateCreated,
+                          Email: coach.Email,
+                          ContactNumber: coach.ContactNumber,
+                          Facebook: coach.Facebook,
+                          DateCreated: coach.DateCreated,
                         }} >
                         <Button
                           class={ "btn btn-info" }  
@@ -77,14 +82,19 @@ export function Course() {
                           onClick={ () => {console.log("Button Clicked!")} }
                         />
                       </Link>
-                      <Link to={ "/edit-profile/course/"+ i + "/" + course.CRSID} state={{ 
-                          CRSID: course.CRSID,
-                          CourseCode: course.CourseCode,
-                          CourseName: course.CourseName,
-                          Units: course.Units,
-                          LessonType: course.LessonType,
-                          Program: course.PRGID,
-                          DateCreated: course.DateCreated,
+                      <Link to={ "/edit-profile/coach/"+ i + "/" + coach.CCHID} state={{ 
+                          CCHID: coach.CCHID,
+                          SCHLID: coach.SCHLID,
+                          FirstName: coach.FirstName,
+                          MiddleInitial: coach.MiddleInitial,
+                          LastName: coach.LastName,
+                          Type: coach.Type,
+                          Units: coach.Units,
+                          DPTID: coach.DPTID,
+                          Email: coach.Email,
+                          ContactNumber: coach.ContactNumber,
+                          Facebook: coach.Facebook,
+                          DateCreated: coach.DateCreated,
                         }}>
                         <Button
                           class={ "btn btn-warning" }  
@@ -114,7 +124,7 @@ export function Course() {
                       onChange={handleChange}
                       value={search.Search}
                   />
-                  <Link to={ "/insert-profile/course" }>
+                  <Link to={ "/insert-profile/coach" }>
                       <Button
                           class={"btn btn-primary"}  
                           text={"Add"} 
@@ -135,14 +145,14 @@ export function Course() {
                         value={""}
                       />
                       {
-                        program.map((program, i) => (    
+                        department.map((department, i) => (    
                           <div key={i}>
                             <RadioButton 
                               name={"Search"}
                               id={i}
                               onchange={handleChange}
-                              text={program.ProgramName}
-                              value={program.ProgramName}
+                              text={department.DepartmentName}
+                              value={department.DepartmentName}
                             />
                           </div>
                         ))
@@ -157,5 +167,3 @@ export function Course() {
     />
   )
 }
-  
-  

@@ -86,10 +86,10 @@ export class Sidebar extends React.Component {
                               </Link>
                           </li>
                           <li className="w-100"> 
-                              <Link to='/facultymember' className="nav-link">
+                              <Link to='/coach' className="nav-link">
                                 <img src={ user } width="15" height="15" />
                                 <span className="d-none d-sm-inline px-2 text-light">
-                                  Faculty Member
+                                  Coach
                                 </span>
                               </Link>
                           </li>

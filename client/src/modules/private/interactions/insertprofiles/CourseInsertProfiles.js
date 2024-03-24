@@ -2,11 +2,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
-import { StatusModal } from '../../../components/StatusModal';
 import { Select } from '../../../components/Select';
-import { RadioButton } from '../../../components/RadioButton';
 import { Button } from '../../../components/Button';
 import { Layout2 } from '../../../layout/Layout2';
 

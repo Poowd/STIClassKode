@@ -9,27 +9,20 @@ import { Dashboard } from './modules/private/Dashboard'
 import { Login } from './modules/public/Login';
 import { Section } from './modules/private/file_maintainance/Section';
 //components
-import { Student } from './modules/private/file_maintainance/Student';
-import { FacultyMember } from './modules/private/file_maintainance/FacultyMember';
 import { Course } from './modules/private/file_maintainance/Course';
 import { SchoolFacility } from './modules/private/file_maintainance/SchoolFacility';
 import { Homepage } from './modules/user/Homepage';
-import { MainPageWrapper } from './modules/components/MainPageWrapper';
 import { Program } from './modules/private/file_maintainance/Program';
 import { ViewProfile } from './modules/private/interactions/ViewProfile';
 import { EditProfile } from './modules/private/interactions/EditProfile';
 import { InsertProfile } from './modules/private/interactions/InsertProfile';
 import { Schedule } from './modules/private/schedules/Schedule';
-import { Missing } from './modules/public/Missing';
 import { NewFormat } from './modules/private/new/NewFormat';
 import { EditPage } from './modules/private/new/EditPage';
 import { Layout1 } from './modules/layout/Layout1';
-import { Layout2 } from './modules/layout/Layout2';
-import { Layout3 } from './modules/layout/Layout3';
 import { Button } from './modules/components/Button';
-import icon from './assets/icons/document.png'
-import avatar from './assets/imgs/placeholderimages/avatar.png'
 import { Sidebar } from './modules/components/Sidebar';
+import { Coach } from './modules/private/file_maintainance/Coach';
 
 function App() {
   const navigate = new useNavigate();
@@ -139,7 +132,7 @@ function App() {
                         {/* <Route path='/student' element={ <Student /> }></Route> */}
                         <Route path='/course' element={ <Course /> }></Route>
                         <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
-                        <Route path='/facultymember' element={ <FacultyMember /> }></Route>
+                        <Route path='/coach' element={ <Coach /> }></Route>
                         <Route path='/program' element={ <Program /> }></Route></>
                       :
                       ""

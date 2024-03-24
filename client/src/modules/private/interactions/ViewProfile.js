@@ -2,7 +2,7 @@
 import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentProfiles } from './profiles/StudentProfiles';
-import { FacultyMemberProfiles } from './profiles/FacultyMemberProfiles';
+import { CoachProfiles, FacultyMemberProfiles } from './profiles/CoachProfiles';
 import { SchoolFacilityProfiles } from './profiles/SchoolFacilityProfiles';
 import { SectionProfiles } from './profiles/SectionProfiles';
 import { CourseProfiles } from './profiles/CourseProfiles';
@@ -20,7 +20,7 @@ export function ViewProfile() {
   const params = useParams();
   return (
     <>
-      <main className="p-3">
+      <main className="p-3 overflow-auto" style={{height: "85vh"}}>
         <header>
           <h2>{"View " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</h2>
           <nav aria-label="breadcrumb">
@@ -33,7 +33,7 @@ export function ViewProfile() {
         </header>
 
         { params.type === "student" ? <StudentProfiles /> : "" }
-        { params.type === "facultymember" ? <FacultyMemberProfiles /> : "" }  
+        { params.type === "coach" ? <CoachProfiles /> : "" }  
         { params.type === "schoolfacility" ? <SchoolFacilityProfiles /> : "" }  
         { params.type === "section" ? <SectionProfiles /> : "" } 
         { params.type === "course" ? <CourseProfiles /> : "" } 

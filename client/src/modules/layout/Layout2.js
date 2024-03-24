@@ -15,7 +15,7 @@ export class Layout2 extends React.Component {
   render() {
     return (
       <main>
-        <main className='row' style={{height: "80vh"}}>
+        <main className='row'>
           <section className='col-8 p-3'>
             <form onSubmit={this.props.form_submit}>
               {this.props.form_content}

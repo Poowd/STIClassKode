@@ -2,7 +2,7 @@
 import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentInsertProfiles } from './insertprofiles/StudentInsertProfiles';
-import { FacultyMemberInsertProfiles } from './insertprofiles/FacultyMemberInsertProfiles';
+import { CoachInsertProfiles, FacultyMemberInsertProfiles } from './insertprofiles/CoachInsertProfiles';
 import { SchoolFacilityInsertProfiles } from './insertprofiles/SchoolFacilityInsertProfiles';
 import { SectionInsertProfiles } from './insertprofiles/SectionInsertProfiles';
 import { CourseInsertProfiles } from './insertprofiles/CourseInsertProfiles';
@@ -19,7 +19,7 @@ export function InsertProfile() {
   const params = useParams();
   return (  
     <>
-      <main className="p-3 overflow-auto vh-100">
+      <main className="p-3 overflow-auto" style={{height: "85vh"}}>
         <header>
           <h2>{"Insert " + params.type.substring(0, 1).toUpperCase() + params.type.substring(1)}</h2>
           <nav aria-label="breadcrumb">
@@ -31,7 +31,7 @@ export function InsertProfile() {
           <hr />
         </header>
         { params.type === "student" ? <StudentInsertProfiles /> : "" }
-        { params.type === "facultymember" ? <FacultyMemberInsertProfiles /> : "" }  
+        { params.type === "coach" ? <CoachInsertProfiles /> : "" }  
         { params.type === "schoolfacility" ? <SchoolFacilityInsertProfiles /> : "" }  
         { params.type === "section" ? <SectionInsertProfiles /> : "" } 
         { params.type === "course" ? <CourseInsertProfiles /> : "" } 

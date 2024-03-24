@@ -34,7 +34,7 @@ export function CourseEditProfiles() {
     axios.post('http://localhost:8081/update-course', editcourse)
     .then(res => {
       try {
-        navigate(-1)
+        navigate("/course")
       } catch(err) {
         console.log(err)
       }
@@ -49,7 +49,7 @@ export function CourseEditProfiles() {
     axios.post('http://localhost:8081/delete-course', deletecourse)
     .then(res => {
       try {
-        navigate(-1)
+        navigate("/course")
       } catch(err) {
         console.log(err)
       }

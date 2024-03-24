@@ -380,7 +380,25 @@ app.post('/create-course', (req, res) => {
     })
 }) 
 
-
+app.post('/create-coach', (req, res) => {
+    const sql = "INSERT INTO tbl_coach (`SCHLID`, `FirstName`, `MiddleInitial`, `LastName`, `Type`, `Units`, `DPTID`, `Email`, `ContactNumber`, `Facebook`) VALUES (?)"
+    const values = [
+        req.body.SCHLID,
+        req.body.FirstName,
+        req.body.MiddleInitial,
+        req.body.LastName,
+        req.body.Type,
+        req.body.Units,
+        req.body.DPTID,
+        req.body.Email,
+        req.body.ContactNumber,
+        req.body.Facebook,
+    ]
+    db.query(sql, [values], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
 
 /*
     Section 2: Displaying of Data
@@ -417,11 +435,39 @@ app.post('/display-course-program', (req, res) => {
                     "tbl_program ON tbl_course.PRGID = tbl_program.PRGID " + 
                     
                 "WHERE " + 
+                    "tbl_course.Deleted='False' AND tbl_course.CourseCode LIKE '%"+ req.body.Search +"%' OR " + 
                     "tbl_course.Deleted='False' AND tbl_course.CourseName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_course.Deleted='False' AND tbl_course.Units LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_course.Deleted='False' AND tbl_course.LessonType LIKE '%"+ req.body.Search +"%' OR " + 
                     "tbl_course.Deleted='False' AND tbl_program.ProgramName LIKE '%"+ req.body.Search +"%' " + 
                     
                 "ORDER " + 
                     "BY tbl_course.CRSID"
+                    
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+})
+
+app.post('/display-coach', (req, res) => {
+    const sql = "SELECT * FROM tbl_coach " + 
+
+                "INNER JOIN " + 
+                    "tbl_department ON tbl_coach.DPTID = tbl_department.DPTID " + 
+
+                "WHERE " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.FirstName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.MiddleInitial LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.LastName LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.Type LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.Units LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.Email LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_coach.ContactNumber LIKE '%"+ req.body.Search +"%' OR " + 
+                    "tbl_coach.Deleted='False' AND tbl_department.DepartmentName LIKE '%"+ req.body.Search +"%' " + 
+                    
+                "ORDER " + 
+                    "BY tbl_coach.CCHID"
                     
     db.query(sql, (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"})
@@ -453,6 +499,15 @@ app.post('/display-input-section', (req, res) => {
     })
 }) 
 
+app.post('/display-input-department', (req, res) => {
+    const sql = "SELECT * FROM tbl_department WHERE Deleted='False'"
+                    
+    db.query(sql, (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"})
+        return res.json(data)
+    })
+}) 
+
 /*
     Section 3: Updating of Data
 
@@ -474,6 +529,24 @@ app.post('/update-course', (req, res) => {
     })
 })
 
+app.post('/update-coach', (req, res) => {
+    const sql = "UPDATE tbl_coach SET SCHLID = ?, FirstName = ?, MiddleInitial = ?, LastName = ?, Type = ?, Units = ?, DPTID = ?, Email = ?, ContactNumber = ?, Facebook = ?  WHERE CCHID = ?"
+    db.query(sql, [req.body.SCHLID,
+                   req.body.FirstName,
+                   req.body.MiddleInitial,
+                   req.body.LastName,
+                   req.body.Type,
+                   req.body.Units,
+                   req.body.DPTID,
+                   req.body.Email,
+                   req.body.ContactNumber,
+                   req.body.Facebook,
+                   req.body.CCHID,], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
 /*
     Section 4: Deletion of Data
 
@@ -485,6 +558,14 @@ app.post('/update-course', (req, res) => {
 app.post('/delete-course', (req, res) => {
     const sql = "UPDATE tbl_course SET Deleted = ? WHERE CRSID = ?"
     db.query(sql, ["True", req.body.CRSID], (err, data) => {
+        if (err) return res.json({Message: "Server Sided Error"});
+        return res.json(data)
+    })
+})
+
+app.post('/delete-coach', (req, res) => {
+    const sql = "UPDATE tbl_coach SET Deleted = ? WHERE CCHID = ?"
+    db.query(sql, ["True", req.body.CCHID], (err, data) => {
         if (err) return res.json({Message: "Server Sided Error"});
         return res.json(data)
     })

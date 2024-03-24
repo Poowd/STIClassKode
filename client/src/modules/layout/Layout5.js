@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 export class Layout5 extends React.Component {
   render() {
     return (
-      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "80vh"}}>
+      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "85vh"}}>
         <main className='row m-0'>
           <section className='col-lg-9'>
           <div className="row">

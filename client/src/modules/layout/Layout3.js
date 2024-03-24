@@ -9,7 +9,7 @@ import '../../Style.css'
 export class Layout3 extends React.Component {
   render() {
     return (
-      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "96vh"}}>
+      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "85vh"}}>
         <header>
           <ul className='p-0 m-0 row'>
             <li className='col-lg-4 p-3'>
