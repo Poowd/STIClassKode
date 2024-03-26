@@ -2,91 +2,131 @@ import axios from 'axios'
 import React, { useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { ConfirmModal } from '../../../components/ConfirmModal';
-import deleteIcon from '../../../../assets/icons/delete.png'
+import { Layout2 } from '../../../layout/Layout2';
+import { Select } from '../../../components/Select';
 
 export function ProgramEditProfiles() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [editprogram, setEditProgram] = useState({
-    ProgramID: params.id,
-    Name: state.Name,
-    ProgramCode: state.ProgramCode,
-    Description: state.Description,
-    Category: state.Category,
-  })
-  const [deleteprogram, setDeleteProgram] = useState({
-    ProgramID: params.id
-  })
-
-  //---
-  const EditProgram = (e) => {
-    e.preventDefault()
-    axios.post('http://localhost:8081/update-program', editprogram)
-    .then(res => {
-      try {
-        navigate(-1)
-      } catch(err) {
-        console.log(err)
-      }
-    })
-    .catch(err => console.log(err))
-  }
-
-  //---
-  const DeleteProgram = () => {
-    axios.post('http://localhost:8081/delete-program', deleteprogram)
-    .then(res => {
-      try {
-        navigate(-1)
-      } catch(err) {
-        console.log(err)
-      }
-    })
-    .catch(err => console.log(err))
-  }
-
 
   //---
   const handleChange = (e) => {
     setEditProgram(prev => ({
       ...prev,
       [ e.target.name ]: e.target.value
-    }))}
-    
+  }))}
+
+  const [editprogram, setEditProgram] = useState({
+    PRGID: state.PRGID,
+    ProgramCode: state.ProgramCode,
+    ProgramName: state.ProgramName,
+    Abbrev: state.Abbrev,
+    Description: state.Description,
+    DPTID: state.DPTID,
+  })
+  const EditProgram = (e) => {
+    e.preventDefault()
+    axios.post('http://localhost:8081/update-program', editprogram)
+    .then(res => {
+      try {
+        navigate("/program")
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  const [deletecourse, setDeleteCourse] = useState({
+    PRGID: params.id,
+  })
+  const DeleteCourse = () => {
+    axios.post('http://localhost:8081/delete-program', deletecourse)
+    .then(res => {
+      try {
+        navigate("/program")
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  const [department, setDepartment] = useState([])
+  axios.post('http://localhost:8081/display-input-department')
+    .then( res => {
+      try {
+        setDepartment(res.data)
+      } catch(err) {
+        console.log(err)
+      }
+  })
+
   return (
     <>
-      <Form
-        status={
-          editprogram.Name !== "" && 
-          editprogram.ProgramCode !== "" && 
-          editprogram.Category !== ""  ? true : false
-        }
-        form_status={ "You have successfully edited " + params.id }
-        form_title={ "Edit " + params.id }
+      <Layout2
+        form_status={ "You have successfully created a " + params.type }
+        form_title={ "Edit " + params.type }
         form_content={ 
           <>
-            <Input 
-              title={ "Name" }
-              type={ "text" }
-              placeholder={ "Name" }
-              trigger={ handleChange }
-              name={ "Name" }
-              value={ editprogram.Name }
-              required
-            />
+            <div className='d-flex gap-1 justify-content-end'>
+              <Button
+                class={"btn btn-secondary"} 
+                text={"Cancel"} 
+                disabled={false}
+                onClick={() => {navigate("/program")}}
+              />
+              <Button
+                class={"btn btn-secondary"} 
+                text={"Delete"} 
+                disabled={false}
+                onClick={DeleteCourse}
+              />
+              <Button
+                  class={ "btn btn-primary" } 
+                  type={ "submit" }
+                  text={ "Save" } 
+                  disabled={ false }
+                  onClick={ () => {console.log("Button Clicked!")} }
+              />
+            </div>
+            <div>
+              <div className="row align-items-start">
+                <div className="col">
+                  <Input 
+                    title={ "ProgramCode" }
+                    type={ "text" }
+                    placeholder={ "ProgramCode" }
+                    trigger={ handleChange }
+                    name={ "ProgramCode" }
+                    value={editprogram.ProgramCode}
+                    required
+                  />
+                </div>
+                <div className="col">
+                  <Input 
+                    title={ "Abbrev" }
+                    type={ "text" }
+                    placeholder={ "Abbrev" }
+                    trigger={ handleChange }
+                    name={ "Abbrev" }
+                    value={editprogram.Abbrev}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
 
             <Input 
-              title={ "Program Code" }
+              title={ "ProgramName" }
               type={ "text" }
-              placeholder={ "ProgramCode" }
+              placeholder={ "ProgramName" }
               trigger={ handleChange }
-              name={ "ProgramCode" }
-              value={ editprogram.ProgramCode }
+              name={ "ProgramName" }
+              value={editprogram.ProgramName}
               required
             />
 
@@ -96,47 +136,49 @@ export function ProgramEditProfiles() {
               placeholder={ "Description" }
               trigger={ handleChange }
               name={ "Description" }
-              value={ editprogram.Description }
-              required={ false }
+              value={editprogram.Description}
+              required={false}
             />
 
-            <label className='fs-6'>Category</label>
-            <select 
-              className="d-block w-100 mb-3 px-4 py-2 form-select" 
-              id={ "Category" }
-              name={ "Category" }
-              onChange={ handleChange }>
-                <option defaultValue={ editprogram.Category }>{ editprogram.Category }</option>
-                  {editprogram.Category === "Information & Communications Technology" ? "":<option value="Information & Communications Technology">Information & Communications Technology</option>}
-                  {editprogram.Category === "Business & Management" ? "":<option value="Business & Management">Business & Management</option>}
-                  {editprogram.Category === "Hospitality Management" ? "":<option value="Hospitality Management">Hospitality Management</option>}
-                  {editprogram.Category === "Tourism Management" ? "":<option value="Tourism Management">Tourism Management</option>}
-                  {editprogram.Category === "Engineering" ? "":<option value="Engineering">Engineering</option>}
-                  {editprogram.Category === "Arts & Sciences" ? "":<option value="Arts & Sciences">Arts & Sciences</option>}
-                  {editprogram.Category === "General Studies" ? "":<option value="General Studies">General Studies</option>}
-                  {editprogram.Category === "Other" ? "":<option value="Other">Other</option>}
-            </select>
+            <Select 
+              title={"Department"}
+              class={""}
+              name={"DPTID"}
+              trigger={handleChange}
+              options={<>{
+                department.map(option => ( 
+                  option.DPTID === editprogram.DPTID ?
+                  <option key={option.DPTID} defaultValue={option.DPTID}> 
+                    {option.DepartmentName} 
+                  </option> 
+                  :""
+                ))}{
+                  department.map(option => ( 
+                    option.DPTID != editprogram.DPTID ?
+                    <option key={option.DPTID} value={option.DPTID}> 
+                      {option.DepartmentName} 
+                    </option>
+                    :"" 
+                  ))}
+              </>}
+              required
+            />
           </>
         }
+        navigate={() => {navigate("/program")}}
         form_submit={ EditProgram }
-      />
-      <Button
-        class={ "btn btn-danger" } 
-        type={ "button" }
-        text={ "Delete" } 
-        disabled={ false }
-        onClick={ () => {} }
-        databstoggle={ "modal" }
-        databstarget={ "#delete" }
-      />
-      <ConfirmModal
-        id={ "delete" } 
-        icon={ deleteIcon }
-        title={ "Delete" }
-        subtitle={ "You want to delete " + deleteprogram.ProgramID + " ?" }
-        confirm={ DeleteProgram }
-        textclass={ "text-danger" }
-        btnclass={ "btn-danger" }
+        card_content={<>
+          <p><span className='fs-6 text-secondary d-block'>ProgramName:</span> {editprogram.ProgramName}</p>
+          <p><span className='fs-6 text-secondary d-block'>Abbrev:</span> {editprogram.Abbrev}</p>
+          <p><span className='fs-6 text-secondary d-block'>Description:</span> {editprogram.Description}</p>
+          <p><span className='fs-6 text-secondary d-block'>Department:</span> {
+            department.map(option => ( 
+              option.DPTID === editprogram.DPTID ?
+              <span key={option.DPTID}>{option.DepartmentName}</span>
+              :""
+            ))
+          }</p>
+        </>}
       />
     </>
   )

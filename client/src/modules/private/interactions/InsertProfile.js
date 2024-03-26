@@ -3,14 +3,11 @@ import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentInsertProfiles } from './insertprofiles/StudentInsertProfiles';
 import { CoachInsertProfiles, FacultyMemberInsertProfiles } from './insertprofiles/CoachInsertProfiles';
-import { SchoolFacilityInsertProfiles } from './insertprofiles/SchoolFacilityInsertProfiles';
 import { SectionInsertProfiles } from './insertprofiles/SectionInsertProfiles';
 import { CourseInsertProfiles } from './insertprofiles/CourseInsertProfiles';
 import { ProgramInsertProfiles } from './insertprofiles/ProgramInsertProfiles';
 import { UserInsertProfiles } from "./insertprofiles/UserInsertProfiles";
-import { Button } from "../../components/Button"
-import { ConfirmModal } from '../../components/ConfirmModal'
-import warningIcon from '../../../assets/icons/warning.png'
+import { RoomInsertProfiles } from "./insertprofiles/RoomInsertProfiles";
 //css
 //routes
 //components
@@ -32,7 +29,7 @@ export function InsertProfile() {
         </header>
         { params.type === "student" ? <StudentInsertProfiles /> : "" }
         { params.type === "coach" ? <CoachInsertProfiles /> : "" }  
-        { params.type === "schoolfacility" ? <SchoolFacilityInsertProfiles /> : "" }  
+        { params.type === "room" ? <RoomInsertProfiles /> : "" }  
         { params.type === "section" ? <SectionInsertProfiles /> : "" } 
         { params.type === "course" ? <CourseInsertProfiles /> : "" } 
         { params.type === "program" ? <ProgramInsertProfiles /> : "" } 

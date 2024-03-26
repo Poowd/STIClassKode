@@ -100,9 +100,10 @@ export function CoachInsertProfiles() {
                     required
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-3">
                   <Input 
                     title={ "MiddleInitial" }
+                    optional={"Optional"}
                     type={ "text" }
                     placeholder={ "MiddleInitial" }
                     trigger={ handleChange }
@@ -110,7 +111,7 @@ export function CoachInsertProfiles() {
                     required={false}
                   />
                 </div>
-                <div className="col-lg-5">
+                <div className="col-lg-4">
                   <Input 
                     title={ "LastName" }
                     type={ "text" }

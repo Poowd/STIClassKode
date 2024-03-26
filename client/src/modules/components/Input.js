@@ -4,7 +4,7 @@ export class Input extends React.Component {
   render() {
     return (
       <div className="Input w-100 my-2">
-        <label className='fs-6'>{this.props.title}</label>
+        <label className='fs-6'>{this.props.title}<span className='ms-2 text-secondary fst-italic'><small>{this.props.optional}</small></span></label>
             <input 
               className={ "d-block w-100 px-4 py-2 form-control " + this.props.class }
               type={this.props.type}

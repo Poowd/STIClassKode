@@ -2,11 +2,8 @@ import axios from 'axios'
 import React, { useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { ConfirmModal } from '../../../components/ConfirmModal';
-import deleteIcon from '../../../../assets/icons/delete.png'
 import { Layout2 } from '../../../layout/Layout2';
 import { Select } from '../../../components/Select';
 

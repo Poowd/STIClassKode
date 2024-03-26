@@ -3,11 +3,11 @@ import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentEditProfiles } from './editprofiles/StudentEditProfiles';
 import { CoachEditProfiles } from './editprofiles/CoachEditProfiles';
-import { SchoolFacilityEditProfiles } from './editprofiles/SchoolFacilityEditProfiles';
 import { SectionEditProfiles } from './editprofiles/SectionEditProfiles';
 import { CourseEditProfiles } from './editprofiles/CourseEditProfiles';
 import { ProgramEditProfiles } from './editprofiles/ProgramEditProfiles';
 import { UserEditProfiles } from "./editprofiles/UserEditProfiles";
+import { RoomEditProfiles } from "./editprofiles/RoomEditProfiles";
 //css
 //routes
 //components
@@ -29,7 +29,7 @@ export function EditProfile() {
         </header>
         { params.type === "student" ? <StudentEditProfiles /> : "" }
         { params.type === "coach" ? <CoachEditProfiles /> : "" }  
-        { params.type === "schoolfacility" ? <SchoolFacilityEditProfiles /> : "" }  
+        { params.type === "room" ? <RoomEditProfiles /> : "" }  
         { params.type === "section" ? <SectionEditProfiles /> : "" } 
         { params.type === "course" ? <CourseEditProfiles /> : "" } 
         { params.type === "program" ? <ProgramEditProfiles /> : "" } 

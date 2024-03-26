@@ -4,13 +4,14 @@ import { Button } from "../../components/Button"
 import view from '../../../assets/icons/view (1).png'
 import edit from '../../../assets/icons/edit-text.png'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { Layout3 } from '../../layout/Layout3'
 import { Table } from '../../components/Table'
 import { RadioButton } from '../../components/RadioButton'
 import { Layout4 } from '../../layout/Layout4'
 
 export function Course() {
   const navigate = useNavigate()
+
+  const courseLesson = ['Lecture Only', 'Lecture and Laboratory', 'Lecture and Practical', 'Others']
 
   const handleChange = (e) => {
     SetSearch(prev => ({
@@ -22,7 +23,7 @@ export function Course() {
   const [search, SetSearch] = useState({
     Search: ""
   })
-  axios.post('http://localhost:8081/display-course-program', search)
+  axios.post('http://localhost:8081/display-course', search)
     .then( res => {
       try {
         setData(res.data)
@@ -134,15 +135,30 @@ export function Course() {
                         text={"All"}
                         value={""}
                       />
+                      <hr />
                       {
                         program.map((program, i) => (    
                           <div key={i}>
                             <RadioButton 
                               name={"Search"}
-                              id={i}
+                              id={'p' + i}
                               onchange={handleChange}
                               text={program.ProgramName}
                               value={program.ProgramName}
+                            />
+                          </div>
+                        ))
+                      }
+                      <hr />
+                      {
+                        courseLesson.map((lesson, i) => (    
+                          <div key={i}>
+                            <RadioButton 
+                              name={"Search"}
+                              id={'l' + i}
+                              onchange={handleChange}
+                              text={lesson}
+                              value={lesson}
                             />
                           </div>
                         ))

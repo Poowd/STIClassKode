@@ -3,15 +3,12 @@ import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { StudentProfiles } from './profiles/StudentProfiles';
 import { CoachProfiles, FacultyMemberProfiles } from './profiles/CoachProfiles';
-import { SchoolFacilityProfiles } from './profiles/SchoolFacilityProfiles';
 import { SectionProfiles } from './profiles/SectionProfiles';
 import { CourseProfiles } from './profiles/CourseProfiles';
 import { ProgramProfiles } from './profiles/ProgramProfiles';
 import { UserProfiles } from "./profiles/UserProfiles";
-import { Button } from "../../components/Button"
-import { ConfirmModal } from '../../components/ConfirmModal'
-import logout from '../../../assets/icons/switch.png'
 import { ScheduleProfiles } from "./profiles/ScheduleProfiles";
+import { RoomProfiles } from "./profiles/RoomProfiles";
 //css
 //routes
 //components
@@ -34,7 +31,7 @@ export function ViewProfile() {
 
         { params.type === "student" ? <StudentProfiles /> : "" }
         { params.type === "coach" ? <CoachProfiles /> : "" }  
-        { params.type === "schoolfacility" ? <SchoolFacilityProfiles /> : "" }  
+        { params.type === "room" ? <RoomProfiles /> : "" }  
         { params.type === "section" ? <SectionProfiles /> : "" } 
         { params.type === "course" ? <CourseProfiles /> : "" } 
         { params.type === "program" ? <ProgramProfiles /> : "" } 

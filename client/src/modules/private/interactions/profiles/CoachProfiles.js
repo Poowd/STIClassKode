@@ -2,6 +2,7 @@ import React from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { Layout5 } from "../../../layout/Layout5";
+import avatar from "../../../../assets/imgs/placeholderimages/avatar.png"
 
 export function CoachProfiles() {
     let navigate = useNavigate();
@@ -23,14 +24,14 @@ export function CoachProfiles() {
                     <li className="list-group-item"><span className='text-secondary'>Department: </span>{state.DPTID}</li>
                     <li className="list-group-item"><span className='text-secondary'>Email: </span>{state.Email}</li>
                     <li className="list-group-item"><span className='text-secondary'>ContactNumber: </span>{state.ContactNumber}</li>
-                    <li className="list-group-item"><span className='text-secondary'>Facebook: </span>{state.Facebook}</li>
+                    <li className="list-group-item"><span className='text-secondary'>Facebook: </span><a href={state.Facebook} target="_blank">{state.Facebook}</a></li>
                     <li className="list-group-item"><span className='text-secondary'>DateCreated: </span>{state.DateCreated}</li>
                   </ul>
               </div>
             </div>
           }
           col_2_2={
-            <img src="https://i.pinimg.com/236x/e5/24/d1/e524d1d14252daa2b81366a854a3f642.jpg" className="custom-image" alt="..." />
+            <img src={avatar} className="custom-image" alt="..."  style={{aspectRatio: '9/16'}} />
           }
         />
       </>

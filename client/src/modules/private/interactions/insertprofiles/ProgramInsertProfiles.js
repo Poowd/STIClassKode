@@ -2,34 +2,15 @@ import axios from 'axios'
 import React, { useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
+import { Button } from '../../../components/Button';
+import { Layout2 } from '../../../layout/Layout2';
+import { Select } from '../../../components/Select';
 
 export function ProgramInsertProfiles() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [addprogram, setAddProgram] = useState({
-    ProgramID: '',
-    Name: '',
-    ProgramCode: '',
-    Description: '',
-    Category: '',
-  })
-
-  //---
-  const AddProgram = (e) => {
-    e.preventDefault()
-    axios.post('http://localhost:8081/add-program', addprogram)
-    .then(res => {
-      try {
-        navigate(-1)
-      } catch(err) {
-        console.log(err)
-      }
-    })
-    .catch(err => console.log(err))
-  }
 
   //---
   const handleChange = (e) => {
@@ -37,66 +18,138 @@ export function ProgramInsertProfiles() {
       ...prev,
       [ e.target.name ]: e.target.value
   }))}
-      
+
+  const [addprogram, setAddProgram] = useState({
+    PRGID: '',
+    ProgramCode: '',
+    ProgramName: '',
+    Abbrev: '',
+    Description: '',
+    DPTID: '',
+  })
+  const AddProgram = (e) => {
+    e.preventDefault()
+    axios.post('http://localhost:8081/create-program', addprogram)
+    .then(res => {
+      try {
+        navigate("/program")
+      } catch(err) {
+        console.log(err)
+      }
+    })
+    .catch(err => console.log(err))
+  }
+
+  const [department, setDepartment] = useState([])
+  axios.post('http://localhost:8081/display-input-department')
+    .then( res => {
+      try {
+        setDepartment(res.data)
+      } catch(err) {
+        console.log(err)
+      }
+  })
+
   return (
     <>
-      <Form 
-        status={
-          addprogram.Name !== "" && 
-          addprogram.ProgramCode !== "" && 
-          addprogram.Category !== ""  ? true : false
-        }
+      <Layout2
         form_status={ "You have successfully created a " + params.type }
-        form_title={ "Insert " + params.type }
+        form_title={ "Edit " + params.type }
         form_content={ 
           <>
+            <div className='d-flex gap-1 justify-content-end'>
+              <Button
+                class={"btn btn-secondary"} 
+                text={"Cancel"} 
+                disabled={false}
+                onClick={() => {navigate("/program")}}
+              />
+              <Button
+                  class={ "btn btn-primary" } 
+                  type={ "submit" }
+                  text={ "Save" } 
+                  disabled={ false }
+                  onClick={ () => {console.log("Button Clicked!")} }
+              />
+            </div>
+            <div>
+              <div className="row align-items-start">
+                <div className="col">
+                  <Input 
+                    title={ "ProgramCode" }
+                    type={ "text" }
+                    placeholder={ "ProgramCode" }
+                    trigger={ handleChange }
+                    name={ "ProgramCode" }
+                    value={addprogram.ProgramCode}
+                    required
+                  />
+                </div>
+                <div className="col">
+                  <Input 
+                    title={ "Abbrev" }
+                    type={ "text" }
+                    placeholder={ "Abbrev" }
+                    trigger={ handleChange }
+                    name={ "Abbrev" }
+                    value={addprogram.Abbrev}
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
             <Input 
-              title={ "Name" }
+              title={ "ProgramName" }
               type={ "text" }
-              placeholder={ "Name" }
+              placeholder={ "ProgramName" }
               trigger={ handleChange }
-              name={ "Name" }
+              name={ "ProgramName" }
+              value={addprogram.ProgramName}
               required
             />
 
-            <Input 
-              title={ "ProgramCode" }
-              type={ "text" }
-              placeholder={ "ProgramCode" }
-              trigger={ handleChange }
-              name={ "ProgramCode" }
-              required
-            />
-            
             <Input 
               title={ "Description" }
               type={ "text" }
               placeholder={ "Description" }
               trigger={ handleChange }
               name={ "Description" }
-              required={ false }
+              value={addprogram.Description}
+              required={false}
             />
 
-            <label htmlFor='Category' className='fs-6'>Category</label>
-            <select 
-              className="d-block w-100 mb-3 px-4 py-2 form-select" 
-              id={ "Category" }
-              name={ "Category" }
-              onChange={ handleChange }
-              required>
-                <option defaultValue={ addprogram.Category }>{ addprogram.Category }</option>
-                  {addprogram.Category === "Information & Communications Technology" ? "":<option value="Information & Communications Technology">Information & Communications Technology</option>}
-                  {addprogram.Category === "Business & Management" ? "":<option value="Business & Management">Business & Management</option>}
-                  {addprogram.Category === "Hospitality Management" ? "":<option value="Hospitality Management">Hospitality Management</option>}
-                  {addprogram.Category === "Tourism Management" ? "":<option value="Tourism Management">Tourism Management</option>}
-                  {addprogram.Category === "Engineering" ? "":<option value="Engineering">Engineering</option>}
-                  {addprogram.Category === "Arts & Sciences" ? "":<option value="Arts & Sciences">Arts & Sciences</option>}
-                  {addprogram.Category === "General Studies" ? "":<option value="General Studies">General Studies</option>}
-                  {addprogram.Category === "Other" ? "":<option value="Other">Other</option>}
-            </select>
+            <Select 
+              title={"Department"}
+              class={""}
+              name={"DPTID"}
+              trigger={handleChange}
+              options={<>
+                <option value={""}>None</option>{
+                  department.map(option => ( 
+                    <option key={option.DPTID} value={option.DPTID}> 
+                      {option.DepartmentName} 
+                    </option> 
+                  ))}
+              </>}
+              required
+            />
           </>
         }
+        navigate={() => {navigate("/program")}}
         form_submit={ AddProgram }
+        card_content={<>
+          <p><span className='fs-6 text-secondary d-block'>ProgramName:</span> {addprogram.ProgramName}</p>
+          <p><span className='fs-6 text-secondary d-block'>Abbrev:</span> {addprogram.Abbrev}</p>
+          <p><span className='fs-6 text-secondary d-block'>Description:</span> {addprogram.Description}</p>
+          <p><span className='fs-6 text-secondary d-block'>Department:</span> {
+            department.map(option => ( 
+              option.DPTID === addprogram.DPTID ?
+              <span key={option.DPTID}>{option.DepartmentName}</span>
+              :""
+            ))
+          }</p>
+        </>}
       />
     </>
   )

@@ -1,8 +1,6 @@
 import React from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Layout4 } from "../../../layout/Layout4";
-import { Layout3 } from "../../../layout/Layout3";
 import { Layout5 } from "../../../layout/Layout5";
 
 export function CourseProfiles() {
@@ -29,7 +27,7 @@ export function CourseProfiles() {
             </div>
           }
           col_2_2={
-            <img src="https://i.pinimg.com/236x/e5/24/d1/e524d1d14252daa2b81366a854a3f642.jpg" className="custom-image" alt="..." />
+            <img src="https://i.pinimg.com/236x/e5/24/d1/e524d1d14252daa2b81366a854a3f642.jpg" className="custom-image" alt="..." style={{aspectRatio: '9/16'}} />
           }
         />
       </>

@@ -12,6 +12,8 @@ import { Layout4 } from '../../layout/Layout4'
 export function Coach() {
   const navigate = useNavigate()
 
+  const coachStatus = ['Fulltime', 'Parttime']
+
   const handleChange = (e) => {
     SetSearch(prev => ({
       ...prev,
@@ -144,15 +146,30 @@ export function Coach() {
                         text={"All"}
                         value={""}
                       />
+                      <hr />
                       {
                         department.map((department, i) => (    
                           <div key={i}>
                             <RadioButton 
                               name={"Search"}
-                              id={i}
+                              id={'d' + i}
                               onchange={handleChange}
                               text={department.DepartmentName}
                               value={department.DepartmentName}
+                            />
+                          </div>
+                        ))
+                      }
+                      <hr />
+                      {
+                        coachStatus.map((status, i) => (    
+                          <div key={i}>
+                            <RadioButton 
+                              name={"Search"}
+                              id={'s' + i}
+                              onchange={handleChange}
+                              text={status}
+                              value={status}
                             />
                           </div>
                         ))

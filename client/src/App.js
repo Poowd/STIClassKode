@@ -10,7 +10,6 @@ import { Login } from './modules/public/Login';
 import { Section } from './modules/private/file_maintainance/Section';
 //components
 import { Course } from './modules/private/file_maintainance/Course';
-import { SchoolFacility } from './modules/private/file_maintainance/SchoolFacility';
 import { Homepage } from './modules/user/Homepage';
 import { Program } from './modules/private/file_maintainance/Program';
 import { ViewProfile } from './modules/private/interactions/ViewProfile';
@@ -23,6 +22,7 @@ import { Layout1 } from './modules/layout/Layout1';
 import { Button } from './modules/components/Button';
 import { Sidebar } from './modules/components/Sidebar';
 import { Coach } from './modules/private/file_maintainance/Coach';
+import { Room } from './modules/private/file_maintainance/Room';
 
 function App() {
   const navigate = new useNavigate();
@@ -129,9 +129,8 @@ function App() {
                   <Route path='/' element={userdetails.UserType === "Admin" ? <Dashboard />:<Homepage />}></Route>
                   { userdetails.File_Maintainance === "True" ? 
                       <><Route path='/section' element={ <Section /> }></Route>
-                        {/* <Route path='/student' element={ <Student /> }></Route> */}
                         <Route path='/course' element={ <Course /> }></Route>
-                        <Route path='/schoolfacility' element={ <SchoolFacility /> }></Route>
+                        <Route path='/room' element={ <Room /> }></Route>
                         <Route path='/coach' element={ <Coach /> }></Route>
                         <Route path='/program' element={ <Program /> }></Route></>
                       :

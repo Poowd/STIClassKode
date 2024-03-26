@@ -8,8 +8,11 @@ import { Table } from '../../components/Table'
 import { RadioButton } from '../../components/RadioButton'
 import { Layout4 } from '../../layout/Layout4'
 
-export function Program() {
+export function Room() {
   const navigate = useNavigate()
+  const roomType = ['Regular Room', 'Laboratory', 'Audio Visual Room', 'Practical Area', 'Others']
+  const roomBuilding = ['Main', 'Annex-A', 'Annex-B']
+  const roomFloor = ['First Floor', 'Second Floor', 'Third Floor']
 
   const handleChange = (e) => {
     SetSearch(prev => ({
@@ -21,7 +24,7 @@ export function Program() {
   const [search, SetSearch] = useState({
     Search: ""
   })
-  axios.post('http://localhost:8081/display-program', search)
+  axios.post('http://localhost:8081/display-room', search)
     .then( res => {
       try {
         setData(res.data)
@@ -43,32 +46,29 @@ export function Program() {
   return (
     <Layout4
       parent_page={"File Maintainance"}
-      page_title={"Program"}
+      page_title={"Room"}
       col_1_1={"d"}
       col_2_1={
         <section>
           <h6>{"Table"}</h6>
           <Table
             table_items={
-              data.map((program, i) => (       
+              data.map((room, i) => (       
                 <tr key={i} 
                   onClick={() => {console.log("Row Clicked!")}
                 }>
-                  <td><div className='pt-2'>{program.PRGID}</div></td>
-                  <td><div className='pt-2'>{program.ProgramName}</div></td>
+                  <td><div className='pt-2'>{room.RMID}</div></td>
+                  <td><div className='pt-2'>{room.RoomName}</div></td>
                   <td className=''>
                     <div className='d-flex gap-1'>
-                      <Link to={ "/view-profile/program/"+ i + "/" + program.PRGID} state={{ 
-                          PRGID: program.PRGID,
-                          ProgramCode: program.ProgramCode,
-                          ProgramName: program.ProgramName,
-                          Abbrev: program.ProgramAbbrev,
-                          Description: program.ProgramDescription,
-                          DPTID: department.map(option => (
-                            option.DPTID === program.DPTID ?
-                            option.DepartmentName:""
-                          )),
-                          DateCreated: program.DateCreated,
+                      <Link to={ "/view-profile/room/"+ i + "/" + room.RMID} state={{ 
+                          RMID: room.RMID,
+                          RoomName: room.RoomName,
+                          Capacity: room.Capacity,
+                          Type: room.Type,
+                          Building: room.Building,
+                          Floor: room.Floor,
+                          DateCreated: room.DateCreated,
                         }} >
                         <Button
                           class={ "btn btn-info" }  
@@ -76,13 +76,14 @@ export function Program() {
                           onClick={ () => {console.log("Button Clicked!")} }
                         />
                       </Link>
-                      <Link to={ "/edit-profile/program/"+ i + "/" + program.PRGID} state={{ 
-                          PRGID: program.PRGID,
-                          ProgramCode: program.ProgramCode,
-                          ProgramName: program.ProgramName,
-                          Abbrev: program.ProgramAbbrev,
-                          Description: program.ProgramDescription,
-                          DPTID: program.DPTID,
+                      <Link to={ "/edit-profile/room/"+ i + "/" + room.RMID} state={{ 
+                          RMID: room.RMID,
+                          RoomName: room.RoomName,
+                          Capacity: room.Capacity,
+                          Type: room.Type,
+                          Building: room.Building,
+                          Floor: room.Floor,
+                          DateCreated: room.DateCreated,
                         }}>
                         <Button
                           class={ "btn btn-warning" }  
@@ -112,7 +113,7 @@ export function Program() {
                       onChange={handleChange}
                       value={search.Search}
                   />
-                  <Link to={ "/insert-profile/program" }>
+                  <Link to={ "/insert-profile/room" }>
                       <Button
                           class={"btn btn-primary"}  
                           text={"Add"} 
@@ -134,14 +135,42 @@ export function Program() {
                       />
                       <hr />
                       {
-                        department.map((department, i) => (    
+                        roomType.map((type, i) => (    
                           <div key={i}>
                             <RadioButton 
                               name={"Search"}
-                              id={i}
+                              id={'t' + i}
                               onchange={handleChange}
-                              text={department.DepartmentName}
-                              value={department.DepartmentName}
+                              text={type}
+                              value={type}
+                            />
+                          </div>
+                        ))
+                      }
+                      <hr />
+                      {
+                        roomBuilding.map((building, i) => (    
+                          <div key={i}>
+                            <RadioButton 
+                              name={"Search"}
+                              id={'b' + i}
+                              onchange={handleChange}
+                              text={building}
+                              value={building}
+                            />
+                          </div>
+                        ))
+                      }
+                      <hr />
+                      {
+                        roomFloor.map((floor, i) => (    
+                          <div key={i}>
+                            <RadioButton 
+                              name={"Search"}
+                              id={'f' + i}
+                              onchange={handleChange}
+                              text={floor}
+                              value={floor}
                             />
                           </div>
                         ))
