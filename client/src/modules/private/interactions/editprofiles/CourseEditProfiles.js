@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom';
 import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
 import { Button } from '../../../components/Button';
-import { ConfirmModal } from '../../../components/ConfirmModal';
-import deleteIcon from '../../../../assets/icons/delete.png'
 import { Select } from '../../../components/Select';
+import { Layout2 } from '../../../layout/Layout2';
 
 export function CourseEditProfiles() {
   const { state } = useLocation();
@@ -69,7 +68,7 @@ export function CourseEditProfiles() {
 
   return (
     <>
-      <Form
+      <Layout2
         form_status={ "You have successfully created a " + params.type }
         form_title={ "Insert " + params.type }
         form_content={ 

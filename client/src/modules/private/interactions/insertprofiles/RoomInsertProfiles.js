@@ -169,7 +169,7 @@ export function RoomInsertProfiles() {
               </div>
               <Input 
                 title={ "RoomName" }
-                optional={"Optional: auto-generated when blank"}
+                optional={"Optional (Except Laboratory)"}
                 type={ "text" }
                 placeholder={ "RoomName" }
                 trigger={ handleChange }

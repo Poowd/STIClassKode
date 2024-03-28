@@ -1,7 +1,6 @@
 //dependencies
 import React from "react"
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { StudentProfiles } from './profiles/StudentProfiles';
 import { CoachProfiles, FacultyMemberProfiles } from './profiles/CoachProfiles';
 import { SectionProfiles } from './profiles/SectionProfiles';
 import { CourseProfiles } from './profiles/CourseProfiles';
@@ -28,8 +27,6 @@ export function ViewProfile() {
           </nav>
           <hr />
         </header>
-
-        { params.type === "student" ? <StudentProfiles /> : "" }
         { params.type === "coach" ? <CoachProfiles /> : "" }  
         { params.type === "room" ? <RoomProfiles /> : "" }  
         { params.type === "section" ? <SectionProfiles /> : "" } 

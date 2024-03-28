@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 export class Layout4 extends React.Component {
   render() {
     return (
-      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "85vh"}}>
+      <main className='overflow-auto h-sm-100 pb-4 pb-lg-0' style={{height: "90vh"}}>
         <header className='px-3 pt-3'>
           <Link to="" className="fs-6 text-secondary">{this.props.parent_page}</Link>
           <h1>{this.props.page_title}</h1>

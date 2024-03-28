@@ -20,6 +20,7 @@ export class Layout2 extends React.Component {
             <form onSubmit={this.props.form_submit}>
               {this.props.form_content}
             </form>
+            {this.props.content}
           </section>
           <section className='col-4 p-3'>
             <div className="card">

@@ -2,90 +2,187 @@ import axios from 'axios'
 import React, { useState } from "react"
 import { useLocation, useNavigate} from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Form } from '../../../components/Form';
 import { Input } from '../../../components/Input';
+import { Button } from '../../../components/Button';
+import { Layout2 } from '../../../layout/Layout2';
+import { Select } from '../../../components/Select';
 
 export function SectionInsertProfiles() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const params = useParams();
-  const [addsection, setAddSection] = useState({
-    SectionID: '',
-    Name: '',
-    Level: '',
-    Semester: '',
-  })
+  
+  const year = ["None", "First Year", "Second Year", "Third Year", "Fourth Year"]
+  const semester = ["None", "First Semester", "Second Semester"]
 
   //---
+  const handleChange = (e) => {
+    setAddSection(prev => ({
+      ...prev,
+      [ e.target.name ]: e.target.value,
+  }))}
+
+  const [addsection, setAddSection] = useState({
+    SCTID: '',
+    SectionName: '',
+    Population: '',
+    Year: '',
+    Semester: '',
+    PRGID: '',
+  })
   const AddSection = (e) => {
     e.preventDefault()
-    axios.post('http://localhost:8081/add-section', addsection)
+    axios.post('http://localhost:8081/create-section', addsection)
     .then(res => {
       try {
-        navigate(-1)
+        navigate("/section")
       } catch(err) {
         console.log(err)
       }
     })
     .catch(err => console.log(err))
   }
+  
+  const [program, setProgram] = useState([])
+  axios.post('http://localhost:8081/display-input-program')
+    .then( res => {
+      try {
+        setProgram(res.data)
+      } catch(err) {
+        console.log(err)
+      }
+  })
 
-  //---
-  const handleChange = (e) => {
-    setAddSection(prev => ({
-      ...prev,
-      [ e.target.name ]: e.target.value
-  }))}
-    
   return (
     <>
-      <Form 
-        status={
-          addsection.Name !== "" && 
-          addsection.Level !== "" && 
-          addsection.Semester !== "" ? true : false
-        }
+      <Layout2
         form_status={ "You have successfully created a " + params.type }
-        form_title={ "Insert " + params.type }
+        form_title={ "Edit " + params.type }
         form_content={ 
           <>
-            <Input 
-              title={ "Name" }
-              type={ "text" }
-              placeholder={ "Name" }
-              trigger={ handleChange }
-              name={ "Name" }
-              required
-            />
-
-            <label htmlFor='Level' className='fs-6'>Level</label>
-            <select 
-              className="d-block w-100 mb-3 px-4 py-2 form-select"
-              id={ "Level" }
-              name={ "Level"}
-              onChange={ handleChange }
-              required>
-                <option defaultValue={ addsection.Level }>{ addsection.Level }</option>
-                  {addsection.Level === "First Year" ? "":<option value="First Year">First Year</option>}
-                  {addsection.Level === "Second Year" ? "":<option value="Second Year">Second Year</option>}
-                  {addsection.Level === "Third Year" ? "":<option value="Third Year">Third Year</option>}
-                  {addsection.Level === "Fourth Year" ? "":<option value="Fourth Year">Fourth Year</option>}
-            </select>
-
-            <label htmlFor='Semester' className='fs-6'>Semester</label>
-            <select 
-              className="d-block w-100 mb-3 px-4 py-2 form-select" 
-              id={ "Semester" }
-              name={ "Semester"}
-              onChange={ handleChange }
-              required>
-                <option defaultValue={ addsection.Semester }>{ addsection.Semester }</option>
-                  {addsection.Semester === "First Semester" ? "":<option value="First Semester">First Semester</option>}
-                  {addsection.Semester === "Second Semester" ? "":<option value="Second Semester">Second Semester</option>}
-            </select>
+            <div className='d-flex gap-1 justify-content-end'>
+              <Button
+                class={"btn btn-secondary"} 
+                text={"Cancel"} 
+                disabled={false}
+                onClick={() => {navigate("/section")}}
+              />
+              <Button
+                  class={ "btn btn-primary" } 
+                  type={ "submit" }
+                  text={ "Save" } 
+                  disabled={ false }
+                  onClick={ () => {console.log("Button Clicked!")} }
+              />
+            </div>
+            <div>
+              <div className="row align-items-start">
+                <div className="col-lg-9">
+                  <Input 
+                    title={ "SectionName" }
+                    type={ "text" }
+                    placeholder={ "SectionName" }
+                    trigger={ handleChange }
+                    name={ "SectionName" }
+                    required
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <Input 
+                    title={ "Population" }
+                    type={ "text" }
+                    placeholder={ "Population" }
+                    trigger={ handleChange }
+                    name={ "Population" }
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row align-items-start">
+                <div className="col-lg-6">
+                  <Select 
+                    title={"Year"}
+                    class={""}
+                    name={"Year"}
+                    trigger={handleChange}
+                    options={<>{
+                      year.map(option => ( 
+                        option === addsection.Year ?
+                        <option key={option} defaultValue={option === 'None' ? '':option}> 
+                          {option} 
+                        </option> 
+                        :""
+                      ))}{
+                      year.map(option => ( 
+                        option != addsection.Year ?
+                        <option key={option === 'None' ? '':option} value={option === 'None' ? '':option}> 
+                          {option} 
+                        </option>
+                        :"" 
+                      ))}
+                    </>}
+                    required
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <Select 
+                    title={"Semester"}
+                    class={""}
+                    name={"Semester"}
+                    trigger={handleChange}
+                    options={<>{
+                      semester.map(option => ( 
+                        option === addsection.Semester ?
+                        <option key={option} defaultValue={option === 'None' ? '':option}> 
+                          {option} 
+                        </option> 
+                        :""
+                      ))}{
+                      semester.map(option => ( 
+                        option != addsection.Semester ?
+                        <option key={option === 'None' ? '':option} value={option === 'None' ? '':option}> 
+                          {option} 
+                        </option>
+                        :"" 
+                      ))}
+                    </>}
+                    required
+                  />
+                </div>
+              </div>
+              <Select 
+                title={"Program"}
+                class={""}
+                name={"PRGID"}
+                trigger={handleChange}
+                options={<>
+                  <option value={""}>None</option>{
+                    program.map(option => ( 
+                      <option key={option.PRGID} value={option.PRGID}> 
+                        {option.ProgramName} 
+                      </option> 
+                    ))}
+                </>}
+                required
+              />
+            </div>
           </>
         }
+        navigate={() => {navigate("/section")}}
         form_submit={ AddSection }
+        card_content={<>
+          <p><span className='fs-6 text-secondary d-block'>SectionName:</span> {addsection.SectionName}</p>
+          <p><span className='fs-6 text-secondary d-block'>Population:</span> {addsection.Population}</p>
+          <p><span className='fs-6 text-secondary d-block'>Year:</span> {addsection.Year}</p>
+          <p><span className='fs-6 text-secondary d-block'>Semester:</span> {addsection.Semester}</p>
+          <p><span className='fs-6 text-secondary d-block'>Program:</span> {
+            program.map(option => ( 
+              option.PRGID === addsection.PRGID ?
+              <span>{option.ProgramName}</span>
+              :""
+            ))
+          }</p>
+        </>}
       />
     </>
   )
